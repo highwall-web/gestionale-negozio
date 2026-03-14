@@ -1,0 +1,24 @@
+openapi: 3.1.0
+info:
+  title: Gestionale Negozio API
+  description: API del gestionale negozio
+  version: 1.0.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /api/health:
+    get:
+      tags:
+      - health-check-controller
+      operationId: healthCheck
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+components: {}

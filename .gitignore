@@ -1,0 +1,22 @@
+# IntelliJ
+.idea
+.iml
+
+# Maven
+target
+
+# Logs
+.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# node
+node_modules
+
+# env
+.env
+
+# docker volumes
+postgres_data
