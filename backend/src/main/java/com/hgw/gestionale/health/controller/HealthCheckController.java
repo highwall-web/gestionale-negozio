@@ -1,4 +1,4 @@
-package com.hgw.gestionale.controller;
+package com.hgw.gestionale.health.controller;
 
 import java.util.Map;
 import org.springframework.http.ResponseEntity;

@@ -7,6 +7,94 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
+  /api/customers/{id}:
+    get:
+      tags:
+      - customer-controller
+      operationId: getById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+    put:
+      tags:
+      - customer-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCustomerRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+    delete:
+      tags:
+      - customer-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/customers:
+    get:
+      tags:
+      - customer-controller
+      operationId: getAll
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+    post:
+      tags:
+      - customer-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCustomerRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
   /api/auth/register:
     post:
       tags:
@@ -55,22 +143,127 @@ paths:
                   type: string
 components:
   schemas:
+    UpdateCustomerRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        cognome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        indirizzo:
+          type: string
+        citta:
+          type: string
+        cap:
+          type: string
+          pattern: "\\d{5}"
+        telefono:
+          type: string
+          minLength: 1
+        telefonoSecondario:
+          type: string
+      required:
+      - cognome
+      - email
+      - nome
+      - telefono
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+        cognome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        indirizzo:
+          type: string
+        citta:
+          type: string
+        cap:
+          type: string
+        telefono:
+          type: string
+          minLength: 1
+        telefonoSecondario:
+          type: string
+      required:
+      - cognome
+      - email
+      - id
+      - nome
+      - telefono
+    CreateCustomerRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        cognome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          format: email
+          minLength: 1
+        indirizzo:
+          type: string
+        citta:
+          type: string
+        cap:
+          type: string
+          pattern: "\\d{5}"
+        telefono:
+          type: string
+          minLength: 1
+        telefonoSecondario:
+          type: string
+      required:
+      - cognome
+      - email
+      - nome
+      - telefono
     RegisterRequest:
       type: object
       properties:
         username:
           type: string
+          minLength: 1
         password:
           type: string
+          minLength: 1
+      required:
+      - password
+      - username
     LoginRequest:
       type: object
       properties:
         username:
           type: string
+          minLength: 1
         password:
           type: string
+          minLength: 1
+      required:
+      - password
+      - username
     LoginResponse:
       type: object
       properties:
         token:
           type: string
+          minLength: 1
+      required:
+      - token

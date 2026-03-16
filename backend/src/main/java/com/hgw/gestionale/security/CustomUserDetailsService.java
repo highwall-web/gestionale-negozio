@@ -1,7 +1,7 @@
 package com.hgw.gestionale.security;
 
-import com.hgw.gestionale.entity.User;
-import com.hgw.gestionale.repository.UserRepository;
+import com.hgw.gestionale.user.entity.User;
+import com.hgw.gestionale.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

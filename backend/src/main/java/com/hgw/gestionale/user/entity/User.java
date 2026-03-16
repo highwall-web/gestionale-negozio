@@ -1,4 +1,4 @@
-package com.hgw.gestionale.entity;
+package com.hgw.gestionale.user.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

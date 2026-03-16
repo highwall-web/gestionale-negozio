@@ -1,8 +1,8 @@
 package com.hgw.gestionale.config;
 
-import com.hgw.gestionale.entity.Role;
-import com.hgw.gestionale.entity.User;
-import com.hgw.gestionale.repository.UserRepository;
+import com.hgw.gestionale.user.entity.Role;
+import com.hgw.gestionale.user.entity.User;
+import com.hgw.gestionale.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
