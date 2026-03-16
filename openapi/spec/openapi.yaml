@@ -11,7 +11,7 @@ paths:
     get:
       tags:
       - customer-controller
-      operationId: getById
+      operationId: getCustomerById
       parameters:
       - name: id
         in: path
@@ -29,7 +29,7 @@ paths:
     put:
       tags:
       - customer-controller
-      operationId: update
+      operationId: updateCustomer
       parameters:
       - name: id
         in: path
@@ -53,7 +53,64 @@ paths:
     delete:
       tags:
       - customer-controller
-      operationId: delete
+      operationId: deleteCustomer
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+  /api/brands/{id}:
+    get:
+      tags:
+      - brand-controller
+      operationId: getBrandById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BrandResponse"
+    put:
+      tags:
+      - brand-controller
+      operationId: updateBrand
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBrandRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BrandResponse"
+    delete:
+      tags:
+      - brand-controller
+      operationId: deleteBrand
       parameters:
       - name: id
         in: path
@@ -68,7 +125,7 @@ paths:
     get:
       tags:
       - customer-controller
-      operationId: getAll
+      operationId: getAllCustomers
       responses:
         "200":
           description: OK
@@ -81,7 +138,7 @@ paths:
     post:
       tags:
       - customer-controller
-      operationId: create
+      operationId: createCustomer
       requestBody:
         content:
           application/json:
@@ -95,6 +152,37 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+  /api/brands:
+    get:
+      tags:
+      - brand-controller
+      operationId: getAllBrands
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BrandResponse"
+    post:
+      tags:
+      - brand-controller
+      operationId: createBrand
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBrandRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BrandResponse"
   /api/auth/register:
     post:
       tags:
@@ -141,6 +229,44 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+  /api/brands/search:
+    get:
+      tags:
+      - brand-controller
+      operationId: searchBrand
+      parameters:
+      - name: nome
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BrandResponse"
+  /api/brands/by-name/{nome}:
+    get:
+      tags:
+      - brand-controller
+      operationId: getBrandByName
+      parameters:
+      - name: nome
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/BrandResponse"
 components:
   schemas:
     UpdateCustomerRequest:
@@ -205,6 +331,26 @@ components:
       - id
       - nome
       - telefono
+    UpdateBrandRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+      required:
+      - nome
+    BrandResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+      required:
+      - id
+      - nome
     CreateCustomerRequest:
       type: object
       properties:
@@ -235,6 +381,14 @@ components:
       - email
       - nome
       - telefono
+    CreateBrandRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+      required:
+      - nome
     RegisterRequest:
       type: object
       properties:
