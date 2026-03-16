@@ -5,9 +5,7 @@ import com.hgw.gestionale.customer.dto.CustomerResponse;
 import com.hgw.gestionale.customer.dto.UpdateCustomerRequest;
 import com.hgw.gestionale.customer.entity.Customer;
 
-public final class CustomerMapper {
-
-    private CustomerMapper(){}
+public class CustomerMapper {
 
     public static Customer toEntity(CreateCustomerRequest request) {
         return Customer.builder()
