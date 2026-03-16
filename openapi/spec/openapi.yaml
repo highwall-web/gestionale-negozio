@@ -7,6 +7,63 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
+  /api/models/{id}:
+    get:
+      tags:
+      - model-controller
+      operationId: getModelById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ModelResponse"
+    put:
+      tags:
+      - model-controller
+      operationId: updateModel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateModelRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ModelResponse"
+    delete:
+      tags:
+      - model-controller
+      operationId: deleteModel
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
   /api/customers/{id}:
     get:
       tags:
@@ -121,6 +178,37 @@ paths:
       responses:
         "200":
           description: OK
+  /api/models:
+    get:
+      tags:
+      - model-controller
+      operationId: getAllModels
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModelResponse"
+    post:
+      tags:
+      - model-controller
+      operationId: createModel
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateModelRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ModelResponse"
   /api/customers:
     get:
       tags:
@@ -215,6 +303,91 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+  /api/models/search:
+    get:
+      tags:
+      - model-controller
+      operationId: searchModel
+      parameters:
+      - name: nome
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModelResponse"
+  /api/models/search/by-brand:
+    get:
+      tags:
+      - model-controller
+      operationId: searchModelByBrand
+      parameters:
+      - name: brandId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: nome
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModelResponse"
+  /api/models/by-name/{nome}:
+    get:
+      tags:
+      - model-controller
+      operationId: getModelByName
+      parameters:
+      - name: nome
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ModelResponse"
+  /api/models/by-brand-id/{id}:
+    get:
+      tags:
+      - model-controller
+      operationId: getModelsByBrandId
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ModelResponse"
   /api/health:
     get:
       tags:
@@ -269,6 +442,38 @@ paths:
                 $ref: "#/components/schemas/BrandResponse"
 components:
   schemas:
+    UpdateModelRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        brandId:
+          type: integer
+          format: int64
+      required:
+      - brandId
+      - nome
+    ModelResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+        brandId:
+          type: integer
+          format: int64
+        brandNome:
+          type: string
+          minLength: 1
+      required:
+      - brandId
+      - brandNome
+      - id
+      - nome
     UpdateCustomerRequest:
       type: object
       properties:
@@ -350,6 +555,18 @@ components:
           minLength: 1
       required:
       - id
+      - nome
+    CreateModelRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          minLength: 1
+        brandId:
+          type: integer
+          format: int64
+      required:
+      - brandId
       - nome
     CreateCustomerRequest:
       type: object
