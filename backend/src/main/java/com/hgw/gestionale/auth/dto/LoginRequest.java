@@ -6,6 +6,7 @@ public record LoginRequest (
         @NotBlank
         String username,
         @NotBlank
-        String password
+        String password,
+        boolean rememberMe
 ){
 }

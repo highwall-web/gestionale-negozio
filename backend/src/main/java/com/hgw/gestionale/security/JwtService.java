@@ -9,10 +9,11 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.UUID;
 
 @Service
 public class JwtService {
-    private static final long EXPIRATION = 86400000;
+    private static final long EXPIRATION = 1000L * 60 * 15;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -20,10 +21,11 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(String username) {
+    public String generateAccessToken(String username, String role) {
         return Jwts.builder()
                 .claims()
                 .subject(username)
+                .add("role", role)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .and()
@@ -31,14 +33,23 @@ public class JwtService {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String generateRefreshToken() {
+        return UUID.randomUUID().toString() + UUID.randomUUID();
+    }
 
-        Claims claims = Jwts.parser()
+    public String extractUsername(String token) {
+        return extractClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return extractClaims(token).get("role", String.class);
+    }
+
+    private Claims extractClaims(String token) {
+        return Jwts.parser()
                 .verifyWith(getKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-
-        return claims.getSubject();
     }
 }

@@ -285,6 +285,26 @@ paths:
       responses:
         "200":
           description: OK
+  /api/auth/refresh:
+    post:
+      tags:
+      - auth-controller
+      operationId: refresh
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+  /api/auth/logout:
+    post:
+      tags:
+      - auth-controller
+      operationId: logout
+      responses:
+        "200":
+          description: OK
   /api/auth/login:
     post:
       tags:
@@ -303,6 +323,18 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+  /api/users/me:
+    get:
+      tags:
+      - user-controller
+      operationId: getCurrentUser
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserResponse"
   /api/models/search:
     get:
       tags:
@@ -618,6 +650,14 @@ components:
       required:
       - password
       - username
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          minLength: 1
+      required:
+      - accessToken
     LoginRequest:
       type: object
       properties:
@@ -627,14 +667,23 @@ components:
         password:
           type: string
           minLength: 1
+        rememberMe:
+          type: boolean
       required:
       - password
       - username
-    LoginResponse:
+    UserResponse:
       type: object
       properties:
-        token:
+        id:
+          type: integer
+          format: int64
+        username:
           type: string
-          minLength: 1
-      required:
-      - token
+        role:
+          type: string
+          enum:
+          - ADMIN
+          - COMMESSO
+        enabled:
+          type: boolean

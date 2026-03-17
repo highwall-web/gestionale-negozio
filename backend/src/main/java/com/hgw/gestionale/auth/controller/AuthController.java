@@ -4,6 +4,8 @@ import com.hgw.gestionale.auth.dto.LoginRequest;
 import com.hgw.gestionale.auth.dto.LoginResponse;
 import com.hgw.gestionale.auth.dto.RegisterRequest;
 import com.hgw.gestionale.auth.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +29,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request) {
+    public LoginResponse login(
+            @RequestBody LoginRequest request,
+            HttpServletResponse response
+    ) {
         log.info("AuthController.login tentativo login utente: {}", request.username());
-        return authService.login(request);
+        return authService.login(request, response);
+    }
+
+    @PostMapping("/refresh")
+    public LoginResponse refresh(HttpServletRequest request) {
+        return authService.refresh(request);
+    }
+
+    @PostMapping("/logout")
+    public void logout(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) {
+        authService.logout(request, response);
     }
 }
