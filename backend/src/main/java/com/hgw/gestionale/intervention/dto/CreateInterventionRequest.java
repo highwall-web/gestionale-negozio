@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public record CreateInterventionRequest(
         @NotBlank String nome,
         @NotNull BigDecimal prezzo,
-        Integer periodoGaranzia
+        Integer periodoGaranzia,
+        Boolean cumulabile
 ) {
 }

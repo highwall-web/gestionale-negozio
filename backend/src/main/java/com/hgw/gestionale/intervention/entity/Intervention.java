@@ -25,4 +25,6 @@ public class Intervention {
     private BigDecimal prezzo;
 
     private Integer periodoGaranzia;
+
+    private Boolean cumulabile;
 }

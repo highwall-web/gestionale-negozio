@@ -1001,6 +1001,8 @@ components:
         periodoGaranzia:
           type: integer
           format: int32
+        cumulabile:
+          type: boolean
       required:
       - nome
       - prezzo
@@ -1018,6 +1020,8 @@ components:
         periodoGaranzia:
           type: integer
           format: int32
+        cumulabile:
+          type: boolean
       required:
       - id
       - nome
@@ -1174,6 +1178,8 @@ components:
         periodoGaranzia:
           type: integer
           format: int32
+        cumulabile:
+          type: boolean
       required:
       - nome
       - prezzo

@@ -9,6 +9,7 @@ public record InterventionResponse(
         @NotNull Long id,
         @NotBlank String nome,
         @NotNull BigDecimal prezzo,
-        Integer periodoGaranzia
+        Integer periodoGaranzia,
+        Boolean cumulabile
 ) {
 }
