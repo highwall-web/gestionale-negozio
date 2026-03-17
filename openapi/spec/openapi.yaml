@@ -7,6 +7,63 @@ servers:
 - url: http://localhost:8080
   description: Generated server url
 paths:
+  /api/repairs/{id}:
+    get:
+      tags:
+      - repair-controller
+      operationId: getRepairById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RepairResponse"
+    put:
+      tags:
+      - repair-controller
+      operationId: updateRepair
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRepairRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RepairResponse"
+    delete:
+      tags:
+      - repair-controller
+      operationId: deleteRepair
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
   /api/products/{id}:
     get:
       tags:
@@ -349,6 +406,41 @@ paths:
       responses:
         "200":
           description: OK
+  /api/repairs:
+    get:
+      tags:
+      - repair-controller
+      operationId: getAllRepairs
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageRepairResponse"
+    post:
+      tags:
+      - repair-controller
+      operationId: createRepair
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRepairRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/RepairResponse"
   /api/products:
     get:
       tags:
@@ -599,6 +691,44 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/UserResponse"
+  /api/repairs/search:
+    get:
+      tags:
+      - repair-controller
+      operationId: searchRepairs
+      parameters:
+      - name: stato
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - NUOVO
+          - PRONTO
+          - IN_CORSO
+      - name: statoRiparazione
+        in: query
+        required: false
+        schema:
+          type: string
+          enum:
+          - ACCETTATO
+          - ANALISI_IN_CORSO
+          - RIPARAZIONE_IN_CORSO
+          - ATTESA_PEZZI_DI_RICAMBIO
+          - RIPARAZIONE_CONCLUSA
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PageRepairResponse"
   /api/products/search:
     get:
       tags:
@@ -870,45 +1000,52 @@ paths:
                 $ref: "#/components/schemas/BrandResponse"
 components:
   schemas:
-    UpdateProductRequest:
+    UpdateRepairRequest:
       type: object
       properties:
-        brandNome:
-          type: string
-          minLength: 1
-        modelNome:
-          type: string
-          minLength: 1
-        colorNome:
-          type: string
-          minLength: 1
-        capacita:
-          type: string
-        codiceUnlock:
-          type: string
-        sequenzaUnlock:
+        customerId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        interventionIds:
           type: array
           items:
             type: integer
-            format: int32
-        pin:
+            format: int64
+        commenti:
           type: string
-        accessori:
+        dataConsegna:
           type: string
-        contattoConLiquidi:
-          type: boolean
-        dispositivoNonTestabile:
-          type: boolean
-        acquistatoPressoDiNoi:
-          type: boolean
-        seriale:
+          format: date
+        tariffa:
           type: string
-        imei:
+          enum:
+          - STANDARD
+          - EXPRESS
+        acconto:
+          type: number
+        stato:
           type: string
+          enum:
+          - NUOVO
+          - PRONTO
+          - IN_CORSO
+        statoRiparazione:
+          type: string
+          enum:
+          - ACCETTATO
+          - ANALISI_IN_CORSO
+          - RIPARAZIONE_IN_CORSO
+          - ATTESA_PEZZI_DI_RICAMBIO
+          - RIPARAZIONE_CONCLUSA
       required:
-      - brandNome
-      - colorNome
-      - modelNome
+      - customerId
+      - productId
+      - stato
+      - statoRiparazione
+      - tariffa
     ColorResponse:
       type: object
       properties:
@@ -921,6 +1058,58 @@ components:
       required:
       - id
       - nome
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+        cognome:
+          type: string
+          minLength: 1
+        email:
+          type: string
+          minLength: 1
+        indirizzo:
+          type: string
+        citta:
+          type: string
+        cap:
+          type: string
+        telefono:
+          type: string
+          minLength: 1
+        telefonoSecondario:
+          type: string
+      required:
+      - cognome
+      - email
+      - id
+      - nome
+      - telefono
+    InterventionResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+          minLength: 1
+        prezzo:
+          type: number
+        periodoGaranzia:
+          type: integer
+          format: int32
+        cumulabile:
+          type: boolean
+      required:
+      - id
+      - nome
+      - prezzo
     ModelResponse:
       type: object
       properties:
@@ -978,6 +1167,90 @@ components:
       - color
       - id
       - model
+    RepairResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customer:
+          $ref: "#/components/schemas/CustomerResponse"
+        product:
+          $ref: "#/components/schemas/ProductResponse"
+        interventions:
+          type: array
+          items:
+            $ref: "#/components/schemas/InterventionResponse"
+        commenti:
+          type: string
+        dataConsegna:
+          type: string
+          format: date
+        tariffa:
+          type: string
+          enum:
+          - STANDARD
+          - EXPRESS
+        acconto:
+          type: number
+        stato:
+          type: string
+          enum:
+          - NUOVO
+          - PRONTO
+          - IN_CORSO
+        statoRiparazione:
+          type: string
+          enum:
+          - ACCETTATO
+          - ANALISI_IN_CORSO
+          - RIPARAZIONE_IN_CORSO
+          - ATTESA_PEZZI_DI_RICAMBIO
+          - RIPARAZIONE_CONCLUSA
+      required:
+      - customer
+      - id
+      - product
+      - tariffa
+    UpdateProductRequest:
+      type: object
+      properties:
+        brandNome:
+          type: string
+          minLength: 1
+        modelNome:
+          type: string
+          minLength: 1
+        colorNome:
+          type: string
+          minLength: 1
+        capacita:
+          type: string
+        codiceUnlock:
+          type: string
+        sequenzaUnlock:
+          type: array
+          items:
+            type: integer
+            format: int32
+        pin:
+          type: string
+        accessori:
+          type: string
+        contattoConLiquidi:
+          type: boolean
+        dispositivoNonTestabile:
+          type: boolean
+        acquistatoPressoDiNoi:
+          type: boolean
+        seriale:
+          type: string
+        imei:
+          type: string
+      required:
+      - brandNome
+      - colorNome
+      - modelNome
     UpdateModelRequest:
       type: object
       properties:
@@ -1004,26 +1277,6 @@ components:
         cumulabile:
           type: boolean
       required:
-      - nome
-      - prezzo
-    InterventionResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        nome:
-          type: string
-          minLength: 1
-        prezzo:
-          type: number
-        periodoGaranzia:
-          type: integer
-          format: int32
-        cumulabile:
-          type: boolean
-      required:
-      - id
       - nome
       - prezzo
     UpdateCustomerRequest:
@@ -1056,38 +1309,6 @@ components:
       - email
       - nome
       - telefono
-    CustomerResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        nome:
-          type: string
-          minLength: 1
-        cognome:
-          type: string
-          minLength: 1
-        email:
-          type: string
-          minLength: 1
-        indirizzo:
-          type: string
-        citta:
-          type: string
-        cap:
-          type: string
-        telefono:
-          type: string
-          minLength: 1
-        telefonoSecondario:
-          type: string
-      required:
-      - cognome
-      - email
-      - id
-      - nome
-      - telefono
     UpdateColorRequest:
       type: object
       properties:
@@ -1116,6 +1337,36 @@ components:
       required:
       - id
       - nome
+    CreateRepairRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        productId:
+          type: integer
+          format: int64
+        interventionIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        commenti:
+          type: string
+        dataConsegna:
+          type: string
+          format: date
+        tariffa:
+          type: string
+          enum:
+          - STANDARD
+          - EXPRESS
+        acconto:
+          type: number
+      required:
+      - customerId
+      - productId
+      - tariffa
     CreateProductRequest:
       type: object
       properties:
@@ -1277,4 +1528,78 @@ components:
           - ADMIN
           - COMMESSO
         enabled:
+          type: boolean
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          minimum: 0
+        size:
+          type: integer
+          format: int32
+          minimum: 1
+        sort:
+          type: array
+          items:
+            type: string
+    PageRepairResponse:
+      type: object
+      properties:
+        totalElements:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/RepairResponse"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        pageSize:
+          type: integer
+          format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+        sorted:
           type: boolean
