@@ -14,6 +14,10 @@ import com.hgw.gestionale.repair.dto.CreateRepairRequest;
 import com.hgw.gestionale.repair.dto.RepairResponse;
 import com.hgw.gestionale.repair.dto.UpdateRepairRequest;
 import com.hgw.gestionale.repair.entity.Repair;
+import com.hgw.gestionale.statorepair.entity.StatoRepair;
+import com.hgw.gestionale.statorepair.mapper.StatoRepairMapper;
+import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
+import com.hgw.gestionale.statoriparazione.mapper.StatoRiparazioneMapper;
 
 import java.util.List;
 
@@ -47,12 +51,13 @@ public final class RepairMapper {
                 repair.getDataConsegna(),
                 repair.getTariffa(),
                 repair.getAcconto(),
-                repair.getStato(),
-                repair.getStatoRiparazione()
+                repair.getStato() != null ? StatoRepairMapper.toResponse(repair.getStato()) : null,
+                repair.getStatoRiparazione() != null ? StatoRiparazioneMapper.toResponse(repair.getStatoRiparazione()) : null
         );
     }
 
-    public static void updateEntity(Repair repair, UpdateRepairRequest request, Customer customer, Product product) {
+    public static void updateEntity(Repair repair, UpdateRepairRequest request, Customer customer, Product product,
+                                    StatoRepair stato, StatoRiparazione statoRiparazione) {
         repair.setCustomer(customer);
         repair.setProduct(product);
         repair.setInterventionIds(serializeIds(request.interventionIds()));
@@ -60,8 +65,8 @@ public final class RepairMapper {
         repair.setDataConsegna(request.dataConsegna());
         repair.setTariffa(request.tariffa());
         repair.setAcconto(request.acconto());
-        repair.setStato(request.stato());
-        repair.setStatoRiparazione(request.statoRiparazione());
+        repair.setStato(stato);
+        repair.setStatoRiparazione(statoRiparazione);
     }
 
     public static List<Long> deserializeIds(String json) {

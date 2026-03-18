@@ -3,9 +3,10 @@ package com.hgw.gestionale.repair.dto;
 import com.hgw.gestionale.customer.dto.CustomerResponse;
 import com.hgw.gestionale.intervention.dto.InterventionResponse;
 import com.hgw.gestionale.product.dto.ProductResponse;
-import com.hgw.gestionale.repair.entity.Stato;
-import com.hgw.gestionale.repair.entity.StatoRiparazione;
 import com.hgw.gestionale.repair.entity.Tariffa;
+import com.hgw.gestionale.statorepair.dto.StatoRepairResponse;
+import com.hgw.gestionale.statoriparazione.dto.StatoRiparazioneResponse;
+
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
@@ -21,7 +22,7 @@ public record RepairResponse(
         LocalDate dataConsegna,
         @NotNull Tariffa tariffa,
         BigDecimal acconto,
-        Stato stato,
-        StatoRiparazione statoRiparazione
+        StatoRepairResponse stato,
+        StatoRiparazioneResponse statoRiparazione
 ) {
 }

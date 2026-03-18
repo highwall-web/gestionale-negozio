@@ -1,7 +1,3 @@
 package com.hgw.gestionale.repair.entity;
 
-public enum Stato {
-    NUOVO,
-    PRONTO,
-    IN_CORSO
-}
+// Deprecated: sostituito da com.hgw.gestionale.statorepair.entity.StatoRepair

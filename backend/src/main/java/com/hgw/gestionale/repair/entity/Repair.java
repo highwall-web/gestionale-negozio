@@ -2,6 +2,9 @@ package com.hgw.gestionale.repair.entity;
 
 import com.hgw.gestionale.customer.entity.Customer;
 import com.hgw.gestionale.product.entity.Product;
+import com.hgw.gestionale.statorepair.entity.StatoRepair;
+import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -45,11 +48,11 @@ public class Repair {
     @Column
     private BigDecimal acconto;
 
-    @Enumerated(EnumType.STRING)
-    @Column
-    private Stato stato;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stato_id")
+    private StatoRepair stato;
 
-    @Enumerated(EnumType.STRING)
-    @Column
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stato_riparazione_id")
     private StatoRiparazione statoRiparazione;
 }

@@ -1,7 +1,5 @@
 package com.hgw.gestionale.repair.dto;
 
-import com.hgw.gestionale.repair.entity.Stato;
-import com.hgw.gestionale.repair.entity.StatoRiparazione;
 import com.hgw.gestionale.repair.entity.Tariffa;
 import jakarta.validation.constraints.NotNull;
 
@@ -17,7 +15,7 @@ public record UpdateRepairRequest(
         LocalDate dataConsegna,
         @NotNull Tariffa tariffa,
         BigDecimal acconto,
-        @NotNull Stato stato,
-        @NotNull StatoRiparazione statoRiparazione
+        Long statoId,
+        Long statoRiparazioneId
 ) {
 }
