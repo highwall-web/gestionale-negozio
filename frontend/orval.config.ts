@@ -11,6 +11,7 @@ export default defineConfig({
       schemas: './src/api/models',
       client: 'react-query',
       httpClient: "axios",
+      tsconfig: "tsconfig.json",
       override: {
         mutator: {
           path: './src/api/axiosInstance.ts',

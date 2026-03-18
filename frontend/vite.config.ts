@@ -6,10 +6,5 @@ export default defineConfig({
   plugins: [react()],
   build: {
     target: 'es2020'
-  },
-  optimizeDeps: {
-    esbuildOptions: {
-      target: 'es2020'
-    }
   }
 })

@@ -1,7 +1,9 @@
 import Axios, { AxiosError, type AxiosRequestConfig, type InternalAxiosRequestConfig } from 'axios';
+import { tokenStore } from './tokenStore';
 
 const AXIOS_INSTANCE = Axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
 });
 
 AXIOS_INSTANCE.interceptors.request.use(
@@ -12,7 +14,7 @@ AXIOS_INSTANCE.interceptors.request.use(
     const isExcluded: boolean = url.includes('/auth/login') || url.includes('/health');
 
     if (!isExcluded) {
-      const token: string | null = localStorage.getItem('accessToken');
+      const token: string | null = tokenStore.get();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
