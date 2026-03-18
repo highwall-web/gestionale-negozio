@@ -7,12 +7,13 @@ import com.hgw.gestionale.statorepair.service.StatoRepairService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/stato-repair")
+@RequestMapping(value = "/api/stato-repair", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Slf4j
 public class StatoRepairController {

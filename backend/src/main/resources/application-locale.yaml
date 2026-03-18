@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/gestionale}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET:change-me-with-a-strong-32-bytes-minimum-secret-key-value}
+
+auth:
+  refresh-token:
+    expiration-days: ${REFRESH_EXP:1}
+    expiration-days-remember-me: ${REFRESH_EXP_REMEMBER:30}
+    cookie-secure: ${COOKIE_SECURE:false}
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
