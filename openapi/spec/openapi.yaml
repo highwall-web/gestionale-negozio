@@ -1195,11 +1195,18 @@ components:
           format: int64
         nome:
           type: string
+          minLength: 1
         colore:
           type: string
+          minLength: 1
         position:
           type: integer
           format: int32
+      required:
+      - colore
+      - id
+      - nome
+      - position
     StatoRepairItem:
       type: object
       properties:
@@ -1237,11 +1244,18 @@ components:
           format: int64
         nome:
           type: string
+          minLength: 1
         colore:
           type: string
+          minLength: 1
         position:
           type: integer
           format: int32
+      required:
+      - colore
+      - id
+      - nome
+      - position
     UpdateRepairRequest:
       type: object
       properties:
@@ -1801,12 +1815,12 @@ components:
     PageRepairResponse:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -1819,13 +1833,13 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        numberOfElements:
-          type: integer
-          format: int32
         first:
           type: boolean
         last:
           type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: "#/components/schemas/PageableObject"
         empty:
@@ -1838,14 +1852,14 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
-        unpaged:
-          type: boolean
         paged:
           type: boolean
-        pageNumber:
+        unpaged:
+          type: boolean
+        pageSize:
           type: integer
           format: int32
-        pageSize:
+        pageNumber:
           type: integer
           format: int32
     SortObject:
