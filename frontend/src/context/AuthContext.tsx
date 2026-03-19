@@ -1,51 +1,69 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { refresh } from '../api/endpoints/auth-controller/auth-controller'
+import { logout, refresh } from '../api/endpoints/auth-controller/auth-controller'
 import { tokenStore } from '../api/tokenStore'
+import { getCurrentUser, type UserResponse } from '../api'
+import toast from 'react-hot-toast'
 
 interface AuthContextType {
-  isAuthenticated: boolean
-  isLoading: boolean
-  login: (token: string) => void
-  logout: () => void
+    isAuthenticated: boolean
+    isLoading: boolean
+    authLogin: (token: string) => void
+    authLogout: () => void
+    user: UserResponse | undefined
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState<UserResponse>()
 
-  useEffect(() => {
-    refresh()
-      .then((res) => {
-        tokenStore.set(res.accessToken)
+    function authLogin(token: string) {
+        tokenStore.set(token)
         setIsAuthenticated(true)
-      })
-      .catch(() => {
-        setIsAuthenticated(false)
-      })
-      .finally(() => setIsLoading(false))
-  }, [])
+    }
 
-  function login(token: string) {
-    tokenStore.set(token)
-    setIsAuthenticated(true)
-  }
+    function authLogout() {
+        logout()
+            .then(() => {
+                tokenStore.set(null)
+                setIsAuthenticated(false)
+                setUser(undefined)
+            })
+            .catch(() => toast.error("Errore nel logout"))
+    }
 
-  function logout() {
-    tokenStore.set(null)
-    setIsAuthenticated(false)
-  }
+    useEffect(() => {
+        refresh()
+            .then((res) => {
+                authLogin(res.accessToken);
+            })
+            .catch(() => {
+                setIsAuthenticated(false)
+            })
+            .finally(() => setIsLoading(false))
+    }, [])
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  )
+    useEffect(() => {
+        if (isAuthenticated) {
+            getCurrentUser()
+                .then((res) => {
+                    setUser(res)
+                })
+                .catch(() => toast.error("Errore nel recupero dell'utente"))
+        }
+    }, [isAuthenticated])
+
+    return (
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, authLogin, authLogout, user }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider')
-  return ctx
+    const ctx = useContext(AuthContext)
+    if (!ctx) throw new Error('useAuth must be used within AuthProvider')
+    return ctx
 }

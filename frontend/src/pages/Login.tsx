@@ -17,7 +17,7 @@ type FormData = z.infer<typeof schema>
 
 export default function Login() {
     const navigate = useNavigate()
-    const { login: authLogin } = useAuth()
+    const { authLogin } = useAuth()
 
     const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<FormData>({
         resolver: zodResolver(schema),

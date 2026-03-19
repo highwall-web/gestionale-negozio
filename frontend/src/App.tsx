@@ -3,23 +3,30 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/Login'
 import Home from './pages/Home'
 import ProtectedRoute from './components/ProtectedRoute'
+import AppLayout from './components/AppLayout'
 import { AuthProvider } from './context/AuthContext'
 import '@mantine/core/styles.css'
 import { MantineProvider } from "@mantine/core";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from './context/ThemeContext'
+import { ROUTES } from './routes'
 
 const router = createBrowserRouter([
     {
-        path: '/login',
+        path: ROUTES.LOGIN,
         element: <Login />,
     },
     {
         element: <ProtectedRoute />,
         children: [
             {
-                path: '/',
-                element: <Home />,
+                element: <AppLayout />,
+                children: [
+                    {
+                        path: ROUTES.HOME,
+                        element: <Home />,
+                    },
+                ],
             },
         ],
     },
