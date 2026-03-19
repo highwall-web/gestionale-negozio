@@ -20,6 +20,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -91,15 +94,19 @@ public class AuthService {
         return new LoginResponse(accessToken);
     }
 
-    public LoginResponse refresh(HttpServletRequest request) {
+    public LoginResponse refresh(HttpServletRequest request, HttpServletResponse response) {
 
         String refreshTokenValue = extractRefreshTokenFromCookies(request);
 
         RefreshToken refreshToken = refreshTokenRepository.findByToken(refreshTokenValue)
-                .orElseThrow(() -> new RuntimeException("Refresh token not found"));
+                .orElseThrow(() -> {
+                        removeTokenFromCookies(response);
+                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token not found");
+                });
 
         if (refreshToken.isRevoked() || refreshToken.getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("Refresh token expired or revoked");
+                logout(request, response);
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token expired or revoked");
         }
 
         String accessToken = jwtService.generateAccessToken(
@@ -112,7 +119,7 @@ public class AuthService {
 
     private String extractRefreshTokenFromCookies(HttpServletRequest request) {
         if (request.getCookies() == null) {
-            throw new RuntimeException("No cookies");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "No cookies");
         }
 
         for (Cookie cookie : request.getCookies()) {
@@ -121,7 +128,7 @@ public class AuthService {
             }
         }
 
-        throw new RuntimeException("Refresh token cookie not found");
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Refresh token cookie not found");
     }
 
     public void logout(HttpServletRequest request, HttpServletResponse response) {
@@ -131,6 +138,10 @@ public class AuthService {
         refreshTokenRepository.findByToken(refreshTokenValue)
                 .ifPresent(refreshTokenRepository::delete);
 
+        removeTokenFromCookies(response);
+    }
+
+    private void removeTokenFromCookies(HttpServletResponse response){
         ResponseCookie cookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
                 .secure(cookieSecure)

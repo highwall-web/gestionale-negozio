@@ -1,97 +1,84 @@
-import {type BaseSyntheticEvent, useState} from 'react'
-import {useNavigate} from 'react-router-dom'
-import {login} from '../api'
-import type {LoginRequest} from '../api'
+import { useNavigate } from 'react-router-dom'
+import { Button, Checkbox, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
+import { login } from '../api'
+import toast from 'react-hot-toast'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { useAuth } from '../context/AuthContext'
+
+const schema = z.object({
+    username: z.string().min(1, 'Username obbligatorio'),
+    password: z.string().min(1, 'Password obbligatoria'),
+    rememberMe: z.boolean(),
+})
+
+type FormData = z.infer<typeof schema>
 
 export default function Login() {
-  const navigate = useNavigate()
-  const [formData, setFormData] = useState<LoginRequest>({
-    username: '',
-    password: '',
-    rememberMe: false
-  })
-  const [error, setError] = useState<string>('')
-  const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+    const { login: authLogin } = useAuth()
 
-  const handleSubmit = async (e: BaseSyntheticEvent) => {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<FormData>({
+        resolver: zodResolver(schema),
+        defaultValues: { username: '', password: '', rememberMe: false },
+    })
 
-    try {
-      const response = await login(formData)
-      localStorage.setItem('token', response.accessToken)
-      navigate('/')
-    } catch (err) {
-      setError('Login fallito. Verifica le credenziali.')
-      console.error(err)
-    } finally {
-      setLoading(false)
+    const onSubmit = async (data: FormData) => {
+        try {
+            const response = await login(data)
+            authLogin(response.accessToken)
+            navigate('/')
+        } catch {
+            toast.error('Login fallito. Verifica le credenziali.')
+        }
     }
-  }
 
-  return (
-    <div style={{ maxWidth: '400px', margin: '100px auto', padding: '20px' }}>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>
-            Username
-          </label>
-          <input
-            id="username"
-            type="text"
-            value={formData.username}
-            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            required
-            style={{ width: '100%', padding: '8px', fontSize: '14px' }}
-          />
-        </div>
+    return (
+        <Container size={520} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <Title order={1} ta="center">
+                Bentornato!👋
+            </Title>
+            <Title order={5} ta="center" mb="xl">
+                Effettua il login al gestionale
+            </Title>
 
-        <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            required
-            style={{ width: '100%', padding: '8px', fontSize: '14px' }}
-          />
-        </div>
+            <Paper withBorder shadow="md" p={30} radius="md">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <TextInput
+                        label="Username"
+                        placeholder="Inserisci username"
+                        error={errors.username?.message}
+                        {...register('username')}
+                        styles={{ root: { position: 'relative', marginBottom: '1.5rem' }, error: { position: 'absolute' } }}
+                    />
 
-        <div style={{ marginBottom: '15px' }}>
-          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <input
-              type="checkbox"
-              checked={formData.rememberMe}
-              onChange={(e) => setFormData({ ...formData, rememberMe: e.target.checked })}
-            />
-            Ricordami
-          </label>
-        </div>
+                    <PasswordInput
+                        label="Password"
+                        placeholder="Inserisci password"
+                        error={errors.password?.message}
+                        {...register('password')}
+                        styles={{ root: { position: 'relative', marginBottom: '1.5rem' }, error: { position: 'absolute' } }}
+                    />
 
-        {error && (
-          <div style={{ color: 'red', marginBottom: '15px' }}>
-            {error}
-          </div>
-        )}
+                    <Controller
+                        name="rememberMe"
+                        control={control}
+                        render={({ field }) => (
+                            <Checkbox
+                                label="Ricordami"
+                                checked={field.value}
+                                onChange={field.onChange}
+                                mb="xl"
+                            />
+                        )}
+                    />
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: '100%',
-            padding: '10px',
-            fontSize: '16px',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          {loading ? 'Caricamento...' : 'Accedi'}
-        </button>
-      </form>
-    </div>
-  )
+                    <Button type="submit" fullWidth loading={isSubmitting}>
+                        Accedi
+                    </Button>
+                </form>
+            </Paper>
+        </Container>
+    )
 }

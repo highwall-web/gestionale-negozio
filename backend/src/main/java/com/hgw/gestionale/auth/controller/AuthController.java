@@ -39,8 +39,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public LoginResponse refresh(HttpServletRequest request) {
-        return authService.refresh(request);
+    public LoginResponse refresh(HttpServletRequest request, HttpServletResponse response) {
+        return authService.refresh(request, response);
     }
 
     @PostMapping("/logout")
