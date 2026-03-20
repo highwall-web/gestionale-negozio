@@ -31,6 +31,19 @@ public class CustomerController {
         return customerService.getAll();
     }
 
+    @GetMapping("/search")
+    public List<CustomerResponse> searchCustomers(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String cognome,
+            @RequestParam(required = false) String telefono,
+            @RequestParam(required = false) String email
+    ) {
+        log.info("CustomerController.search nome={} cognome={} telefono={} email={}", nome, cognome, telefono, email);
+        return customerService.search(nome, cognome, telefono, email);
+    }
+
+    
+
     @GetMapping("/{id}")
     public CustomerResponse getCustomerById(@PathVariable Long id) {
         log.info("CustomerController.getById richiesta cliente id={}", id);

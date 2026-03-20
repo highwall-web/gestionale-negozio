@@ -3276,6 +3276,77 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/customers/search:
+    get:
+      tags:
+      - customer-controller
+      operationId: searchCustomers
+      parameters:
+      - name: nome
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: cognome
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: telefono
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
   /api/colors/search:
     get:
       tags:
@@ -4162,19 +4233,12 @@ components:
     PageRepairResponse:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
+        totalElements:
           type: integer
-          format: int32
+          format: int64
         size:
           type: integer
           format: int32
@@ -4187,6 +4251,13 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         pageable:
           $ref: "#/components/schemas/PageableObject"
         empty:
@@ -4199,13 +4270,13 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
+        paged:
+          type: boolean
         unpaged:
           type: boolean
         pageNumber:
           type: integer
           format: int32
-        paged:
-          type: boolean
         pageSize:
           type: integer
           format: int32
@@ -4214,7 +4285,7 @@ components:
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean

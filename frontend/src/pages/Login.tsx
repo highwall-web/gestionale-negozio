@@ -6,6 +6,7 @@ import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { useAuth } from '../context/AuthContext'
+import { ROUTES } from '../routes'
 
 const schema = z.object({
     username: z.string().min(1, 'Username obbligatorio'),
@@ -28,7 +29,7 @@ export default function Login() {
         try {
             const response = await login(data)
             authLogin(response.accessToken)
-            navigate('/')
+            navigate(ROUTES.HOME)
         } catch {
             toast.error('Login fallito. Verifica le credenziali.')
         }
@@ -39,7 +40,7 @@ export default function Login() {
             <Title order={1} ta="center">
                 Bentornato!👋
             </Title>
-            <Title order={5} ta="center" mb="xl">
+            <Title order={6} ta="center" mb="xl" c={'dimmed'}>
                 Effettua il login al gestionale
             </Title>
 
@@ -48,6 +49,7 @@ export default function Login() {
                     <TextInput
                         label="Username"
                         placeholder="Inserisci username"
+                        withAsterisk
                         error={errors.username?.message}
                         {...register('username')}
                         styles={{ root: { position: 'relative', marginBottom: '1.5rem' }, error: { position: 'absolute' } }}
@@ -56,6 +58,7 @@ export default function Login() {
                     <PasswordInput
                         label="Password"
                         placeholder="Inserisci password"
+                        withAsterisk
                         error={errors.password?.message}
                         {...register('password')}
                         styles={{ root: { position: 'relative', marginBottom: '1.5rem' }, error: { position: 'absolute' } }}

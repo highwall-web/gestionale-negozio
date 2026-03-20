@@ -57,5 +57,10 @@ public class CustomerService {
         customerRepository.deleteById(customer.getId());
     }
 
-
+    public List<CustomerResponse> search(String nome, String cognome, String telefono, String email) {
+        return customerRepository.search(nome, cognome, telefono, email)
+                .stream()
+                .map(CustomerMapper::toResponse)
+                .toList();
+    }
 }

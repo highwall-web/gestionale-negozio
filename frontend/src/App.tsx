@@ -1,7 +1,7 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Login from './pages/Login'
-import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import AppLayout from './components/AppLayout'
 import { AuthProvider } from './context/AuthContext'
@@ -10,6 +10,7 @@ import { MantineProvider } from "@mantine/core";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from './context/ThemeContext'
 import { ROUTES } from './routes'
+import Accettazione from './pages/Accettazione'
 
 const router = createBrowserRouter([
     {
@@ -24,8 +25,12 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: ROUTES.HOME,
-                        element: <Home />,
+                        element: <Dashboard />,
                     },
+                    {
+                        path: ROUTES.ACCETTAZIONE,
+                        element: <Accettazione />
+                    }
                 ],
             },
         ],

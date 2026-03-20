@@ -35,6 +35,7 @@ export * from './repairResponse';
 export * from './repairResponseTariffa';
 export * from './searchBrandParams';
 export * from './searchColorParams';
+export * from './searchCustomersParams';
 export * from './searchInterventionParams';
 export * from './searchModelByBrandParams';
 export * from './searchModelParams';

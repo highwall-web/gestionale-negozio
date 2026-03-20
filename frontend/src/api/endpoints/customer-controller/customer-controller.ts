@@ -28,6 +28,7 @@ import type {
   ApiError,
   CreateCustomerRequest,
   CustomerResponse,
+  SearchCustomersParams,
   UpdateCustomerRequest
 } from '../../models';
 
@@ -374,4 +375,88 @@ const {mutation: mutationOptions} = options ?
       > => {
       return useMutation(getCreateCustomerMutationOptions(options), queryClient);
     }
+    export const searchCustomers = (
+    params?: SearchCustomersParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<CustomerResponse[]>(
+      {url: `/api/customers/search`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getSearchCustomersQueryKey = (params?: SearchCustomersParams,) => {
+    return [
+    `/api/customers/search`, ...(params ? [params] : [])
+    ] as const;
+    }
+
     
+export const getSearchCustomersQueryOptions = <TData = Awaited<ReturnType<typeof searchCustomers>>, TError = ApiError>(params?: SearchCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSearchCustomersQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchCustomers>>> = ({ signal }) => searchCustomers(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SearchCustomersQueryResult = NonNullable<Awaited<ReturnType<typeof searchCustomers>>>
+export type SearchCustomersQueryError = ApiError
+
+
+export function useSearchCustomers<TData = Awaited<ReturnType<typeof searchCustomers>>, TError = ApiError>(
+ params: undefined |  SearchCustomersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchCustomers>>,
+          TError,
+          Awaited<ReturnType<typeof searchCustomers>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchCustomers<TData = Awaited<ReturnType<typeof searchCustomers>>, TError = ApiError>(
+ params?: SearchCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchCustomers>>,
+          TError,
+          Awaited<ReturnType<typeof searchCustomers>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchCustomers<TData = Awaited<ReturnType<typeof searchCustomers>>, TError = ApiError>(
+ params?: SearchCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useSearchCustomers<TData = Awaited<ReturnType<typeof searchCustomers>>, TError = ApiError>(
+ params?: SearchCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchCustomers>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSearchCustomersQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
