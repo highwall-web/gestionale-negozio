@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from './context/ThemeContext'
 import { ROUTES } from './routes'
 import Accettazione from './pages/Accettazione'
+import { AccettazioneProvider } from './context/AccettazioneContext'
 
 const router = createBrowserRouter([
     {
@@ -29,7 +30,9 @@ const router = createBrowserRouter([
                     },
                     {
                         path: ROUTES.ACCETTAZIONE,
-                        element: <Accettazione />
+                        element: <AccettazioneProvider>
+                            <Accettazione />
+                        </AccettazioneProvider>,
                     }
                 ],
             },

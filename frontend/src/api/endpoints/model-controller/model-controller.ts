@@ -28,6 +28,7 @@ import type {
   ApiError,
   CreateModelRequest,
   ModelResponse,
+  SearchModelByBrandNameParams,
   SearchModelByBrandParams,
   SearchModelParams,
   UpdateModelRequest
@@ -537,6 +538,91 @@ export function useSearchModelByBrand<TData = Awaited<ReturnType<typeof searchMo
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getSearchModelByBrandQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const searchModelByBrandName = (
+    params: SearchModelByBrandNameParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<ModelResponse[]>(
+      {url: `/api/models/search/by-brand-name`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getSearchModelByBrandNameQueryKey = (params?: SearchModelByBrandNameParams,) => {
+    return [
+    `/api/models/search/by-brand-name`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getSearchModelByBrandNameQueryOptions = <TData = Awaited<ReturnType<typeof searchModelByBrandName>>, TError = ApiError>(params: SearchModelByBrandNameParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSearchModelByBrandNameQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchModelByBrandName>>> = ({ signal }) => searchModelByBrandName(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SearchModelByBrandNameQueryResult = NonNullable<Awaited<ReturnType<typeof searchModelByBrandName>>>
+export type SearchModelByBrandNameQueryError = ApiError
+
+
+export function useSearchModelByBrandName<TData = Awaited<ReturnType<typeof searchModelByBrandName>>, TError = ApiError>(
+ params: SearchModelByBrandNameParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchModelByBrandName>>,
+          TError,
+          Awaited<ReturnType<typeof searchModelByBrandName>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchModelByBrandName<TData = Awaited<ReturnType<typeof searchModelByBrandName>>, TError = ApiError>(
+ params: SearchModelByBrandNameParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchModelByBrandName>>,
+          TError,
+          Awaited<ReturnType<typeof searchModelByBrandName>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchModelByBrandName<TData = Awaited<ReturnType<typeof searchModelByBrandName>>, TError = ApiError>(
+ params: SearchModelByBrandNameParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useSearchModelByBrandName<TData = Awaited<ReturnType<typeof searchModelByBrandName>>, TError = ApiError>(
+ params: SearchModelByBrandNameParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchModelByBrandName>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSearchModelByBrandNameQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -64,6 +64,15 @@ public class ModelController {
         return modelService.searchByBrand(brandId, nome);
     }
 
+    @GetMapping("/search/by-brand-name")
+    public List<ModelResponse> searchModelByBrandName(
+            @RequestParam String brandNome,
+            @RequestParam String nome
+    ) {
+        log.info("ModelController.searchModelByBrandName ricerca model brandNome={} nome={}", brandNome, nome);
+        return modelService.searchByBrandName(brandNome, nome);
+    }
+
     @PutMapping("/{id}")
     public ModelResponse updateModel(
             @PathVariable Long id,

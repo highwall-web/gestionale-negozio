@@ -67,6 +67,13 @@ public class ModelService {
                 .toList();
     }
 
+    public List<ModelResponse> searchByBrandName(String brandNome, String nome) {
+        return modelRepository.findTop10ByBrandNomeContainingIgnoreCaseAndNomeContainingIgnoreCase(brandNome, nome)
+                .stream()
+                .map(ModelMapper::toResponse)
+                .toList();
+    }
+
 
     public ModelResponse update(Long id, UpdateModelRequest request) {
         Model model = modelRepository.findById(id)

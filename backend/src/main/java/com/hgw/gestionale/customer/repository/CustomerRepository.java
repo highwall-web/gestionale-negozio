@@ -12,10 +12,10 @@ import java.util.List;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query("SELECT c FROM Customer c WHERE " +
-           "(:nome IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT('%', :nome, '%'))) AND " +
-           "(:cognome IS NULL OR LOWER(c.cognome) LIKE LOWER(CONCAT('%', :cognome, '%'))) AND " +
-           "(:telefono IS NULL OR c.telefono LIKE CONCAT('%', :telefono, '%')) AND " +
-           "(:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))")
+           "(cast(:nome as string) IS NULL OR LOWER(c.nome) LIKE LOWER(CONCAT('%', cast(:nome as string), '%'))) AND " +
+           "(cast(:cognome as string) IS NULL OR LOWER(c.cognome) LIKE LOWER(CONCAT('%', cast(:cognome as string), '%'))) AND " +
+           "(cast(:telefono as string) IS NULL OR c.telefono LIKE CONCAT('%', cast(:telefono as string), '%')) AND " +
+           "(cast(:email as string) IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', cast(:email as string), '%')))")
     List<Customer> search(
             @Param("nome") String nome,
             @Param("cognome") String cognome,

@@ -37,6 +37,7 @@ export * from './searchBrandParams';
 export * from './searchColorParams';
 export * from './searchCustomersParams';
 export * from './searchInterventionParams';
+export * from './searchModelByBrandNameParams';
 export * from './searchModelByBrandParams';
 export * from './searchModelParams';
 export * from './searchProductParams';

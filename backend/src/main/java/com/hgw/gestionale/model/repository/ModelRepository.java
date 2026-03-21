@@ -16,4 +16,6 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
     List<Model> findTop10ByNomeContainingIgnoreCase(String nome);
 
     List<Model> findTop10ByBrandIdAndNomeContainingIgnoreCase(Long brandId, String nome);
+
+    List<Model> findTop10ByBrandNomeContainingIgnoreCaseAndNomeContainingIgnoreCase(String brandNome, String nome);
 }
