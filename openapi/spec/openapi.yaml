@@ -21,6 +21,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -41,18 +53,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -76,6 +76,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -96,18 +108,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -129,6 +129,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -149,18 +161,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -179,6 +179,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -199,18 +211,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -234,6 +234,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -254,18 +266,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -287,6 +287,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -307,18 +319,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -342,6 +342,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -362,18 +374,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -402,6 +402,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -422,18 +434,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -452,6 +452,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -472,18 +484,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -507,6 +507,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -527,18 +539,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -567,6 +567,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -587,18 +599,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -617,6 +617,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -637,18 +649,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -672,6 +672,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -692,18 +704,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -732,6 +732,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -752,18 +764,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -782,6 +782,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -802,18 +814,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -837,6 +837,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -857,18 +869,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -897,6 +897,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -917,18 +929,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -947,6 +947,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -967,18 +979,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1002,6 +1002,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1022,18 +1034,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1062,6 +1062,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1082,18 +1094,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1112,6 +1112,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1132,18 +1144,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1167,6 +1167,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1187,18 +1199,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1227,6 +1227,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1247,18 +1259,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1277,6 +1277,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1297,18 +1309,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1332,6 +1332,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1352,18 +1364,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1392,6 +1392,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1412,18 +1424,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1442,6 +1442,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1462,18 +1474,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1496,6 +1496,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1516,18 +1528,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1549,6 +1549,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1569,18 +1581,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1599,6 +1599,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1619,18 +1631,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1652,6 +1652,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1672,18 +1684,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1702,6 +1702,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1722,18 +1734,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1755,6 +1755,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1775,18 +1787,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1805,6 +1805,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1825,18 +1837,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1858,6 +1858,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1878,18 +1890,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1908,6 +1908,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1928,18 +1940,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1961,6 +1961,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -1981,18 +1993,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2011,6 +2011,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2031,18 +2043,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2064,6 +2064,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2084,18 +2096,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2114,6 +2114,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2134,18 +2146,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2167,6 +2167,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2187,18 +2199,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2217,6 +2217,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2237,18 +2249,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2265,6 +2265,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2285,18 +2297,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2309,6 +2309,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2329,18 +2341,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2363,6 +2363,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2383,18 +2395,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2411,6 +2411,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2431,18 +2443,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2466,6 +2466,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2486,18 +2498,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2516,6 +2516,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2536,18 +2548,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2571,6 +2571,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2591,18 +2603,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2621,6 +2621,18 @@ paths:
       responses:
         "200":
           description: OK
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2641,18 +2653,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2687,6 +2687,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2707,18 +2719,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2743,6 +2743,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2763,18 +2775,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2797,6 +2797,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2817,18 +2829,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2851,6 +2851,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2871,18 +2883,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2907,6 +2907,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2927,18 +2939,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2969,6 +2969,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -2989,18 +3001,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3030,6 +3030,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3050,18 +3062,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3084,6 +3084,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3104,18 +3116,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3141,6 +3141,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3161,18 +3173,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3197,6 +3197,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3217,18 +3229,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3251,6 +3251,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3271,18 +3283,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3301,6 +3301,18 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3321,18 +3333,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3372,6 +3372,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3392,18 +3404,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3428,6 +3428,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3448,18 +3460,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3482,6 +3482,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3502,18 +3514,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3538,6 +3538,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3558,18 +3570,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3592,6 +3592,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "500":
           description: Errore interno del server
           content:
@@ -3612,18 +3624,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -4312,6 +4312,8 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         first:
           type: boolean
         last:
@@ -4319,8 +4321,6 @@ components:
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -4331,11 +4331,11 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
+        paged:
+          type: boolean
         pageNumber:
           type: integer
           format: int32
-        paged:
-          type: boolean
         pageSize:
           type: integer
           format: int32
@@ -4346,7 +4346,7 @@ components:
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean
