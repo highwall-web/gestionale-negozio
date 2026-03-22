@@ -40,7 +40,7 @@ export default function FormCliente({ onSuccess }: Props) {
     const [searchResults, setSearchResults] = useState<CustomerResponse[]>([])
     const isLoading = isPending || isUpdating;
     const isDisabled = active !== 0 || isLoading;
-
+    const wasEditingRef = useRef(false)
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -57,6 +57,27 @@ export default function FormCliente({ onSuccess }: Props) {
     const hasSearchTerm = !!(nome || cognome)
 
     const effectiveResults = (!selectedCustomer && hasSearchTerm) ? searchResults : []
+
+    function resetToSelected() {
+        if (!selectedCustomer) return
+        reset({
+            nome: selectedCustomer.nome ?? "",
+            cognome: selectedCustomer.cognome ?? "",
+            email: selectedCustomer.email ?? "",
+            telefono: selectedCustomer.telefono ?? "",
+            telefonoSecondario: selectedCustomer.telefonoSecondario ?? "",
+            indirizzo: selectedCustomer.indirizzo ?? "",
+            citta: selectedCustomer.citta ?? "",
+            cap: selectedCustomer.cap ?? ""
+        })
+    }
+
+    useEffect(() => {
+        if (wasEditingRef.current && !isEditing.editingDispositivo) {
+            resetToSelected()
+        }
+        wasEditingRef.current = isEditing.editingDispositivo
+    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function onOptionSubmit(value: string) {
         const customer = searchResults.find((r, idx) => formatCustomer(r, idx) === value)
@@ -81,6 +102,12 @@ export default function FormCliente({ onSuccess }: Props) {
     }
 
     function onSubmit(data: FormData) {
+        if (selectedCustomer && isEditing.editingCliente) {
+            resetToSelected()
+            toggleEditingCliente()
+            onSuccess(selectedCustomer)
+            return
+        }
         if (selectedCustomer) {
             onSuccess(selectedCustomer)
             handleToggleEditing()

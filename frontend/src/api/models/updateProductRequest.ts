@@ -23,4 +23,6 @@ export interface UpdateProductRequest {
   acquistatoPressoDiNoi?: boolean;
   seriale?: string;
   imei?: string;
+  codiceModello?: string;
+  tipoDispositivo?: string;
 }

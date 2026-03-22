@@ -23,4 +23,6 @@ export interface CreateProductRequest {
   acquistatoPressoDiNoi?: boolean;
   seriale?: string;
   imei?: string;
+  codiceModello?: string;
+  tipoDispositivo?: string;
 }

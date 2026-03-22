@@ -6,13 +6,15 @@ import z from "zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { useDebouncedValue } from "@mantine/hooks";
 import { useAccettazione } from "../../context/AccettazioneContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 
 const schema = z.object({
     brandNome: z.string().min(1, "Campo obbligatorio"),
     modelNome: z.string().min(1, "Campo obbligatorio"),
     colorNome: z.string().min(1, "Campo obbligatorio"),
+    codiceModello: z.string().optional(),
+    tipoDispositivo: z.string().optional(),
     capacita: z.string().optional(),
     codiceUnlock: z.string().optional(),
     sequenzaUnlock: z.array(z.number()).optional(),
@@ -45,6 +47,8 @@ export default function FormDispositivo({ onSuccess }: Props) {
             brandNome: "",
             modelNome: "",
             colorNome: "",
+            codiceModello: "",
+            tipoDispositivo: "",
             capacita: "",
             codiceUnlock: "",
             sequenzaUnlock: [],
@@ -58,15 +62,47 @@ export default function FormDispositivo({ onSuccess }: Props) {
     const [brandNome, modelNome] = useWatch({ control, name: ['brandNome', 'modelNome'] })
     const [dModel] = useDebouncedValue(modelNome, 300)
 
+    const wasEditingRef = useRef(false)
+
+    function resetToSelected() {
+        if (!selectedProduct) return
+        reset({
+            brandNome: selectedProduct.model.brandNome ?? '',
+            modelNome: selectedProduct.model.nome ?? '',
+            colorNome: selectedProduct.color.nome ?? '',
+            codiceModello: selectedProduct.codiceModello ?? '',
+            tipoDispositivo: selectedProduct.tipoDispositivo ?? '',
+            capacita: selectedProduct.capacita ?? '',
+            codiceUnlock: selectedProduct.codiceUnlock ?? '',
+            sequenzaUnlock: selectedProduct.sequenzaUnlock ?? [],
+            pin: selectedProduct.pin ?? '',
+            accessori: selectedProduct.accessori ?? '',
+            seriale: selectedProduct.seriale ?? '',
+            imei: selectedProduct.imei ?? '',
+        })
+    }
+
+    useEffect(() => {
+        if (wasEditingRef.current && !isEditing.editingDispositivo) {
+            resetToSelected()
+        }
+        wasEditingRef.current = isEditing.editingDispositivo
+    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
+
     function handleToggleEditing() {
         if (!isEditing.editingDispositivo) return;
         toggleEditingDispositivo()
     }
 
     function onSubmit(data: FormData) {
+        if (selectedProduct && isEditing.editingDispositivo) {
+            resetToSelected()
+            toggleEditingDispositivo()
+            onSuccess(selectedProduct)
+            return
+        }
         if (selectedProduct) {
             onSuccess(selectedProduct);
-            handleToggleEditing();
             return;
         }
         createProduct(data);
@@ -78,6 +114,8 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 brandNome: data.brandNome,
                 modelNome: data.modelNome,
                 colorNome: data.colorNome,
+                codiceModello: data.codiceModello,
+                tipoDispositivo: data.tipoDispositivo,
                 capacita: data.capacita,
                 codiceUnlock: data.codiceUnlock,
                 sequenzaUnlock: data.sequenzaUnlock,
@@ -113,6 +151,8 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 brandNome: data.brandNome,
                 modelNome: data.modelNome,
                 colorNome: data.colorNome,
+                codiceModello: data.codiceModello,
+                tipoDispositivo: data.tipoDispositivo,
                 capacita: data.capacita,
                 codiceUnlock: data.codiceUnlock,
                 sequenzaUnlock: data.sequenzaUnlock,
@@ -132,12 +172,13 @@ export default function FormDispositivo({ onSuccess }: Props) {
         })
     })
 
+
     useEffect(() => {
         if (brands.some(b => b.nome === brandNome) && !!dModel) {
             searchModelByBrandName({ brandNome: brandNome, nome: dModel })
                 .then(res => setModels(res.map(r => r.nome)))
         }
-    }, [dModel, brands, brandNome])
+    }, [dModel]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -151,7 +192,13 @@ export default function FormDispositivo({ onSuccess }: Props) {
                             label="Brand"
                             data={brands.map(b => b.nome)}
                             withAsterisk
-                            onChange={field.onChange}
+                            onChange={(v) => {
+                                field.onChange(v)
+                                if (modelNome) {
+                                    setValue('modelNome', '')
+                                    setModels([])
+                                }
+                            }}
                             error={errors.brandNome?.message}
                             value={field.value}
                             styles={{ root: { position: 'relative' }, error: { position: 'absolute' } }}
@@ -177,6 +224,31 @@ export default function FormDispositivo({ onSuccess }: Props) {
                                 />
                             </div>
                         </Tooltip>
+                    )}
+                />
+                <TextInput
+                    label="Codice Modello"
+                    error={errors.codiceModello?.message}
+                    disabled={isDisabled}
+                    {...register('codiceModello')}
+                />
+                <Controller
+                    name="tipoDispositivo"
+                    control={control}
+                    render={({ field }) => (
+                        <Select
+                            label="Tipo dispositivo"
+                            data={[
+                                "Telefono",
+                                "Tablet",
+                                "Computer"
+                            ]}
+                            error={errors.capacita?.message}
+                            value={field.value || null}
+                            onChange={field.onChange}
+                            clearable
+                            disabled={isDisabled}
+                        />
                     )}
                 />
                 <Controller
@@ -207,7 +279,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                                 return { value: label, label };
                             })}
                             error={errors.capacita?.message}
-                            value={field.value ?? ""}
+                            value={field.value || null}
                             onChange={field.onChange}
                             clearable
                             disabled={isDisabled}

@@ -22,4 +22,6 @@ export interface ProductResponse {
   acquistatoPressoDiNoi?: boolean;
   seriale?: string;
   imei?: string;
+  codiceModello?: string;
+  tipoDispositivo?: string;
 }
