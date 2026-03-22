@@ -31,7 +31,7 @@ function formatCustomer(res: CustomerResponse, idx: number) {
 }
 
 export default function FormCliente({ onSuccess }: Props) {
-    const { active, updateActive } = useAccettazione();
+    const { active, updateActive, isEditing, toggleEditingCliente } = useAccettazione();
     const { mutate, isPending } = useCreateCustomer()
     const { mutate: updateCustomer, isPending: isUpdating } = useUpdateCustomer();
     const [selectedCustomer, setSelectedCustomer] = useState<CustomerResponse | null>(null)
@@ -40,7 +40,7 @@ export default function FormCliente({ onSuccess }: Props) {
     const [searchResults, setSearchResults] = useState<CustomerResponse[]>([])
     const isLoading = isPending || isUpdating;
     const isDisabled = active !== 0 || isLoading;
-    const [isEditing, setIsEditing] = useState(false);
+
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -77,16 +77,21 @@ export default function FormCliente({ onSuccess }: Props) {
         reset()
         setSelectedCustomer(null)
         setSearchResults([])
-        setIsEditing(false)
+        handleToggleEditing()
     }
 
     function onSubmit(data: FormData) {
         if (selectedCustomer) {
             onSuccess(selectedCustomer)
-            setIsEditing(false)
+            handleToggleEditing()
             return
         }
         createCustomer(data);
+    }
+
+    function handleToggleEditing() {
+        if (!isEditing.editingCliente) return;
+        toggleEditingCliente()
     }
 
     function createCustomer(data: FormData) {
@@ -106,7 +111,7 @@ export default function FormCliente({ onSuccess }: Props) {
                 toast.success('Cliente inserito')
                 setSelectedCustomer(customer)
                 onSuccess(customer)
-                setIsEditing(false)
+                handleToggleEditing()
             },
             onError: () => toast.error("Errore nell'inserimento del cliente"),
         })
@@ -133,7 +138,7 @@ export default function FormCliente({ onSuccess }: Props) {
                 toast.success("Cliente aggiornato")
                 setSelectedCustomer(customer)
                 onSuccess(customer)
-                setIsEditing(false)
+                handleToggleEditing()
             },
             onError: () => toast.error("Errore nell'aggiornamento del cliente")
         })
@@ -239,7 +244,7 @@ export default function FormCliente({ onSuccess }: Props) {
                 {active === 0 && (
                     <>
                         <Button type="submit" loading={isPending} disabled={isUpdating}>
-                            {selectedCustomer ? isEditing ? "Annulla modifica" : 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
+                            {selectedCustomer ? isEditing.editingCliente ? "Annulla modifica" : 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
                         </Button>
                         {
                             !!selectedCustomer && (
@@ -261,7 +266,7 @@ export default function FormCliente({ onSuccess }: Props) {
                     </>
                 )}
                 {(isDisabled && !!selectedCustomer) && (
-                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(0); setIsEditing(true) }}>
+                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(0); toggleEditingCliente() }}>
                         Modifica cliente
                     </Button>
                 )}

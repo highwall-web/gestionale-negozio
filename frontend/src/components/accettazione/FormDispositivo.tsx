@@ -30,16 +30,14 @@ interface Props {
 
 export default function FormDispositivo({ onSuccess }: Props) {
 
-    const { active, updateActive } = useAccettazione();
+    const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors } = useAccettazione();
     const [models, setModels] = useState<string[]>([])
     const [unlockMode, setUnlockMode] = useState<"codice" | "sequenza">("codice")
     const { mutate, isPending } = useCreateProduct();
     const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
-    const { brands, colors } = useAccettazione();
     const isLoading = isPending || isUpdating;
     const isDisabled = active !== 1 || isLoading;
     const [selectedProduct, setSelectedProduct] = useState<ProductResponse | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -60,10 +58,15 @@ export default function FormDispositivo({ onSuccess }: Props) {
     const [brandNome, modelNome] = useWatch({ control, name: ['brandNome', 'modelNome'] })
     const [dModel] = useDebouncedValue(modelNome, 300)
 
+    function handleToggleEditing() {
+        if (!isEditing.editingDispositivo) return;
+        toggleEditingDispositivo()
+    }
+
     function onSubmit(data: FormData) {
         if (selectedProduct) {
             onSuccess(selectedProduct);
-            setIsEditing(false);
+            handleToggleEditing();
             return;
         }
         createProduct(data);
@@ -88,7 +91,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 toast.success("Dispositivo inserito")
                 setSelectedProduct(product)
                 onSuccess(product)
-                setIsEditing(false)
+                handleToggleEditing();
             },
             onError: () => toast.error("Errore nell'inserimento del dispositivo")
         })
@@ -97,7 +100,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
     function handleReset() {
         reset()
         setSelectedProduct(null)
-        setIsEditing(false)
+        handleToggleEditing()
     }
 
     const handleCreate = handleSubmit(createProduct);
@@ -123,7 +126,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 toast.success("Dispositivo aggiornato")
                 setSelectedProduct(product)
                 onSuccess(product)
-                setIsEditing(false)
+                handleToggleEditing()
             },
             onError: () => toast.error("Errore nell'aggiornamento del dispositivo")
         })
@@ -278,7 +281,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 {active === 1 && (
                     <>
                         <Button type="submit" loading={isPending} disabled={isUpdating}>
-                            {selectedProduct ? isEditing ? "Annulla modifica" : 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
+                            {selectedProduct ? isEditing.editingDispositivo ? "Annulla modifica" : 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
                         </Button>
                         {
                             !!selectedProduct && (
@@ -300,7 +303,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                     </>
                 )}
                 {(isDisabled && !!selectedProduct) && (
-                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(1); setIsEditing(true) }}>
+                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(1); toggleEditingDispositivo() }}>
                         Modifica dispositivo
                     </Button>
                 )}
