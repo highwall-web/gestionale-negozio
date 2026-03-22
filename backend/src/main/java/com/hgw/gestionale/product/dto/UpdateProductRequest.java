@@ -17,6 +17,8 @@ public record UpdateProductRequest(
         Boolean dispositivoNonTestabile,
         Boolean acquistatoPressoDiNoi,
         String seriale,
-        String imei
+        String imei,
+        String codiceModello,
+        String tipoDispositivo
 ) {
 }

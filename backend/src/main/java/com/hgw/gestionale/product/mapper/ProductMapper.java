@@ -33,6 +33,8 @@ public final class ProductMapper {
                 .acquistatoPressoDiNoi(request.acquistatoPressoDiNoi())
                 .seriale(request.seriale())
                 .imei(request.imei())
+                .codiceModello(request.codiceModello())
+                .tipoDispositivo(request.tipoDispositivo())
                 .build();
     }
 
@@ -50,7 +52,9 @@ public final class ProductMapper {
                 product.getDispositivoNonTestabile(),
                 product.getAcquistatoPressoDiNoi(),
                 product.getSeriale(),
-                product.getImei()
+                product.getImei(),
+                product.getCodiceModello(),
+                product.getTipoDispositivo()
         );
     }
 
@@ -67,6 +71,8 @@ public final class ProductMapper {
         product.setAcquistatoPressoDiNoi(request.acquistatoPressoDiNoi());
         product.setSeriale(request.seriale());
         product.setImei(request.imei());
+        product.setCodiceModello(request.codiceModello());
+        product.setTipoDispositivo(request.tipoDispositivo());
     }
 
     private static String serializeList(List<Integer> list) {

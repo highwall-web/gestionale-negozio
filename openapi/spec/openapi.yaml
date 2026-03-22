@@ -3888,6 +3888,10 @@ components:
           type: string
         imei:
           type: string
+        codiceModello:
+          type: string
+        tipoDispositivo:
+          type: string
       required:
       - color
       - id
@@ -3961,6 +3965,10 @@ components:
         seriale:
           type: string
         imei:
+          type: string
+        codiceModello:
+          type: string
+        tipoDispositivo:
           type: string
       required:
       - brandNome
@@ -4149,6 +4157,10 @@ components:
           type: string
         imei:
           type: string
+        codiceModello:
+          type: string
+        tipoDispositivo:
+          type: string
       required:
       - brandNome
       - colorNome
@@ -4294,12 +4306,12 @@ components:
     PageRepairResponse:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         size:
           type: integer
           format: int32
@@ -4312,8 +4324,6 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         first:
           type: boolean
         last:
@@ -4321,6 +4331,8 @@ components:
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -4331,6 +4343,8 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
+        unpaged:
+          type: boolean
         paged:
           type: boolean
         pageNumber:
@@ -4339,14 +4353,12 @@ components:
         pageSize:
           type: integer
           format: int32
-        unpaged:
-          type: boolean
     SortObject:
       type: object
       properties:
         empty:
           type: boolean
-        sorted:
-          type: boolean
         unsorted:
+          type: boolean
+        sorted:
           type: boolean
