@@ -28,6 +28,7 @@ import type {
   ApiError,
   CreateInterventionRequest,
   InterventionResponse,
+  SearchInterventionByModelParams,
   SearchInterventionParams,
   UpdateInterventionRequest
 } from '../../models';
@@ -460,6 +461,175 @@ export function useSearchIntervention<TData = Awaited<ReturnType<typeof searchIn
 
 
 
+export const searchInterventionByModel = (
+    params: SearchInterventionByModelParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<InterventionResponse[]>(
+      {url: `/api/interventions/search/by-model`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getSearchInterventionByModelQueryKey = (params?: SearchInterventionByModelParams,) => {
+    return [
+    `/api/interventions/search/by-model`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getSearchInterventionByModelQueryOptions = <TData = Awaited<ReturnType<typeof searchInterventionByModel>>, TError = ApiError>(params: SearchInterventionByModelParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getSearchInterventionByModelQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof searchInterventionByModel>>> = ({ signal }) => searchInterventionByModel(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type SearchInterventionByModelQueryResult = NonNullable<Awaited<ReturnType<typeof searchInterventionByModel>>>
+export type SearchInterventionByModelQueryError = ApiError
+
+
+export function useSearchInterventionByModel<TData = Awaited<ReturnType<typeof searchInterventionByModel>>, TError = ApiError>(
+ params: SearchInterventionByModelParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchInterventionByModel>>,
+          TError,
+          Awaited<ReturnType<typeof searchInterventionByModel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchInterventionByModel<TData = Awaited<ReturnType<typeof searchInterventionByModel>>, TError = ApiError>(
+ params: SearchInterventionByModelParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof searchInterventionByModel>>,
+          TError,
+          Awaited<ReturnType<typeof searchInterventionByModel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useSearchInterventionByModel<TData = Awaited<ReturnType<typeof searchInterventionByModel>>, TError = ApiError>(
+ params: SearchInterventionByModelParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useSearchInterventionByModel<TData = Awaited<ReturnType<typeof searchInterventionByModel>>, TError = ApiError>(
+ params: SearchInterventionByModelParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof searchInterventionByModel>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getSearchInterventionByModelQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getInterventiGenerali = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<InterventionResponse[]>(
+      {url: `/api/interventions/generali`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetInterventiGeneraliQueryKey = () => {
+    return [
+    `/api/interventions/generali`
+    ] as const;
+    }
+
+    
+export const getGetInterventiGeneraliQueryOptions = <TData = Awaited<ReturnType<typeof getInterventiGenerali>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetInterventiGeneraliQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInterventiGenerali>>> = ({ signal }) => getInterventiGenerali(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetInterventiGeneraliQueryResult = NonNullable<Awaited<ReturnType<typeof getInterventiGenerali>>>
+export type GetInterventiGeneraliQueryError = ApiError
+
+
+export function useGetInterventiGenerali<TData = Awaited<ReturnType<typeof getInterventiGenerali>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInterventiGenerali>>,
+          TError,
+          Awaited<ReturnType<typeof getInterventiGenerali>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetInterventiGenerali<TData = Awaited<ReturnType<typeof getInterventiGenerali>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInterventiGenerali>>,
+          TError,
+          Awaited<ReturnType<typeof getInterventiGenerali>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetInterventiGenerali<TData = Awaited<ReturnType<typeof getInterventiGenerali>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetInterventiGenerali<TData = Awaited<ReturnType<typeof getInterventiGenerali>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventiGenerali>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetInterventiGeneraliQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
 export const getInterventionByName = (
     nome: string,
  signal?: AbortSignal
@@ -535,6 +705,90 @@ export function useGetInterventionByName<TData = Awaited<ReturnType<typeof getIn
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetInterventionByNameQueryOptions(nome,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getInterventionsByModel = (
+    modelId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<InterventionResponse[]>(
+      {url: `/api/interventions/by-model/${modelId}`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetInterventionsByModelQueryKey = (modelId: number,) => {
+    return [
+    `/api/interventions/by-model/${modelId}`
+    ] as const;
+    }
+
+    
+export const getGetInterventionsByModelQueryOptions = <TData = Awaited<ReturnType<typeof getInterventionsByModel>>, TError = ApiError>(modelId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetInterventionsByModelQueryKey(modelId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInterventionsByModel>>> = ({ signal }) => getInterventionsByModel(modelId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(modelId), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetInterventionsByModelQueryResult = NonNullable<Awaited<ReturnType<typeof getInterventionsByModel>>>
+export type GetInterventionsByModelQueryError = ApiError
+
+
+export function useGetInterventionsByModel<TData = Awaited<ReturnType<typeof getInterventionsByModel>>, TError = ApiError>(
+ modelId: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInterventionsByModel>>,
+          TError,
+          Awaited<ReturnType<typeof getInterventionsByModel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetInterventionsByModel<TData = Awaited<ReturnType<typeof getInterventionsByModel>>, TError = ApiError>(
+ modelId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getInterventionsByModel>>,
+          TError,
+          Awaited<ReturnType<typeof getInterventionsByModel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetInterventionsByModel<TData = Awaited<ReturnType<typeof getInterventionsByModel>>, TError = ApiError>(
+ modelId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetInterventionsByModel<TData = Awaited<ReturnType<typeof getInterventionsByModel>>, TError = ApiError>(
+ modelId: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getInterventionsByModel>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetInterventionsByModelQueryOptions(modelId,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -1,19 +1,13 @@
 package com.hgw.gestionale.repair.dto;
 
-import com.hgw.gestionale.repair.entity.Tariffa;
+import com.hgw.gestionale.product.dto.CreateProductRequest;
+import com.hgw.gestionale.repairdetails.dto.CreateRepairDetailsRequest;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
 
 public record CreateRepairRequest(
         @NotNull Long customerId,
-        @NotNull Long productId,
-        List<Long> interventionIds,
-        String commenti,
-        LocalDate dataConsegna,
-        @NotNull Tariffa tariffa,
-        BigDecimal acconto
+        @Valid @NotNull CreateProductRequest product,
+        @Valid CreateRepairDetailsRequest details
 ) {
 }

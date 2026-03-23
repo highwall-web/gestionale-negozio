@@ -7,6 +7,8 @@ import com.hgw.gestionale.intervention.dto.UpdateInterventionRequest;
 import com.hgw.gestionale.intervention.entity.Intervention;
 import com.hgw.gestionale.intervention.mapper.InterventionMapper;
 import com.hgw.gestionale.intervention.repository.InterventionRepository;
+import com.hgw.gestionale.model.entity.Model;
+import com.hgw.gestionale.model.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InterventionService {
     private final InterventionRepository interventionRepository;
+    private final ModelRepository modelRepository;
 
     public InterventionResponse create(CreateInterventionRequest request) {
-        Intervention saved = interventionRepository.save(InterventionMapper.toEntity(request));
+        Long modelId = request.modelId();
+        Model model = modelId != null
+                ? modelRepository.findById(modelId).orElseThrow(() -> new NotFoundException("Model not found"))
+                : null;
+        Intervention saved = interventionRepository.save(InterventionMapper.toEntity(request, model));
         return InterventionMapper.toResponse(saved);
     }
 
     public List<InterventionResponse> getAll() {
         return interventionRepository.findAll().stream()
+                .map(InterventionMapper::toResponse)
+                .toList();
+    }
+
+    public List<InterventionResponse> getGenerali() {
+        return interventionRepository.findByModelIsNull().stream()
+                .map(InterventionMapper::toResponse)
+                .toList();
+    }
+
+    public List<InterventionResponse> getByModelId(Long modelId) {
+        return interventionRepository.findByModelId(modelId).stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
     }
@@ -47,11 +66,22 @@ public class InterventionService {
                 .toList();
     }
 
+    public List<InterventionResponse> searchByModel(Long modelId, String nome) {
+        return interventionRepository.findTop10ByModelIdAndNomeContainingIgnoreCase(modelId, nome)
+                .stream()
+                .map(InterventionMapper::toResponse)
+                .toList();
+    }
+
     public InterventionResponse update(Long id, UpdateInterventionRequest request) {
         Intervention intervention = interventionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Intervention not found"));
+        Long modelId = request.modelId();
+        Model model = modelId != null
+                ? modelRepository.findById(modelId).orElseThrow(() -> new NotFoundException("Model not found"))
+                : null;
 
-        InterventionMapper.updateEntity(intervention, request);
+        InterventionMapper.updateEntity(intervention, request, model);
         Intervention updated = interventionRepository.save(intervention);
 
         return InterventionMapper.toResponse(updated);

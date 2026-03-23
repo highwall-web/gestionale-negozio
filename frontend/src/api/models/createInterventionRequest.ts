@@ -7,6 +7,7 @@
  */
 
 export interface CreateInterventionRequest {
+  modelId?: number;
   /** @minLength 1 */
   nome: string;
   prezzo: number;

@@ -2,6 +2,7 @@ package com.hgw.gestionale.product.service;
 
 import com.hgw.gestionale.brand.entity.Brand;
 import com.hgw.gestionale.brand.repository.BrandRepository;
+import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.color.entity.Color;
 import com.hgw.gestionale.color.repository.ColorRepository;
 import com.hgw.gestionale.common.exception.NotFoundException;
@@ -26,12 +27,10 @@ public class ProductService {
     private final ColorRepository colorRepository;
     private final BrandRepository brandRepository;
 
-    public ProductResponse create(CreateProductRequest request) {
+    public Product createEntity(CreateProductRequest request, Repair repair) {
         Model model = getOrCreateModel(request.brandNome(), request.modelNome());
         Color color = getOrCreateColor(request.colorNome());
-
-        Product saved = productRepository.save(ProductMapper.toEntity(request, model, color));
-        return ProductMapper.toResponse(saved);
+        return productRepository.save(ProductMapper.toEntity(request, model, color, repair));
     }
 
     public List<ProductResponse> getAll() {

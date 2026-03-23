@@ -5,16 +5,9 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
-import type { UpdateRepairRequestTariffa } from './updateRepairRequestTariffa';
 
 export interface UpdateRepairRequest {
   customerId: number;
-  productId: number;
-  interventionIds?: number[];
-  commenti?: string;
-  dataConsegna?: string;
-  tariffa: UpdateRepairRequestTariffa;
-  acconto?: number;
   statoId?: number;
   statoRiparazioneId?: number;
 }

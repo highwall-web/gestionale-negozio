@@ -11,6 +11,7 @@ import com.hgw.gestionale.product.dto.CreateProductRequest;
 import com.hgw.gestionale.product.dto.ProductResponse;
 import com.hgw.gestionale.product.dto.UpdateProductRequest;
 import com.hgw.gestionale.product.entity.Product;
+import com.hgw.gestionale.repair.entity.Repair;
 
 import java.util.List;
 
@@ -19,8 +20,9 @@ public final class ProductMapper {
 
     private ProductMapper() {}
 
-    public static Product toEntity(CreateProductRequest request, Model model, Color color) {
+    public static Product toEntity(CreateProductRequest request, Model model, Color color, Repair repair) {
         return Product.builder()
+                .repair(repair)
                 .model(model)
                 .color(color)
                 .capacita(request.capacita())

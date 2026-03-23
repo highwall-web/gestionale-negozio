@@ -23,7 +23,7 @@ public class RepairController {
 
     @PostMapping
     public RepairResponse createRepair(@Valid @RequestBody CreateRepairRequest request) {
-        log.info("RepairController.create creazione riparazione customerId={} productId={}", request.customerId(), request.productId());
+        log.info("RepairController.create creazione riparazione customerId={} productId={}", request.customerId());
         return repairService.create(request);
     }
 

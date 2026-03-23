@@ -11,4 +11,7 @@ import java.util.Optional;
 public interface InterventionRepository extends JpaRepository<Intervention, Long> {
     Optional<Intervention> findByNomeIgnoreCase(String nome);
     List<Intervention> findTop10ByNomeContainingIgnoreCase(String nome);
+    List<Intervention> findByModelIsNull();
+    List<Intervention> findByModelId(Long modelId);
+    List<Intervention> findTop10ByModelIdAndNomeContainingIgnoreCase(Long modelId, String nome);
 }

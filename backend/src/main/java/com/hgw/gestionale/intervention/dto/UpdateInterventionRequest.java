@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record UpdateInterventionRequest(
+        Long modelId,
         @NotBlank String nome,
         @NotNull BigDecimal prezzo,
         Integer periodoGaranzia,

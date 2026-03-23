@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 public record InterventionResponse(
         @NotNull Long id,
+        Long modelId,
+        String modelNome,
         @NotBlank String nome,
         @NotNull BigDecimal prezzo,
         Integer periodoGaranzia,

@@ -8,6 +8,8 @@
 
 export interface InterventionResponse {
   id: number;
+  modelId?: number;
+  modelNome?: string;
   /** @minLength 1 */
   nome: string;
   prezzo: number;

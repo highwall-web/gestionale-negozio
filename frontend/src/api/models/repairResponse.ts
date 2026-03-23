@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { CustomerResponse } from './customerResponse';
-import type { InterventionResponse } from './interventionResponse';
 import type { ProductResponse } from './productResponse';
-import type { RepairResponseTariffa } from './repairResponseTariffa';
+import type { RepairDetailsResponse } from './repairDetailsResponse';
 import type { StatoRepairResponse } from './statoRepairResponse';
 import type { StatoRiparazioneResponse } from './statoRiparazioneResponse';
 
@@ -16,11 +15,7 @@ export interface RepairResponse {
   id: number;
   customer: CustomerResponse;
   product: ProductResponse;
-  interventions?: InterventionResponse[];
-  commenti?: string;
-  dataConsegna?: string;
-  tariffa: RepairResponseTariffa;
-  acconto?: number;
+  details?: RepairDetailsResponse;
   stato?: StatoRepairResponse;
   statoRiparazione?: StatoRiparazioneResponse;
 }

@@ -43,10 +43,28 @@ public class InterventionController {
         return interventionService.getByName(nome);
     }
 
+    @GetMapping("/generali")
+    public List<InterventionResponse> getInterventiGenerali() {
+        log.info("InterventionController.getGenerali richiesta interventi generali");
+        return interventionService.getGenerali();
+    }
+
+    @GetMapping("/by-model/{modelId}")
+    public List<InterventionResponse> getInterventionsByModel(@PathVariable Long modelId) {
+        log.info("InterventionController.getByModel richiesta interventi modelId={}", modelId);
+        return interventionService.getByModelId(modelId);
+    }
+
     @GetMapping("/search")
     public List<InterventionResponse> searchIntervention(@RequestParam String nome) {
         log.info("InterventionController.search ricerca intervento nome={}", nome);
         return interventionService.search(nome);
+    }
+
+    @GetMapping("/search/by-model")
+    public List<InterventionResponse> searchInterventionByModel(@RequestParam Long modelId, @RequestParam String nome) {
+        log.info("InterventionController.searchByModel ricerca intervento modelId={} nome={}", modelId, nome);
+        return interventionService.searchByModel(modelId, nome);
     }
 
     @PutMapping("/{id}")

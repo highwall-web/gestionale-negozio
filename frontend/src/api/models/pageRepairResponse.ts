@@ -12,13 +12,13 @@ import type { SortObject } from './sortObject';
 export interface PageRepairResponse {
   totalPages?: number;
   totalElements?: number;
+  first?: boolean;
+  last?: boolean;
+  numberOfElements?: number;
   size?: number;
   content?: RepairResponse[];
   number?: number;
   sort?: SortObject;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
   pageable?: PageableObject;
   empty?: boolean;
 }

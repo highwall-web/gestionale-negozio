@@ -1,7 +1,8 @@
 import { Paper, ScrollArea, Stack, Stepper } from "@mantine/core";
 import { useState } from "react";
-import type { CustomerResponse, ProductResponse } from "../api";
+import type { CreateProductRequest, CustomerResponse, ProductResponse } from "../api";
 import FormCliente from "../components/accettazione/FormCliente";
+import FormDifetti from "../components/accettazione/FormDifetti";
 import FormDispositivo from "../components/accettazione/FormDispositivo";
 import FormRiparazione from "../components/accettazione/FormRiparazione";
 import { useAccettazione } from "../context/AccettazioneContext";
@@ -10,16 +11,16 @@ export default function Accettazione() {
 
     const { active, updateActive } = useAccettazione();
 
-    const [customerId, setCustomerId] = useState<number | null>(null);
-    const [productId, setProductId] = useState<number | null>(null);
+    const [customer, setCustomer] = useState<CustomerResponse | null>(null);
+    const [product, setProduct] = useState<CreateProductRequest | null>(null);
 
     const handleClienteSuccess = (customer: CustomerResponse) => {
-        setCustomerId(customer.id!)
+        setCustomer(customer)
         updateActive(active + 1)
     }
 
-    const handleProductSuccess = (product: ProductResponse) => {
-        setProductId(product.id!)
+    const handleProductSuccess = (product: CreateProductRequest) => {
+        setProduct(product)
         updateActive(active + 1)
     }
 
@@ -36,6 +37,9 @@ export default function Accettazione() {
                     <Stepper.Step label="Terzo step" description="Inserisci i dettagli della riparazione">
                         Step 3: Inserisci i dettagli della riparazione
                     </Stepper.Step>
+                    <Stepper.Step label="Quarto step" description="Inserisci i difetti del dispositivo">
+                        Step 4: Inserisci i difetti del dispositivo
+                    </Stepper.Step>
                 </Stepper>
             </Paper>
             <ScrollArea>
@@ -48,6 +52,9 @@ export default function Accettazione() {
                     </Paper>
                     <Paper radius={12} p="md" style={{ position: 'relative' }}>
                         <FormRiparazione />
+                    </Paper>
+                    <Paper radius={12} p="md" style={{ position: 'relative' }}>
+                        <FormDifetti />
                     </Paper>
                 </Stack>
             </ScrollArea>

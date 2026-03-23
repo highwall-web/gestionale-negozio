@@ -1,6 +1,6 @@
 import { Autocomplete, Button, SegmentedControl, Select, SimpleGrid, Stack, TextInput, Title, Tooltip } from "@mantine/core";
 import PatternLock from "./PatternLock";
-import { searchModelByBrandName, useCreateProduct, useUpdateProduct, type ProductResponse } from "../../api";
+import { searchModelByBrandName, type CreateProductRequest, type ProductResponse } from "../../api";
 import { zodResolver } from '@hookform/resolvers/zod'
 import z from "zod";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -27,7 +27,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
-    onSuccess: (product: ProductResponse) => void
+    onSuccess: (product: CreateProductRequest) => void
 }
 
 export default function FormDispositivo({ onSuccess }: Props) {
@@ -35,11 +35,8 @@ export default function FormDispositivo({ onSuccess }: Props) {
     const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors } = useAccettazione();
     const [models, setModels] = useState<string[]>([])
     const [unlockMode, setUnlockMode] = useState<"codice" | "sequenza">("codice")
-    const { mutate, isPending } = useCreateProduct();
-    const { mutate: updateProduct, isPending: isUpdating } = useUpdateProduct();
-    const isLoading = isPending || isUpdating;
-    const isDisabled = active !== 1 || isLoading;
-    const [selectedProduct, setSelectedProduct] = useState<ProductResponse | null>(null);
+    const isDisabled = active !== 1;
+    const [selectedProduct, setSelectedProduct] = useState<CreateProductRequest | null>(null);
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -67,9 +64,9 @@ export default function FormDispositivo({ onSuccess }: Props) {
     function resetToSelected() {
         if (!selectedProduct) return
         reset({
-            brandNome: selectedProduct.model.brandNome ?? '',
-            modelNome: selectedProduct.model.nome ?? '',
-            colorNome: selectedProduct.color.nome ?? '',
+            brandNome: selectedProduct.brandNome ?? '',
+            modelNome: selectedProduct.modelNome ?? '',
+            colorNome: selectedProduct.colorNome ?? '',
             codiceModello: selectedProduct.codiceModello ?? '',
             tipoDispositivo: selectedProduct.tipoDispositivo ?? '',
             capacita: selectedProduct.capacita ?? '',
@@ -82,16 +79,16 @@ export default function FormDispositivo({ onSuccess }: Props) {
         })
     }
 
-    useEffect(() => {
-        if (wasEditingRef.current && !isEditing.editingDispositivo) {
-            resetToSelected()
-        }
-        wasEditingRef.current = isEditing.editingDispositivo
-    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
-
     function handleToggleEditing() {
         if (!isEditing.editingDispositivo) return;
         toggleEditingDispositivo()
+    }
+
+    function handleUndo() {
+        if (!selectedProduct) return;
+        resetToSelected();
+        onSuccess(selectedProduct);
+        handleToggleEditing();
     }
 
     function onSubmit(data: FormData) {
@@ -109,68 +106,47 @@ export default function FormDispositivo({ onSuccess }: Props) {
     }
 
     function createProduct(data: FormData) {
-        mutate({
-            data: {
-                brandNome: data.brandNome,
-                modelNome: data.modelNome,
-                colorNome: data.colorNome,
-                codiceModello: data.codiceModello,
-                tipoDispositivo: data.tipoDispositivo,
-                capacita: data.capacita,
-                codiceUnlock: data.codiceUnlock,
-                sequenzaUnlock: data.sequenzaUnlock,
-                pin: data.pin,
-                accessori: data.accessori,
-                seriale: data.seriale,
-                imei: data.imei
-            }
-        }, {
-            onSuccess: (product) => {
-                toast.success("Dispositivo inserito")
-                setSelectedProduct(product)
-                onSuccess(product)
-                handleToggleEditing();
-            },
-            onError: () => toast.error("Errore nell'inserimento del dispositivo")
-        })
+        const product: CreateProductRequest = {
+            brandNome: data.brandNome,
+            modelNome: data.modelNome,
+            colorNome: data.colorNome,
+            codiceModello: data.codiceModello,
+            tipoDispositivo: data.tipoDispositivo,
+            capacita: data.capacita,
+            codiceUnlock: data.codiceUnlock,
+            sequenzaUnlock: data.sequenzaUnlock,
+            pin: data.pin,
+            accessori: data.accessori,
+            seriale: data.seriale,
+            imei: data.imei
+        }
+        toast.success("Dispositivo inserito")
+        setSelectedProduct(product)
+        onSuccess(product)
+        handleToggleEditing();
     }
 
     function handleReset() {
-        reset()
-        setSelectedProduct(null)
-        handleToggleEditing()
+        reset({
+            brandNome: '',
+            modelNome: '',
+            colorNome: '',
+            codiceModello: '',
+            tipoDispositivo: '',
+            capacita: '',
+            codiceUnlock: '',
+            sequenzaUnlock: [],
+            pin: '',
+            accessori: '',
+            seriale: '',
+            imei: '',
+        })
+        if (!isEditing.editingDispositivo) {
+            setSelectedProduct(null)
+        }
     }
 
     const handleCreate = handleSubmit(createProduct);
-
-    const handleUpdate = handleSubmit((data) => {
-        if (!selectedProduct) return;
-        updateProduct({
-            id: selectedProduct.id,
-            data: {
-                brandNome: data.brandNome,
-                modelNome: data.modelNome,
-                colorNome: data.colorNome,
-                codiceModello: data.codiceModello,
-                tipoDispositivo: data.tipoDispositivo,
-                capacita: data.capacita,
-                codiceUnlock: data.codiceUnlock,
-                sequenzaUnlock: data.sequenzaUnlock,
-                pin: data.pin,
-                accessori: data.accessori,
-                seriale: data.seriale,
-                imei: data.imei
-            }
-        }, {
-            onSuccess: (product) => {
-                toast.success("Dispositivo aggiornato")
-                setSelectedProduct(product)
-                onSuccess(product)
-                handleToggleEditing()
-            },
-            onError: () => toast.error("Errore nell'aggiornamento del dispositivo")
-        })
-    })
 
 
     useEffect(() => {
@@ -179,6 +155,13 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 .then(res => setModels(res.map(r => r.nome)))
         }
     }, [dModel]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        if (wasEditingRef.current && !isEditing.editingDispositivo) {
+            resetToSelected()
+        }
+        wasEditingRef.current = isEditing.editingDispositivo
+    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -352,24 +335,30 @@ export default function FormDispositivo({ onSuccess }: Props) {
             <Button.Group mt="xl">
                 {active === 1 && (
                     <>
-                        <Button type="submit" loading={isPending} disabled={isUpdating}>
-                            {selectedProduct ? isEditing.editingDispositivo ? "Annulla modifica" : 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
-                        </Button>
+                        {
+                            !isEditing.editingDispositivo ? (
+                                <Button
+                                    type={"submit"}
+                                >
+                                    {selectedProduct ? 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
+                                </Button>
+                            ) : (
+                                <Button
+                                    type={"button"}
+                                    onClick={(e) => { e.preventDefault(); handleUndo() }}
+                                >
+                                    Annulla modifiche
+                                </Button>
+                            )
+                        }
                         {
                             !!selectedProduct && (
-                                <Button type="button" variant="outline" loading={isUpdating} disabled={isPending} onClick={handleUpdate}>
+                                <Button type="submit" variant="outline">
                                     {'Modifica dispositivo inserito'}
                                 </Button>
                             )
                         }
-                        {
-                            !!selectedProduct && (
-                                <Button type="button" variant="outline" onClick={handleCreate} loading={isPending} disabled={isUpdating}>
-                                    {'Inserisci dispositivo come nuovo'}
-                                </Button>
-                            )
-                        }
-                        <Button variant="default" type="button" onClick={handleReset} disabled={isLoading}>
+                        <Button variant="default" type="button" onClick={handleReset}>
                             Reset
                         </Button>
                     </>

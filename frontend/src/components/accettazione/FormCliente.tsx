@@ -72,13 +72,6 @@ export default function FormCliente({ onSuccess }: Props) {
         })
     }
 
-    useEffect(() => {
-        if (wasEditingRef.current && !isEditing.editingDispositivo) {
-            resetToSelected()
-        }
-        wasEditingRef.current = isEditing.editingDispositivo
-    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
-
     function onOptionSubmit(value: string) {
         const customer = searchResults.find((r, idx) => formatCustomer(r, idx) === value)
         if (!customer) return
@@ -95,19 +88,24 @@ export default function FormCliente({ onSuccess }: Props) {
     }
 
     function handleReset() {
-        reset()
-        setSelectedCustomer(null)
+        reset({
+            nome: "",
+            cognome: "",
+            email: "",
+            telefono: "",
+            telefonoSecondario: "",
+            indirizzo: "",
+            citta: "",
+            cap: ""
+        })
+        if (!isEditing.editingCliente) {
+            setSelectedCustomer(null)
+        }
         setSearchResults([])
-        handleToggleEditing()
     }
 
+
     function onSubmit(data: FormData) {
-        if (selectedCustomer && isEditing.editingCliente) {
-            resetToSelected()
-            toggleEditingCliente()
-            onSuccess(selectedCustomer)
-            return
-        }
         if (selectedCustomer) {
             onSuccess(selectedCustomer)
             handleToggleEditing()
@@ -119,6 +117,13 @@ export default function FormCliente({ onSuccess }: Props) {
     function handleToggleEditing() {
         if (!isEditing.editingCliente) return;
         toggleEditingCliente()
+    }
+
+    function handleUndo() {
+        if (!selectedCustomer) return;
+        resetToSelected();
+        onSuccess(selectedCustomer);
+        handleToggleEditing();
     }
 
     function createCustomer(data: FormData) {
@@ -183,6 +188,13 @@ export default function FormCliente({ onSuccess }: Props) {
             cognome: dCognome || undefined,
         }).then(res => setSearchResults(res))
     }, [dNome, dCognome])
+
+    useEffect(() => {
+        if (wasEditingRef.current && !isEditing.editingCliente) {
+            resetToSelected()
+        }
+        wasEditingRef.current = isEditing.editingCliente
+    }, [isEditing.editingCliente]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -270,9 +282,27 @@ export default function FormCliente({ onSuccess }: Props) {
             <Button.Group mt="xl">
                 {active === 0 && (
                     <>
-                        <Button type="submit" loading={isPending} disabled={isUpdating}>
-                            {selectedCustomer ? isEditing.editingCliente ? "Annulla modifica" : 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
-                        </Button>
+                        {
+                            !isEditing.editingCliente ? (
+                                <Button
+                                    type={"submit"}
+                                    loading={isPending}
+                                    disabled={isUpdating}
+                                >
+                                    {selectedCustomer ? 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
+                                </Button>
+                            ) : (
+                                <Button
+                                    type={"button"}
+                                    loading={isPending}
+                                    disabled={isUpdating}
+                                    onClick={(e) => { e.preventDefault(); handleUndo() }}
+                                >
+                                    Annulla modifiche
+                                </Button>
+                            )
+                        }
+
                         {
                             !!selectedCustomer && (
                                 <Button type="button" variant="outline" onClick={handleUpdate} loading={isUpdating} disabled={isPending}>

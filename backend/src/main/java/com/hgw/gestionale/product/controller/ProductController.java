@@ -19,12 +19,6 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping
-    public ProductResponse createProduct(@Valid @RequestBody CreateProductRequest request) {
-        log.info("ProductController.create creazione product");
-        return productService.create(request);
-    }
-
     @GetMapping
     public List<ProductResponse> getAllProducts() {
         log.info("ProductController.getAll richiesta lista product");

@@ -21,6 +21,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -47,12 +53,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -76,6 +76,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -102,12 +108,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -129,6 +129,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -155,12 +161,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -179,6 +179,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -205,12 +211,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -234,6 +234,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/StatoRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -260,12 +266,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -287,6 +287,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -317,8 +323,167 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/repairs/{repairId}/details:
+    get:
+      tags:
+      - repair-details-controller
+      operationId: getDetails
+      parameters:
+      - name: repairId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepairDetailsResponse"
         "409":
           description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    put:
+      tags:
+      - repair-details-controller
+      operationId: updateDetails
+      parameters:
+      - name: repairId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRepairDetailsRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RepairDetailsResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+    delete:
+      tags:
+      - repair-details-controller
+      operationId: deleteDetails
+      parameters:
+      - name: repairId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -342,6 +507,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -368,12 +539,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -402,6 +567,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -428,12 +599,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -452,6 +617,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -478,12 +649,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -507,6 +672,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -533,12 +704,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -567,6 +732,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -593,12 +764,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -617,6 +782,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -643,12 +814,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -672,6 +837,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -698,12 +869,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -732,6 +897,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -758,12 +929,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -782,6 +947,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -808,12 +979,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -837,6 +1002,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -863,12 +1034,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -897,6 +1062,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -923,12 +1094,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -947,6 +1112,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -973,12 +1144,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1002,6 +1167,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1028,12 +1199,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1062,6 +1227,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1088,12 +1259,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1112,6 +1277,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1138,12 +1309,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1167,6 +1332,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1193,12 +1364,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1227,6 +1392,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1253,12 +1424,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1277,6 +1442,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1303,12 +1474,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1332,6 +1497,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1358,12 +1529,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1392,6 +1557,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1418,12 +1589,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1442,6 +1607,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1468,12 +1639,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1496,6 +1661,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1522,12 +1693,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1549,6 +1714,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1575,115 +1746,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-  /api/products:
-    get:
-      tags:
-      - product-controller
-      operationId: getAllProducts
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "500":
-          description: Errore interno del server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-    post:
-      tags:
-      - product-controller
-      operationId: createProduct
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/CreateProductRequest"
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "500":
-          description: Errore interno del server
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1702,6 +1764,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1728,12 +1796,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1755,6 +1817,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1781,12 +1849,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1805,6 +1867,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1831,12 +1899,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1858,6 +1920,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1884,12 +1952,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1908,6 +1970,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1934,12 +2002,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -1961,6 +2023,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -1987,12 +2055,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2011,6 +2073,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2037,12 +2105,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2064,6 +2126,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2090,12 +2158,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2114,6 +2176,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2140,12 +2208,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2167,6 +2229,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2193,12 +2261,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2217,6 +2279,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2243,12 +2311,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2265,6 +2327,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2291,12 +2359,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2309,6 +2371,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2335,12 +2403,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2363,6 +2425,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2389,12 +2457,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2411,6 +2473,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2437,12 +2505,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2466,6 +2528,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRiparazioneResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2492,12 +2560,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2516,6 +2578,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2542,12 +2610,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2571,6 +2633,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StatoRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2597,12 +2665,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2621,6 +2683,12 @@ paths:
       responses:
         "200":
           description: OK
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2647,12 +2715,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2687,6 +2749,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2717,8 +2785,52 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/products:
+    get:
+      tags:
+      - product-controller
+      operationId: getAllProducts
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductResponse"
         "409":
           description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2743,6 +2855,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2769,12 +2887,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2797,6 +2909,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2823,12 +2941,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2851,6 +2963,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2877,12 +2995,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2907,6 +3019,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2933,12 +3051,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -2969,6 +3081,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -2995,12 +3113,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3030,6 +3142,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3056,12 +3174,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3084,6 +3196,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3110,12 +3228,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3141,6 +3253,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3167,12 +3285,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3197,6 +3309,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3227,8 +3345,114 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/interventions/search/by-model:
+    get:
+      tags:
+      - intervention-controller
+      operationId: searchInterventionByModel
+      parameters:
+      - name: modelId
+        in: query
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: nome
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InterventionResponse"
         "409":
           description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/interventions/generali:
+    get:
+      tags:
+      - intervention-controller
+      operationId: getInterventiGenerali
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3251,6 +3475,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3281,8 +3511,59 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
+  /api/interventions/by-model/{modelId}:
+    get:
+      tags:
+      - intervention-controller
+      operationId: getInterventionsByModel
+      parameters:
+      - name: modelId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InterventionResponse"
         "409":
           description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3301,6 +3582,12 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3327,12 +3614,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3372,6 +3653,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3398,12 +3685,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3428,6 +3709,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3454,12 +3741,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3482,6 +3763,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3508,12 +3795,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3538,6 +3819,12 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3564,12 +3851,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3592,6 +3873,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
         "404":
           description: Risorsa non trovata
           content:
@@ -3618,12 +3905,6 @@ paths:
                 $ref: "#/components/schemas/ApiError"
         "400":
           description: Richiesta non valida
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
-        "409":
-          description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
@@ -3735,15 +4016,11 @@ components:
       - id
       - nome
       - position
-    UpdateRepairRequest:
+    UpdateRepairDetailsRequest:
       type: object
       properties:
-        customerId:
-          type: integer
-          format: int64
-        productId:
-          type: integer
-          format: int64
+        isPreventivo:
+          type: boolean
         interventionIds:
           type: array
           items:
@@ -3754,13 +4031,37 @@ components:
         dataConsegna:
           type: string
           format: date
-        tariffa:
-          type: string
-          enum:
-          - STANDARD
-          - EXPRESS
         acconto:
           type: number
+    RepairDetailsResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        repairId:
+          type: integer
+          format: int64
+        isPreventivo:
+          type: boolean
+        interventions:
+          type: array
+          items:
+            type: integer
+            format: int64
+        commenti:
+          type: string
+        dataConsegna:
+          type: string
+          format: date
+        acconto:
+          type: number
+    UpdateRepairRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
         statoId:
           type: integer
           format: int64
@@ -3769,8 +4070,6 @@ components:
           format: int64
       required:
       - customerId
-      - productId
-      - tariffa
     ColorResponse:
       type: object
       properties:
@@ -3815,26 +4114,6 @@ components:
       - id
       - nome
       - telefono
-    InterventionResponse:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        nome:
-          type: string
-          minLength: 1
-        prezzo:
-          type: number
-        periodoGaranzia:
-          type: integer
-          format: int32
-        cumulabile:
-          type: boolean
-      required:
-      - id
-      - nome
-      - prezzo
     ModelResponse:
       type: object
       properties:
@@ -3906,22 +4185,8 @@ components:
           $ref: "#/components/schemas/CustomerResponse"
         product:
           $ref: "#/components/schemas/ProductResponse"
-        interventions:
-          type: array
-          items:
-            $ref: "#/components/schemas/InterventionResponse"
-        commenti:
-          type: string
-        dataConsegna:
-          type: string
-          format: date
-        tariffa:
-          type: string
-          enum:
-          - STANDARD
-          - EXPRESS
-        acconto:
-          type: number
+        details:
+          $ref: "#/components/schemas/RepairDetailsResponse"
         stato:
           $ref: "#/components/schemas/StatoRepairResponse"
         statoRiparazione:
@@ -3930,7 +4195,6 @@ components:
       - customer
       - id
       - product
-      - tariffa
     UpdateProductRequest:
       type: object
       properties:
@@ -3989,6 +4253,9 @@ components:
     UpdateInterventionRequest:
       type: object
       properties:
+        modelId:
+          type: integer
+          format: int64
         nome:
           type: string
           minLength: 1
@@ -4000,6 +4267,31 @@ components:
         cumulabile:
           type: boolean
       required:
+      - nome
+      - prezzo
+    InterventionResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        modelId:
+          type: integer
+          format: int64
+        modelNome:
+          type: string
+        nome:
+          type: string
+          minLength: 1
+        prezzo:
+          type: number
+        periodoGaranzia:
+          type: integer
+          format: int32
+        cumulabile:
+          type: boolean
+      required:
+      - id
       - nome
       - prezzo
     UpdateCustomerRequest:
@@ -4092,36 +4384,6 @@ components:
       - colore
       - nome
       - position
-    CreateRepairRequest:
-      type: object
-      properties:
-        customerId:
-          type: integer
-          format: int64
-        productId:
-          type: integer
-          format: int64
-        interventionIds:
-          type: array
-          items:
-            type: integer
-            format: int64
-        commenti:
-          type: string
-        dataConsegna:
-          type: string
-          format: date
-        tariffa:
-          type: string
-          enum:
-          - STANDARD
-          - EXPRESS
-        acconto:
-          type: number
-      required:
-      - customerId
-      - productId
-      - tariffa
     CreateProductRequest:
       type: object
       properties:
@@ -4165,6 +4427,36 @@ components:
       - brandNome
       - colorNome
       - modelNome
+    CreateRepairDetailsRequest:
+      type: object
+      properties:
+        isPreventivo:
+          type: boolean
+        interventionIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        commenti:
+          type: string
+        dataConsegna:
+          type: string
+          format: date
+        acconto:
+          type: number
+    CreateRepairRequest:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          format: int64
+        product:
+          $ref: "#/components/schemas/CreateProductRequest"
+        details:
+          $ref: "#/components/schemas/CreateRepairDetailsRequest"
+      required:
+      - customerId
+      - product
     CreateModelRequest:
       type: object
       properties:
@@ -4180,6 +4472,9 @@ components:
     CreateInterventionRequest:
       type: object
       properties:
+        modelId:
+          type: integer
+          format: int64
         nome:
           type: string
           minLength: 1
@@ -4312,6 +4607,13 @@ components:
         totalElements:
           type: integer
           format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -4324,13 +4626,6 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        first:
-          type: boolean
-        last:
-          type: boolean
-        numberOfElements:
-          type: integer
-          format: int32
         pageable:
           $ref: "#/components/schemas/PageableObject"
         empty:
@@ -4343,22 +4638,22 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
-        unpaged:
-          type: boolean
         paged:
           type: boolean
-        pageNumber:
-          type: integer
-          format: int32
         pageSize:
           type: integer
           format: int32
+        pageNumber:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
     SortObject:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean

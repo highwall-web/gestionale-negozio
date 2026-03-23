@@ -2,6 +2,7 @@ package com.hgw.gestionale.product.entity;
 
 import com.hgw.gestionale.color.entity.Color;
 import com.hgw.gestionale.model.entity.Model;
+import com.hgw.gestionale.repair.entity.Repair;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +32,10 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "repair_id", nullable = true)
+    private Repair repair;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "model_id", nullable = false)

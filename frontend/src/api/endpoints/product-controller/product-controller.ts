@@ -26,7 +26,6 @@ import type {
 
 import type {
   ApiError,
-  CreateProductRequest,
   ProductResponse,
   SearchProductParams,
   UpdateProductRequest
@@ -318,64 +317,7 @@ export function useGetAllProducts<TData = Awaited<ReturnType<typeof getAllProduc
 
 
 
-export const createProduct = (
-    createProductRequest: CreateProductRequest,
- signal?: AbortSignal
-) => {
-      
-      
-      return axiosInstance<ProductResponse>(
-      {url: `/api/products`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: createProductRequest, signal
-    },
-      );
-    }
-  
-
-
-export const getCreateProductMutationOptions = <TError = ApiError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProduct>>, TError,{data: CreateProductRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof createProduct>>, TError,{data: CreateProductRequest}, TContext> => {
-
-const mutationKey = ['createProduct'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createProduct>>, {data: CreateProductRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  createProduct(data,)
-        }
-
-
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type CreateProductMutationResult = NonNullable<Awaited<ReturnType<typeof createProduct>>>
-    export type CreateProductMutationBody = CreateProductRequest
-    export type CreateProductMutationError = ApiError
-
-    export const useCreateProduct = <TError = ApiError,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createProduct>>, TError,{data: CreateProductRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof createProduct>>,
-        TError,
-        {data: CreateProductRequest},
-        TContext
-      > => {
-      return useMutation(getCreateProductMutationOptions(options), queryClient);
-    }
-    export const searchProduct = (
+export const searchProduct = (
     params: SearchProductParams,
  signal?: AbortSignal
 ) => {

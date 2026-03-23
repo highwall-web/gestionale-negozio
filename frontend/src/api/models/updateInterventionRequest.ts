@@ -7,6 +7,7 @@
  */
 
 export interface UpdateInterventionRequest {
+  modelId?: number;
   /** @minLength 1 */
   nome: string;
   prezzo: number;
