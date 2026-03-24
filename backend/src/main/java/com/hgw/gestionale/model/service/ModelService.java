@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +23,15 @@ public class ModelService {
     private final BrandRepository brandRepository;
 
     public ModelResponse create(CreateModelRequest request) {
-        Brand brand = brandRepository.findById(request.brandId())
-                .orElseThrow(() -> new NotFoundException("Brand not found"));
+        Optional<Model> existing = modelRepository.findByNomeIgnoreCaseAndBrandNomeIgnoreCase(request.nome(), request.brandNome());
+        if (existing.isPresent()) {
+            return ModelMapper.toResponse(existing.get());
+        }
 
-        Model saved = modelRepository.save(ModelMapper.toEntity(request, brand));
-        return ModelMapper.toResponse(saved);
+        Brand brand = brandRepository.findByNomeIgnoreCase(request.brandNome())
+                .orElseGet(() -> brandRepository.save(Brand.builder().nome(request.brandNome()).build()));
+
+        return ModelMapper.toResponse(modelRepository.save(ModelMapper.toEntity(request, brand)));
     }
 
     public List<ModelResponse> getAll() {

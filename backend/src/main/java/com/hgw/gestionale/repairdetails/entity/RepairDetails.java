@@ -7,6 +7,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "repair_details")
@@ -31,12 +33,14 @@ public class RepairDetails {
     @Column(columnDefinition = "TEXT")
     private String interventionIds;
 
-    @Column(columnDefinition = "TEXT")
-    private String commenti;
-
     @Column
     private LocalDate dataConsegna;
 
     @Column
     private BigDecimal acconto;
+
+    @OneToMany(mappedBy = "repairDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("createdAt ASC")
+    @Builder.Default
+    private List<RepairMessage> messaggi = new ArrayList<>();
 }

@@ -5,11 +5,12 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { AddMessageRequest } from './addMessageRequest';
 
 export interface CreateRepairDetailsRequest {
   isPreventivo?: boolean;
   interventionIds?: number[];
-  commenti?: string;
   dataConsegna?: string;
   acconto?: number;
+  messaggi?: AddMessageRequest[];
 }

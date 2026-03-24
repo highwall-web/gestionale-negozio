@@ -18,8 +18,9 @@ public class ColorService {
     private final ColorRepository colorRepository;
 
     public ColorResponse create(CreateColorRequest request) {
-        Color saved = colorRepository.save(ColorMapper.toEntity(request));
-        return ColorMapper.toResponse(saved);
+        return colorRepository.findByNomeIgnoreCase(request.nome())
+                .map(ColorMapper::toResponse)
+                .orElseGet(() -> ColorMapper.toResponse(colorRepository.save(ColorMapper.toEntity(request))));
     }
 
     public List<ColorResponse> getAll() {

@@ -7,7 +7,6 @@ import java.util.List;
 public record UpdateRepairDetailsRequest(
         boolean isPreventivo,
         List<Long> interventionIds,
-        String commenti,
         LocalDate dataConsegna,
         BigDecimal acconto
 ) {

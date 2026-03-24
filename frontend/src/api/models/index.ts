@@ -6,6 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './addMessageRequest';
 export * from './apiError';
 export * from './brandResponse';
 export * from './colorResponse';
@@ -33,6 +34,7 @@ export * from './pageRepairResponse';
 export * from './productResponse';
 export * from './registerRequest';
 export * from './repairDetailsResponse';
+export * from './repairMessageResponse';
 export * from './repairResponse';
 export * from './repairResponseTariffa';
 export * from './searchBrandParams';

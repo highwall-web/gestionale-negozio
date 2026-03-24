@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.repairdetails.dto.CreateRepairDetailsRequest;
 import com.hgw.gestionale.repairdetails.dto.RepairDetailsResponse;
+import com.hgw.gestionale.repairdetails.dto.RepairMessageResponse;
 import com.hgw.gestionale.repairdetails.dto.UpdateRepairDetailsRequest;
 import com.hgw.gestionale.repairdetails.entity.RepairDetails;
 
@@ -21,28 +22,30 @@ public final class RepairDetailsMapper {
                 .repair(repair)
                 .isPreventivo(request.isPreventivo())
                 .interventionIds(serializeIds(request.interventionIds()))
-                .commenti(request.commenti())
                 .dataConsegna(request.dataConsegna())
                 .acconto(request.acconto())
                 .build();
     }
 
     public static RepairDetailsResponse toResponse(RepairDetails details) {
+        List<RepairMessageResponse> messaggi = details.getMessaggi().stream()
+                .map(RepairMessageMapper::toResponse)
+                .toList();
+
         return new RepairDetailsResponse(
                 details.getId(),
                 details.getRepair().getId(),
                 details.isPreventivo(),
                 deserializeIds(details.getInterventionIds()),
-                details.getCommenti(),
                 details.getDataConsegna(),
-                details.getAcconto()
+                details.getAcconto(),
+                messaggi
         );
     }
 
     public static void updateEntity(RepairDetails details, UpdateRepairDetailsRequest request) {
         details.setPreventivo(request.isPreventivo());
         details.setInterventionIds(serializeIds(request.interventionIds()));
-        details.setCommenti(request.commenti());
         details.setDataConsegna(request.dataConsegna());
         details.setAcconto(request.acconto());
     }

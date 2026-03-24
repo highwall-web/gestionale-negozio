@@ -6,9 +6,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface CreateModelRequest {
-  /** @minLength 1 */
-  nome: string;
-  /** @minLength 1 */
-  brandNome: string;
+export interface RepairMessageResponse {
+  id?: number;
+  testo?: string;
+  autore?: string;
+  createdAt?: string;
 }

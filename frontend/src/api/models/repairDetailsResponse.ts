@@ -5,13 +5,14 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { RepairMessageResponse } from './repairMessageResponse';
 
 export interface RepairDetailsResponse {
   id?: number;
   repairId?: number;
   isPreventivo?: boolean;
   interventions?: number[];
-  commenti?: string;
   dataConsegna?: string;
   acconto?: number;
+  messaggi?: RepairMessageResponse[];
 }

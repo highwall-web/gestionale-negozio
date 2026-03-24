@@ -34,7 +34,7 @@ public class RepairService {
     private final RepairDetailsService repairDetailsService;
 
     @Transactional
-    public RepairResponse create(CreateRepairRequest request) {
+    public RepairResponse create(CreateRepairRequest request, String autore) {
 
         Customer customer = customerRepository.findById(request.customerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
@@ -44,7 +44,7 @@ public class RepairService {
         saved.setProduct(productService.createEntity(request.product(), saved));
 
         if (request.details() != null) {
-            saved.setDetails(repairDetailsService.createEntity(request.details(), saved));
+            saved.setDetails(repairDetailsService.createEntity(request.details(), saved, autore));
         }
 
         return RepairMapper.toResponse(saved);

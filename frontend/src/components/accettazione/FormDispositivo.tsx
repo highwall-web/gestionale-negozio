@@ -93,9 +93,8 @@ export default function FormDispositivo({ onSuccess }: Props) {
 
     function onSubmit(data: FormData) {
         if (selectedProduct && isEditing.editingDispositivo) {
-            resetToSelected()
             toggleEditingDispositivo()
-            onSuccess(selectedProduct)
+            createProduct(data);
             return
         }
         if (selectedProduct) {
@@ -145,8 +144,6 @@ export default function FormDispositivo({ onSuccess }: Props) {
             setSelectedProduct(null)
         }
     }
-
-    const handleCreate = handleSubmit(createProduct);
 
 
     useEffect(() => {

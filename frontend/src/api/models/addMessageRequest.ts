@@ -6,9 +6,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface CreateModelRequest {
+export interface AddMessageRequest {
   /** @minLength 1 */
-  nome: string;
-  /** @minLength 1 */
-  brandNome: string;
+  testo: string;
 }

@@ -7,8 +7,8 @@ import java.util.List;
 public record CreateRepairDetailsRequest(
         boolean isPreventivo,
         List<Long> interventionIds,
-        String commenti,
         LocalDate dataConsegna,
-        BigDecimal acconto
+        BigDecimal acconto,
+        List<AddMessageRequest> messaggi
 ) {
 }

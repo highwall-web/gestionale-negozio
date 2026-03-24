@@ -13,6 +13,8 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
     Optional<Model> findByNomeIgnoreCase(String nome);
 
+    Optional<Model> findByNomeIgnoreCaseAndBrandNomeIgnoreCase(String nome, String brandNome);
+
     List<Model> findTop10ByNomeContainingIgnoreCase(String nome);
 
     List<Model> findTop10ByBrandIdAndNomeContainingIgnoreCase(Long brandId, String nome);

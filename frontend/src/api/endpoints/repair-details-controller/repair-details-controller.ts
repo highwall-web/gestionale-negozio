@@ -25,8 +25,10 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  AddMessageRequest,
   ApiError,
   RepairDetailsResponse,
+  RepairMessageResponse,
   UpdateRepairDetailsRequest
 } from '../../models';
 
@@ -231,5 +233,119 @@ const {mutation: mutationOptions} = options ?
         TContext
       > => {
       return useMutation(getDeleteDetailsMutationOptions(options), queryClient);
+    }
+    export const addMessage = (
+    repairId: number,
+    addMessageRequest: AddMessageRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairMessageResponse>(
+      {url: `/api/repairs/${repairId}/details/messages`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: addMessageRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getAddMessageMutationOptions = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addMessage>>, TError,{repairId: number;data: AddMessageRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof addMessage>>, TError,{repairId: number;data: AddMessageRequest}, TContext> => {
+
+const mutationKey = ['addMessage'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof addMessage>>, {repairId: number;data: AddMessageRequest}> = (props) => {
+          const {repairId,data} = props ?? {};
+
+          return  addMessage(repairId,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type AddMessageMutationResult = NonNullable<Awaited<ReturnType<typeof addMessage>>>
+    export type AddMessageMutationBody = AddMessageRequest
+    export type AddMessageMutationError = ApiError
+
+    export const useAddMessage = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof addMessage>>, TError,{repairId: number;data: AddMessageRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof addMessage>>,
+        TError,
+        {repairId: number;data: AddMessageRequest},
+        TContext
+      > => {
+      return useMutation(getAddMessageMutationOptions(options), queryClient);
+    }
+    export const deleteMessage = (
+    repairId: number,
+    messageId: number,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<void>(
+      {url: `/api/repairs/${repairId}/details/messages/${messageId}`, method: 'DELETE', signal
+    },
+      );
+    }
+  
+
+
+export const getDeleteMessageMutationOptions = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteMessage>>, TError,{repairId: number;messageId: number}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteMessage>>, TError,{repairId: number;messageId: number}, TContext> => {
+
+const mutationKey = ['deleteMessage'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteMessage>>, {repairId: number;messageId: number}> = (props) => {
+          const {repairId,messageId} = props ?? {};
+
+          return  deleteMessage(repairId,messageId,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteMessageMutationResult = NonNullable<Awaited<ReturnType<typeof deleteMessage>>>
+    
+    export type DeleteMessageMutationError = ApiError
+
+    export const useDeleteMessage = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteMessage>>, TError,{repairId: number;messageId: number}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof deleteMessage>>,
+        TError,
+        {repairId: number;messageId: number},
+        TContext
+      > => {
+      return useMutation(getDeleteMessageMutationOptions(options), queryClient);
     }
     

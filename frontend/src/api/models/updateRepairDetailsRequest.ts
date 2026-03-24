@@ -9,7 +9,6 @@
 export interface UpdateRepairDetailsRequest {
   isPreventivo?: boolean;
   interventionIds?: number[];
-  commenti?: string;
   dataConsegna?: string;
   acconto?: number;
 }

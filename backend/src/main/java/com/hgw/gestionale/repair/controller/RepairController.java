@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
@@ -22,9 +23,12 @@ public class RepairController {
     private final RepairService repairService;
 
     @PostMapping
-    public RepairResponse createRepair(@Valid @RequestBody CreateRepairRequest request) {
-        log.info("RepairController.create creazione riparazione customerId={} productId={}", request.customerId());
-        return repairService.create(request);
+    public RepairResponse createRepair(
+            @Valid @RequestBody CreateRepairRequest request,
+            Authentication authentication
+    ) {
+        log.info("RepairController.create creazione riparazione customerId={}", request.customerId());
+        return repairService.create(request, authentication.getName());
     }
 
     @GetMapping

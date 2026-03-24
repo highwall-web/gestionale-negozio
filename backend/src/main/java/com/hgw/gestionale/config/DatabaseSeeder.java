@@ -6,8 +6,10 @@ import com.hgw.gestionale.user.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Profile("locale")
 @Configuration
 public class DatabaseSeeder {
     @Bean
@@ -21,6 +23,7 @@ public class DatabaseSeeder {
                 User admin = User.builder()
                         .username("admin")
                         .passwordHash(passwordEncoder.encode("admin123"))
+                        .email("m.m@m.it")
                         .role(Role.ADMIN)
                         .enabled(true)
                         .build();

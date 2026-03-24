@@ -5,6 +5,7 @@ import com.hgw.gestionale.user.entity.Role;
 public record UserResponse(
         Long id,
         String username,
+        String email,
         Role role,
         Boolean enabled
 ) {
