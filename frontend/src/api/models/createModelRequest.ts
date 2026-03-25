@@ -5,10 +5,12 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { CreateModelRequestTipoDispositivo } from './createModelRequestTipoDispositivo';
 
 export interface CreateModelRequest {
   /** @minLength 1 */
   nome: string;
+  tipoDispositivo: CreateModelRequestTipoDispositivo;
   /** @minLength 1 */
   brandNome: string;
 }

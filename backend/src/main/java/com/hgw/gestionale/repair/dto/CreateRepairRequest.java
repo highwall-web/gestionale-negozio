@@ -8,6 +8,6 @@ import jakarta.validation.constraints.NotNull;
 public record CreateRepairRequest(
         @NotNull Long customerId,
         @Valid @NotNull CreateProductRequest product,
-        @Valid CreateRepairDetailsRequest details
+        @Valid @NotNull CreateRepairDetailsRequest details
 ) {
 }

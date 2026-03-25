@@ -20,6 +20,10 @@ public class Model {
     @Column(nullable = false, unique = true)
     private String nome;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TipoDispositivo tipoDispositivo;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;

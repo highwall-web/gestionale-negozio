@@ -1,13 +1,16 @@
 package com.hgw.gestionale.product.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
 import java.util.List;
 
+import com.hgw.gestionale.color.dto.CreateColorRequest;
+import com.hgw.gestionale.model.dto.CreateModelRequest;
+
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 public record UpdateProductRequest(
-        @NotBlank String brandNome,
-        @NotBlank String modelNome,
-        @NotBlank String colorNome,
+        @Valid @NotBlank CreateModelRequest model,
+        @Valid @NotBlank CreateColorRequest color,
         String capacita,
         String codiceUnlock,
         List<Integer> sequenzaUnlock,
@@ -18,7 +21,6 @@ public record UpdateProductRequest(
         Boolean acquistatoPressoDiNoi,
         String seriale,
         String imei,
-        String codiceModello,
-        String tipoDispositivo
+        String codiceModello
 ) {
 }

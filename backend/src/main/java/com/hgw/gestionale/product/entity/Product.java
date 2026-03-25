@@ -77,7 +77,4 @@ public class Product {
 
     @Column
     private String codiceModello;
-
-    @Column
-    private String tipoDispositivo;
 }

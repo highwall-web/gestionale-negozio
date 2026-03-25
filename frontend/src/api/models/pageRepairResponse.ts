@@ -10,15 +10,15 @@ import type { RepairResponse } from './repairResponse';
 import type { SortObject } from './sortObject';
 
 export interface PageRepairResponse {
-  totalElements?: number;
   totalPages?: number;
-  first?: boolean;
-  last?: boolean;
-  numberOfElements?: number;
-  pageable?: PageableObject;
+  totalElements?: number;
   size?: number;
   content?: RepairResponse[];
   number?: number;
   sort?: SortObject;
+  numberOfElements?: number;
+  pageable?: PageableObject;
+  first?: boolean;
+  last?: boolean;
   empty?: boolean;
 }

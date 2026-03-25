@@ -42,10 +42,7 @@ public class RepairService {
         Repair saved = repairRepository.save(RepairMapper.toEntity(customer));
 
         saved.setProduct(productService.createEntity(request.product(), saved));
-
-        if (request.details() != null) {
-            saved.setDetails(repairDetailsService.createEntity(request.details(), saved, autore));
-        }
+        saved.setDetails(repairDetailsService.createEntity(request.details(), saved, autore));
 
         return RepairMapper.toResponse(saved);
     }

@@ -23,5 +23,4 @@ export interface ProductResponse {
   seriale?: string;
   imei?: string;
   codiceModello?: string;
-  tipoDispositivo?: string;
 }

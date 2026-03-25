@@ -1,20 +1,20 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Autocomplete, Button, SegmentedControl, Select, SimpleGrid, Stack, TextInput, Title, Tooltip } from "@mantine/core";
-import PatternLock from "./PatternLock";
-import { searchModelByBrandName, type CreateProductRequest, type ProductResponse } from "../../api";
-import { zodResolver } from '@hookform/resolvers/zod'
-import z from "zod";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { useDebouncedValue } from "@mantine/hooks";
-import { useAccettazione } from "../../context/AccettazioneContext";
 import { useEffect, useRef, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
+import z from "zod";
+import { CreateProductRequestTipoDispositivo, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
+import { useAccettazione } from "../../context/AccettazioneContext";
+import { capitalize } from "../../utils/stringUtils";
+import PatternLock from "./PatternLock";
 
 const schema = z.object({
     brandNome: z.string().min(1, "Campo obbligatorio"),
     modelNome: z.string().min(1, "Campo obbligatorio"),
     colorNome: z.string().min(1, "Campo obbligatorio"),
     codiceModello: z.string().optional(),
-    tipoDispositivo: z.string().optional(),
+    tipoDispositivo: z.enum(CreateProductRequestTipoDispositivo),
     capacita: z.string().optional(),
     codiceUnlock: z.string().optional(),
     sequenzaUnlock: z.array(z.number()).optional(),
@@ -27,16 +27,16 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
-    onSuccess: (product: CreateProductRequest) => void
+    onSuccess: (product: CreateProductRequest, brandId?: number | null) => void
 }
 
 export default function FormDispositivo({ onSuccess }: Props) {
 
     const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors } = useAccettazione();
-    const [models, setModels] = useState<string[]>([])
     const [unlockMode, setUnlockMode] = useState<"codice" | "sequenza">("codice")
     const isDisabled = active !== 1;
     const [selectedProduct, setSelectedProduct] = useState<CreateProductRequest | null>(null);
+    const [isModelSelected, setIsModelSelected] = useState(false)
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -45,7 +45,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
             modelNome: "",
             colorNome: "",
             codiceModello: "",
-            tipoDispositivo: "",
+            tipoDispositivo: undefined,
             capacita: "",
             codiceUnlock: "",
             sequenzaUnlock: [],
@@ -57,18 +57,24 @@ export default function FormDispositivo({ onSuccess }: Props) {
     })
 
     const [brandNome, modelNome] = useWatch({ control, name: ['brandNome', 'modelNome'] })
-    const [dModel] = useDebouncedValue(modelNome, 300)
 
+    const brandId = brands.find(b => b.nome === brandNome)?.id ?? null
+    const { data: modelsData } = useGetModelsByBrandId(brandId!, {
+        query: { enabled: !!brandId }
+    })
+    const models = modelsData?.map(m => m.nome) ?? []
+
+    const justSelectedRef = useRef(false)
     const wasEditingRef = useRef(false)
 
     function resetToSelected() {
         if (!selectedProduct) return
         reset({
-            brandNome: selectedProduct.brandNome ?? '',
-            modelNome: selectedProduct.modelNome ?? '',
-            colorNome: selectedProduct.colorNome ?? '',
+            brandNome: selectedProduct.model.brandNome ?? '',
+            modelNome: selectedProduct.model.nome ?? '',
+            tipoDispositivo: selectedProduct.model.tipoDispositivo ?? undefined,
+            colorNome: selectedProduct.color.nome ?? '',
             codiceModello: selectedProduct.codiceModello ?? '',
-            tipoDispositivo: selectedProduct.tipoDispositivo ?? '',
             capacita: selectedProduct.capacita ?? '',
             codiceUnlock: selectedProduct.codiceUnlock ?? '',
             sequenzaUnlock: selectedProduct.sequenzaUnlock ?? [],
@@ -87,7 +93,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
     function handleUndo() {
         if (!selectedProduct) return;
         resetToSelected();
-        onSuccess(selectedProduct);
+        onSuccess(selectedProduct, brandId);
         handleToggleEditing();
     }
 
@@ -106,11 +112,15 @@ export default function FormDispositivo({ onSuccess }: Props) {
 
     function createProduct(data: FormData) {
         const product: CreateProductRequest = {
-            brandNome: data.brandNome,
-            modelNome: data.modelNome,
-            colorNome: data.colorNome,
+            model: {
+                brandNome: capitalize(data.brandNome),
+                nome: data.modelNome,
+                tipoDispositivo: data.tipoDispositivo
+            },
+            color: {
+                nome: capitalize(data.colorNome)
+            },
             codiceModello: data.codiceModello,
-            tipoDispositivo: data.tipoDispositivo,
             capacita: data.capacita,
             codiceUnlock: data.codiceUnlock,
             sequenzaUnlock: data.sequenzaUnlock,
@@ -131,7 +141,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
             modelNome: '',
             colorNome: '',
             codiceModello: '',
-            tipoDispositivo: '',
+            tipoDispositivo: undefined,
             capacita: '',
             codiceUnlock: '',
             sequenzaUnlock: [],
@@ -144,14 +154,6 @@ export default function FormDispositivo({ onSuccess }: Props) {
             setSelectedProduct(null)
         }
     }
-
-
-    useEffect(() => {
-        if (brands.some(b => b.nome === brandNome) && !!dModel) {
-            searchModelByBrandName({ brandNome: brandNome, nome: dModel })
-                .then(res => setModels(res.map(r => r.nome)))
-        }
-    }, [dModel]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
         if (wasEditingRef.current && !isEditing.editingDispositivo) {
@@ -176,7 +178,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                                 field.onChange(v)
                                 if (modelNome) {
                                     setValue('modelNome', '')
-                                    setModels([])
+                                    setIsModelSelected(false)
                                 }
                             }}
                             error={errors.brandNome?.message}
@@ -197,7 +199,20 @@ export default function FormDispositivo({ onSuccess }: Props) {
                                     data={models}
                                     disabled={!brandNome || isDisabled}
                                     withAsterisk
-                                    onChange={field.onChange}
+                                    onChange={(v) => {
+                                        field.onChange(v)
+                                        if (justSelectedRef.current) {
+                                            justSelectedRef.current = false
+                                        } else {
+                                            setIsModelSelected(false)
+                                        }
+                                    }}
+                                    onOptionSubmit={(v) => {
+                                        justSelectedRef.current = true
+                                        setIsModelSelected(true)
+                                        const match = modelsData?.find(m => m.nome === v)
+                                        if (match) setValue('tipoDispositivo', match.tipoDispositivo)
+                                    }}
                                     error={errors.modelNome?.message}
                                     value={field.value}
                                     styles={{ root: { position: 'relative' }, error: { position: 'absolute' } }}
@@ -216,19 +231,23 @@ export default function FormDispositivo({ onSuccess }: Props) {
                     name="tipoDispositivo"
                     control={control}
                     render={({ field }) => (
-                        <Select
-                            label="Tipo dispositivo"
-                            data={[
-                                "Telefono",
-                                "Tablet",
-                                "Computer"
-                            ]}
-                            error={errors.capacita?.message}
-                            value={field.value || null}
-                            onChange={field.onChange}
-                            clearable
-                            disabled={isDisabled}
-                        />
+                        <Tooltip label="Inserisci prima il brand" disabled={!!brandNome || isDisabled} position="bottom-start">
+                            <div>
+                                <Select
+                                    label="Tipo dispositivo"
+                                    withAsterisk
+                                    data={Object.values(CreateProductRequestTipoDispositivo).map(v => ({
+                                        value: v,
+                                        label: capitalize(v)
+                                    }))}
+                                    error={errors.capacita?.message}
+                                    value={field.value || null}
+                                    onChange={field.onChange}
+                                    clearable
+                                    disabled={!brandNome || isDisabled || isModelSelected}
+                                />
+                            </div>
+                        </Tooltip>
                     )}
                 />
                 <Controller

@@ -20,7 +20,6 @@ public record ProductResponse(
         Boolean acquistatoPressoDiNoi,
         String seriale,
         String imei,
-        String codiceModello,
-        String tipoDispositivo
+        String codiceModello
 ) {
 }

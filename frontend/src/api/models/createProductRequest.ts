@@ -5,14 +5,12 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { CreateColorRequest } from './createColorRequest';
+import type { CreateModelRequest } from './createModelRequest';
 
 export interface CreateProductRequest {
-  /** @minLength 1 */
-  brandNome: string;
-  /** @minLength 1 */
-  modelNome: string;
-  /** @minLength 1 */
-  colorNome: string;
+  model: CreateModelRequest;
+  color: CreateColorRequest;
   capacita?: string;
   codiceUnlock?: string;
   sequenzaUnlock?: number[];
@@ -24,5 +22,4 @@ export interface CreateProductRequest {
   seriale?: string;
   imei?: string;
   codiceModello?: string;
-  tipoDispositivo?: string;
 }

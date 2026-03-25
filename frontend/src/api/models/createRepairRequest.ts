@@ -11,5 +11,5 @@ import type { CreateRepairDetailsRequest } from './createRepairDetailsRequest';
 export interface CreateRepairRequest {
   customerId: number;
   product: CreateProductRequest;
-  details?: CreateRepairDetailsRequest;
+  details: CreateRepairDetailsRequest;
 }

@@ -7,6 +7,7 @@ import com.hgw.gestionale.color.entity.Color;
 import com.hgw.gestionale.color.repository.ColorRepository;
 import com.hgw.gestionale.common.exception.NotFoundException;
 import com.hgw.gestionale.model.entity.Model;
+import com.hgw.gestionale.model.entity.TipoDispositivo;
 import com.hgw.gestionale.model.repository.ModelRepository;
 import com.hgw.gestionale.product.dto.CreateProductRequest;
 import com.hgw.gestionale.product.dto.ProductResponse;
@@ -28,12 +29,12 @@ public class ProductService {
     private final BrandRepository brandRepository;
 
     public Product createEntity(CreateProductRequest request, Repair repair) {
-        Model model = getOrCreateModel(request.brandNome(), request.modelNome());
-        Color color = getOrCreateColor(request.colorNome());
+        Model model = getOrCreateModel(request.model().brandNome(), request.model().nome(), request.model().tipoDispositivo());
+        Color color = getOrCreateColor(request.color().nome());
         return productRepository.save(ProductMapper.toEntity(request, model, color, repair));
     }
 
-    public List<ProductResponse> getAll() {
+    public List<ProductResponse> getAll() { 
         return productRepository.findAll().stream()
                 .map(ProductMapper::toResponse)
                 .toList();
@@ -68,8 +69,8 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        Model model = getOrCreateModel(request.brandNome(), request.modelNome());
-        Color color = getOrCreateColor(request.colorNome());
+        Model model = getOrCreateModel(request.model().brandNome(), request.model().nome(), request.model().tipoDispositivo());
+        Color color = getOrCreateColor(request.color().nome());
 
         ProductMapper.updateEntity(product, request, model, color);
         Product updated = productRepository.save(product);
@@ -91,11 +92,12 @@ public class ProductService {
                         .build()));
     }
 
-    private Model getOrCreateModel(String brandNome, String modelNome) {
+    private Model getOrCreateModel(String brandNome, String modelNome, TipoDispositivo tipoDispositivo) {
         Brand brand = getOrCreateBrand(brandNome);
         return modelRepository.findByNomeIgnoreCase(modelNome)
                 .orElseGet(() -> modelRepository.save(Model.builder()
                         .nome(modelNome)
+                        .tipoDispositivo(tipoDispositivo)
                         .brand(brand)
                         .build()));
     }

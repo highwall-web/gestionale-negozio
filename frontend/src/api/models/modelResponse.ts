@@ -5,11 +5,13 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { ModelResponseTipoDispositivo } from './modelResponseTipoDispositivo';
 
 export interface ModelResponse {
   id: number;
   /** @minLength 1 */
   nome: string;
+  tipoDispositivo: ModelResponseTipoDispositivo;
   brandId: number;
   /** @minLength 1 */
   brandNome: string;

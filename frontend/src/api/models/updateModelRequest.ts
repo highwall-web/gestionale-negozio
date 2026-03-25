@@ -5,9 +5,11 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { UpdateModelRequestTipoDispositivo } from './updateModelRequestTipoDispositivo';
 
 export interface UpdateModelRequest {
   /** @minLength 1 */
   nome: string;
+  tipoDispositivo: UpdateModelRequestTipoDispositivo;
   brandId: number;
 }

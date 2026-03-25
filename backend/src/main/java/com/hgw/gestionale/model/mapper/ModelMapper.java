@@ -12,6 +12,7 @@ public final class ModelMapper {
     public static Model toEntity(CreateModelRequest request, Brand brand) {
         return Model.builder()
                 .nome(request.nome())
+                .tipoDispositivo(request.tipoDispositivo())
                 .brand(brand)
                 .build();
     }
@@ -20,6 +21,7 @@ public final class ModelMapper {
         return new ModelResponse(
                 model.getId(),
                 model.getNome(),
+                model.getTipoDispositivo(),
                 model.getBrand().getId(),
                 model.getBrand().getNome()
         );
@@ -27,6 +29,7 @@ public final class ModelMapper {
 
     public static void updateEntity(Model model, UpdateModelRequest request, Brand brand) {
         model.setNome(request.nome());
+        model.setTipoDispositivo(request.tipoDispositivo());
         model.setBrand(brand);
     }
 }
