@@ -14,6 +14,7 @@ import com.hgw.gestionale.product.entity.Product;
 import com.hgw.gestionale.repair.entity.Repair;
 
 import java.util.List;
+import java.util.Map;
 
 public final class ProductMapper {
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -36,6 +37,7 @@ public final class ProductMapper {
                 .seriale(request.seriale())
                 .imei(request.imei())
                 .codiceModello(request.codiceModello())
+                .testDiagnostici(serializeMap(request.testDiagnostici()))
                 .build();
     }
 
@@ -54,7 +56,8 @@ public final class ProductMapper {
                 product.getAcquistatoPressoDiNoi(),
                 product.getSeriale(),
                 product.getImei(),
-                product.getCodiceModello()
+                product.getCodiceModello(),
+                deserializeMap(product.getTestDiagnostici())
         );
     }
 
@@ -72,6 +75,7 @@ public final class ProductMapper {
         product.setSeriale(request.seriale());
         product.setImei(request.imei());
         product.setCodiceModello(request.codiceModello());
+        product.setTestDiagnostici(serializeMap(request.testDiagnostici()));
     }
 
     private static String serializeList(List<Integer> list) {
@@ -93,6 +97,28 @@ public final class ProductMapper {
             return objectMapper.readValue(json, new TypeReference<List<Integer>>() {});
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to deserialize list", e);
+        }
+    }
+
+    private static String serializeMap(Map<String, List<String>> map) {
+        if (map == null || map.isEmpty()) {
+            return null;
+        }
+        try {
+            return objectMapper.writeValueAsString(map);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to serialize map", e);
+        }
+    }
+
+    private static Map<String, List<String>> deserializeMap(String json) {
+        if (json == null || json.isEmpty()) {
+            return null;
+        }
+        try {
+            return objectMapper.readValue(json, new TypeReference<Map<String, List<String>>>() {});
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Failed to deserialize map", e);
         }
     }
 }

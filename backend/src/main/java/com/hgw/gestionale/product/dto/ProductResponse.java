@@ -5,6 +5,7 @@ import com.hgw.gestionale.model.dto.ModelResponse;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 public record ProductResponse(
         @NotNull Long id,
@@ -20,6 +21,7 @@ public record ProductResponse(
         Boolean acquistatoPressoDiNoi,
         String seriale,
         String imei,
-        String codiceModello
+        String codiceModello,
+        Map<String, List<String>> testDiagnostici
 ) {
 }

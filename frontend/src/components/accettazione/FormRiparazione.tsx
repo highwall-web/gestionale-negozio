@@ -107,9 +107,6 @@ export default function FormRiparazione({ onSuccess }: Props) {
         handleToggleEditing();
     }
 
-    console.log(selectedDetails);
-
-
     function InterventoCard({ i, field }: { i: InterventionResponse, field: { value?: InterventionQuantitaRequest[], onChange: (v: InterventionQuantitaRequest[]) => void } }) {
         const checked = field.value?.some(x => x.interventionId === i.id) ?? false
         const quantita = field.value?.find(x => x.interventionId === i.id)?.quantita ?? 1
@@ -121,43 +118,45 @@ export default function FormRiparazione({ onSuccess }: Props) {
         }
 
         return (
-            <Checkbox.Card
-                component="div"
-                checked={checked}
-                onClick={() => { if (!isDisabled) field.onChange(toggleIntervento(i.id, !checked, field.value ?? [])) }}
-                radius="sm"
-                p="xs"
-                disabled={isDisabled}
-            >
-                <Group wrap="nowrap" align="center">
-                    <Checkbox.Indicator disabled={isDisabled} />
-                    <Group justify="space-between" style={{ flex: 1 }}>
-                        <Group gap="xs" align="baseline">
-                            <Text size="sm" fw={500}>{i.nome}</Text>
-                            <Text size="xs" c="dimmed">€{i.prezzo}</Text>
-                        </Group>
-                        <Group gap="xs" align="center">
-                            {!!i.periodoGaranzia && (
-                                <Text size="xs" c="dimmed">{i.periodoGaranzia} Mesi</Text>
-                            )}
-                            {i.cumulabile && (
-                                <span onClick={e => e.stopPropagation()}>
-                                    <NumberInput
-                                        size="xs"
-                                        min={1}
-                                        value={quantita}
-                                        onChange={val => {
-                                            if (typeof val === 'number') setQuantita(val)
-                                        }}
-                                        disabled={!checked || isDisabled}
-                                        w={70}
-                                    />
-                                </span>
-                            )}
+            <Group gap={0}>
+                <Checkbox.Card
+                    component="div"
+                    checked={checked}
+                    onClick={() => { if (!isDisabled) field.onChange(toggleIntervento(i.id, !checked, field.value ?? [])) }}
+                    radius="sm"
+                    disabled={isDisabled}
+                    style={{ flex: 1, height: 36 }}
+                    px="xs"
+                >
+                    <Group wrap="nowrap" align="center" h="100%">
+                        <Checkbox.Indicator disabled={isDisabled} />
+                        <Group justify="space-between" style={{ flex: 1 }}>
+                            <Group gap="xs" align="baseline">
+                                <Text size="sm" fw={500}>{i.nome}</Text>
+                                <Text size="xs" c="dimmed">€{i.prezzo}</Text>
+                            </Group>
+                            <Group gap="xs" align="baseline">
+                                {!!i.periodoGaranzia && (
+                                    <Text size="xs" c="dimmed">{i.periodoGaranzia} Mesi</Text>
+                                )}
+                            </Group>
                         </Group>
                     </Group>
-                </Group>
-            </Checkbox.Card>
+                </Checkbox.Card>
+                {i.cumulabile && (
+                    <span onClick={e => e.stopPropagation()}>
+                        <NumberInput
+                            min={1}
+                            value={quantita}
+                            onChange={val => {
+                                if (typeof val === 'number') setQuantita(val)
+                            }}
+                            disabled={!checked || isDisabled}
+                            w={70}
+                        />
+                    </span>
+                )}
+            </Group>
         )
     }
 

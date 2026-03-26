@@ -4384,6 +4384,12 @@ components:
           type: string
         codiceModello:
           type: string
+        testDiagnostici:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
       required:
       - color
       - id
@@ -4469,6 +4475,12 @@ components:
           type: string
         codiceModello:
           type: string
+        testDiagnostici:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
       required:
       - color
       - model
@@ -4681,6 +4693,12 @@ components:
           type: string
         codiceModello:
           type: string
+        testDiagnostici:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
       required:
       - color
       - model

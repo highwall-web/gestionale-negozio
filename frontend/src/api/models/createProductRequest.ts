@@ -7,6 +7,7 @@
  */
 import type { CreateColorRequest } from './createColorRequest';
 import type { CreateModelRequest } from './createModelRequest';
+import type { CreateProductRequestTestDiagnostici } from './createProductRequestTestDiagnostici';
 
 export interface CreateProductRequest {
   model: CreateModelRequest;
@@ -22,4 +23,5 @@ export interface CreateProductRequest {
   seriale?: string;
   imei?: string;
   codiceModello?: string;
+  testDiagnostici?: CreateProductRequestTestDiagnostici;
 }

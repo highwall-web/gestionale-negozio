@@ -1,6 +1,7 @@
 package com.hgw.gestionale.product.dto;
 
 import java.util.List;
+import java.util.Map;
 
 import com.hgw.gestionale.color.dto.CreateColorRequest;
 import com.hgw.gestionale.model.dto.CreateModelRequest;
@@ -21,6 +22,7 @@ public record CreateProductRequest(
         Boolean acquistatoPressoDiNoi,
         String seriale,
         String imei,
-        String codiceModello
+        String codiceModello,
+        Map<String, List<String>> testDiagnostici
 ) {
 }

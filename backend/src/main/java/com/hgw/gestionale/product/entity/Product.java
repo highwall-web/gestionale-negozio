@@ -77,4 +77,7 @@ public class Product {
 
     @Column
     private String codiceModello;
+
+    @Column(columnDefinition = "jsonb")
+    private String testDiagnostici;
 }

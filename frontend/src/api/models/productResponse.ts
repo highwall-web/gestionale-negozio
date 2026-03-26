@@ -7,6 +7,7 @@
  */
 import type { ColorResponse } from './colorResponse';
 import type { ModelResponse } from './modelResponse';
+import type { ProductResponseTestDiagnostici } from './productResponseTestDiagnostici';
 
 export interface ProductResponse {
   id: number;
@@ -23,4 +24,5 @@ export interface ProductResponse {
   seriale?: string;
   imei?: string;
   codiceModello?: string;
+  testDiagnostici?: ProductResponseTestDiagnostici;
 }
