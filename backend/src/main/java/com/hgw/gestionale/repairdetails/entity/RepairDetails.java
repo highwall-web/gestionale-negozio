@@ -30,8 +30,9 @@ public class RepairDetails {
     @Column
     private boolean isPreventivo;
 
-    @Column(columnDefinition = "TEXT")
-    private String interventionIds;
+    @OneToMany(mappedBy = "repairDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<RepairDetailsIntervention> interventions = new ArrayList<>();
 
     @Column
     private LocalDate dataConsegna;

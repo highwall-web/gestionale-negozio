@@ -18,4 +18,5 @@ export interface RepairResponse {
   details?: RepairDetailsResponse;
   stato?: StatoRepairResponse;
   statoRiparazione?: StatoRiparazioneResponse;
+  costoTotale?: number;
 }

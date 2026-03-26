@@ -23,6 +23,8 @@ import com.hgw.gestionale.statoriparazione.repository.StatoRiparazioneRepository
 
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Service
 @RequiredArgsConstructor
 public class RepairService {
@@ -43,6 +45,12 @@ public class RepairService {
 
         saved.setProduct(productService.createEntity(request.product(), saved));
         saved.setDetails(repairDetailsService.createEntity(request.details(), saved, autore));
+
+        BigDecimal costoTotale = saved.getDetails().getInterventions().stream()
+                .map(rdi -> rdi.getIntervention().getPrezzo().multiply(BigDecimal.valueOf(rdi.getQuantita())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        saved.setCostoTotale(costoTotale);
+        repairRepository.save(saved);
 
         return RepairMapper.toResponse(saved);
     }

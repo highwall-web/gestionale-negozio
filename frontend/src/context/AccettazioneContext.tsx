@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { useGetAllBrands, useGetAllColors, useGetInterventiGenerali, useGetInterventionsByModel, type BrandResponse, type ColorResponse, type CreateProductRequest, type CreateRepairDetailsRequest, type CustomerResponse, type InterventionResponse, type ModelResponse } from "../api";
+import { useGetAllBrands, useGetAllColors, useGetInterventiGenerali, useGetInterventionsByModel, type BrandResponse, type ColorResponse, type CreateCustomerRequest, type CreateProductRequest, type CreateRepairDetailsRequest, type CustomerResponse, type InterventionResponse, type ModelResponse } from "../api";
 
 interface isEditingType {
     editingCliente: boolean
@@ -22,8 +22,8 @@ interface AccettazioneContextValue {
     toggleEditingCliente: () => void,
     toggleEditingDispositivo: () => void,
     toggleEditingDettagli: () => void,
-    selectedCliente: CustomerResponse | null,
-    setSelectedCliente: (c: CustomerResponse | null) => void,
+    selectedCliente: CreateCustomerRequest | null,
+    setSelectedCliente: (c: CreateCustomerRequest | null) => void,
     selectedDispositivo: CreateProductRequest | null,
     setSelectedDispositivo: (d: CreateProductRequest | null) => void,
     selectedDettagli: CreateRepairDetailsRequest | null,
@@ -41,7 +41,7 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
     const { data: brands = [], isLoading: brandsLoading } = useGetAllBrands();
     const { data: colors = [], isLoading: colorsLoading } = useGetAllColors();
     const { data: interventiGenerali = [], isLoading: interventiGeneraliLoading } = useGetInterventiGenerali();
-    const [selectedCliente, setSelectedCliente] = useState<CustomerResponse | null>(null)
+    const [selectedCliente, setSelectedCliente] = useState<CreateCustomerRequest | null>(null)
     const [selectedDispositivo, setSelectedDispositivo] = useState<CreateProductRequest | null>(null)
     const [selectedDettagli, setSelectedDettagli] = useState<CreateRepairDetailsRequest | null>(null)
     const [selectedModel, setSelectedModel] = useState<ModelResponse | null>(null)

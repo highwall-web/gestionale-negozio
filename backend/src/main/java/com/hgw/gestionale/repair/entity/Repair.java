@@ -9,6 +9,8 @@ import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "repairs")
 @Getter
@@ -39,4 +41,7 @@ public class Repair {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stato_riparazione_id")
     private StatoRiparazione statoRiparazione;
+
+    @Column
+    private BigDecimal costoTotale;
 }

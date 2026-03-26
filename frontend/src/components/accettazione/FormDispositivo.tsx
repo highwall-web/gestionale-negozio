@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Autocomplete, Button, SegmentedControl, Select, SimpleGrid, Stack, TextInput, Title, Tooltip } from "@mantine/core";
+import { Autocomplete, Button, Group, SegmentedControl, Select, SimpleGrid, Stack, TextInput, Title, Tooltip } from "@mantine/core";
+import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
-import { CreateProductRequestTipoDispositivo, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
+import { CreateProductRequestTipoDispositivo, getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandIdQueryKey, useCreateColor, useCreateModel, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
 import { useAccettazione } from "../../context/AccettazioneContext";
 import { capitalize } from "../../utils/stringUtils";
 import PatternLock from "./PatternLock";
@@ -27,12 +28,15 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
-    onSuccess: (product: CreateProductRequest, brandId?: number | null) => void
+    onSuccess: (product: CreateProductRequest) => void
 }
 
 export default function FormDispositivo({ onSuccess }: Props) {
 
-    const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors } = useAccettazione();
+    const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors, setSelectedModel } = useAccettazione();
+    const { mutateAsync: createModel } = useCreateModel()
+    const { mutateAsync: createColor } = useCreateColor()
+    const queryClient = useQueryClient()
     const [unlockMode, setUnlockMode] = useState<"codice" | "sequenza">("codice")
     const isDisabled = active !== 1;
     const [selectedProduct, setSelectedProduct] = useState<CreateProductRequest | null>(null);
@@ -93,24 +97,15 @@ export default function FormDispositivo({ onSuccess }: Props) {
     function handleUndo() {
         if (!selectedProduct) return;
         resetToSelected();
-        onSuccess(selectedProduct, brandId);
+        onSuccess(selectedProduct);
         handleToggleEditing();
     }
 
     function onSubmit(data: FormData) {
-        if (selectedProduct && isEditing.editingDispositivo) {
-            toggleEditingDispositivo()
-            createProduct(data);
-            return
-        }
-        if (selectedProduct) {
-            onSuccess(selectedProduct);
-            return;
-        }
         createProduct(data);
     }
 
-    function createProduct(data: FormData) {
+    async function createProduct(data: FormData) {
         const product: CreateProductRequest = {
             model: {
                 brandNome: capitalize(data.brandNome),
@@ -129,10 +124,32 @@ export default function FormDispositivo({ onSuccess }: Props) {
             seriale: data.seriale,
             imei: data.imei
         }
-        toast.success("Dispositivo inserito")
-        setSelectedProduct(product)
-        onSuccess(product)
-        handleToggleEditing();
+
+        try {
+            const modelExists = modelsData?.some(m => m.nome.toUpperCase() === data.modelNome.toUpperCase())
+            const colorExists = colors.some(c => c.nome.toUpperCase() === data.colorNome.toUpperCase())
+
+            if (!modelExists) {
+                const model = await createModel({ data: { brandNome: product.model.brandNome, nome: product.model.nome, tipoDispositivo: product.model.tipoDispositivo } })
+                setSelectedModel(model)
+                if (brandId) queryClient.invalidateQueries({ queryKey: getGetModelsByBrandIdQueryKey(brandId) })
+                queryClient.invalidateQueries({ queryKey: getGetAllBrandsQueryKey() })
+            } else {
+                const existingModel = modelsData?.find(m => m.nome === data.modelNome)
+                if (existingModel) setSelectedModel(existingModel)
+            }
+
+            if (!colorExists) {
+                await createColor({ data: { nome: product.color.nome } })
+                queryClient.invalidateQueries({ queryKey: getGetAllColorsQueryKey() })
+            }
+            toast.success("Dispositivo inserito")
+            setSelectedProduct(product)
+            onSuccess(product)
+            handleToggleEditing()
+        } catch {
+            toast.error("Qualcosa è andato storto, riprova")
+        }
     }
 
     function handleReset() {
@@ -348,43 +365,46 @@ export default function FormDispositivo({ onSuccess }: Props) {
                     />
                 )}
             </Stack>
-            <Button.Group mt="xl">
-                {active === 1 && (
-                    <>
-                        {
-                            !isEditing.editingDispositivo ? (
-                                <Button
-                                    type={"submit"}
-                                >
-                                    {selectedProduct ? 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
-                                </Button>
-                            ) : (
-                                <Button
-                                    type={"button"}
-                                    onClick={(e) => { e.preventDefault(); handleUndo() }}
-                                >
-                                    Annulla modifiche
-                                </Button>
-                            )
-                        }
-                        {
-                            !!selectedProduct && (
-                                <Button type="submit" variant="outline">
-                                    {'Modifica dispositivo inserito'}
-                                </Button>
-                            )
-                        }
-                        <Button variant="default" type="button" onClick={handleReset}>
-                            Reset
+            <Group justify='flex-end' mt="xl">
+                <Button.Group>
+                    {active === 1 && (
+                        <>
+                            <Button variant="default" type="button" onClick={handleReset}>
+                                Reset
+                            </Button>
+                            {
+                                !isEditing.editingDispositivo ? (
+                                    <Button
+                                        type={"submit"}
+                                    >
+                                        {selectedProduct ? 'Usa questo dispositivo' : 'Inserisci dispositivo come nuovo'}
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        type={"button"}
+                                        variant='outline'
+                                        onClick={(e) => { e.preventDefault(); handleUndo() }}
+                                    >
+                                        Annulla modifiche
+                                    </Button>
+                                )
+                            }
+                            {
+                                isEditing.editingDispositivo && (
+                                    <Button type="submit">
+                                        {'Applica modifiche'}
+                                    </Button>
+                                )
+                            }
+                        </>
+                    )}
+                    {(isDisabled && !!selectedProduct) && (
+                        <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(1); toggleEditingDispositivo() }}>
+                            Modifica dispositivo
                         </Button>
-                    </>
-                )}
-                {(isDisabled && !!selectedProduct) && (
-                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(1); toggleEditingDispositivo() }}>
-                        Modifica dispositivo
-                    </Button>
-                )}
-            </Button.Group>
+                    )}
+                </Button.Group>
+            </Group>
         </form>
     )
 }

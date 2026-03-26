@@ -30,19 +30,19 @@ public class InterventionService {
     }
 
     public List<InterventionResponse> getAll() {
-        return interventionRepository.findAll().stream()
+        return interventionRepository.findByAttivoTrue().stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
     }
 
     public List<InterventionResponse> getGenerali() {
-        return interventionRepository.findByModelIsNull().stream()
+        return interventionRepository.findByModelIsNullAndAttivoTrue().stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
     }
 
     public List<InterventionResponse> getByModelId(Long modelId) {
-        return interventionRepository.findByModelId(modelId).stream()
+        return interventionRepository.findByModelIdAndAttivoTrue(modelId).stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
     }
@@ -54,20 +54,20 @@ public class InterventionService {
     }
 
     public InterventionResponse getByName(String nome) {
-        Intervention intervention = interventionRepository.findByNomeIgnoreCase(nome)
+        Intervention intervention = interventionRepository.findByNomeIgnoreCaseAndAttivoTrue(nome)
                 .orElseThrow(() -> new NotFoundException("Intervention not found"));
         return InterventionMapper.toResponse(intervention);
     }
 
     public List<InterventionResponse> search(String nome) {
-        return interventionRepository.findTop10ByNomeContainingIgnoreCase(nome)
+        return interventionRepository.findTop10ByNomeContainingIgnoreCaseAndAttivoTrue(nome)
                 .stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
     }
 
     public List<InterventionResponse> searchByModel(Long modelId, String nome) {
-        return interventionRepository.findTop10ByModelIdAndNomeContainingIgnoreCase(modelId, nome)
+        return interventionRepository.findTop10ByModelIdAndNomeContainingIgnoreCaseAndAttivoTrue(modelId, nome)
                 .stream()
                 .map(InterventionMapper::toResponse)
                 .toList();
@@ -91,6 +91,7 @@ public class InterventionService {
         Intervention intervention = interventionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Intervention not found"));
 
-        interventionRepository.deleteById(intervention.getId());
+        intervention.setAttivo(false);
+        interventionRepository.save(intervention);
     }
 }

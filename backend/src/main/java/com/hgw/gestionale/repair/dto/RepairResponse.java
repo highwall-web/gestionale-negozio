@@ -8,12 +8,15 @@ import com.hgw.gestionale.statoriparazione.dto.StatoRiparazioneResponse;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
+
 public record RepairResponse(
         @NotNull Long id,
         @NotNull CustomerResponse customer,
         @NotNull ProductResponse product,
         RepairDetailsResponse details,
         StatoRepairResponse stato,
-        StatoRiparazioneResponse statoRiparazione
+        StatoRiparazioneResponse statoRiparazione,
+        BigDecimal costoTotale
 ) {
 }

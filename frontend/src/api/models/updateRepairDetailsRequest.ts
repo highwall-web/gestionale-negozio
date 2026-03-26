@@ -5,10 +5,11 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { InterventionQuantitaRequest } from './interventionQuantitaRequest';
 
 export interface UpdateRepairDetailsRequest {
   isPreventivo?: boolean;
-  interventionIds?: number[];
+  interventi?: InterventionQuantitaRequest[];
   dataConsegna?: string;
   acconto?: number;
 }

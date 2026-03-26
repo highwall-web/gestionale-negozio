@@ -2,18 +2,15 @@ package com.hgw.gestionale.repairdetails.mapper;
 
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.repairdetails.dto.CreateRepairDetailsRequest;
+import com.hgw.gestionale.repairdetails.dto.InterventionQuantitaResponse;
 import com.hgw.gestionale.repairdetails.dto.RepairDetailsResponse;
 import com.hgw.gestionale.repairdetails.dto.RepairMessageResponse;
 import com.hgw.gestionale.repairdetails.dto.UpdateRepairDetailsRequest;
 import com.hgw.gestionale.repairdetails.entity.RepairDetails;
 
 public final class RepairDetailsMapper {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private RepairDetailsMapper() {}
 
@@ -21,7 +18,6 @@ public final class RepairDetailsMapper {
         return RepairDetails.builder()
                 .repair(repair)
                 .isPreventivo(request.isPreventivo())
-                .interventionIds(serializeIds(request.interventionIds()))
                 .dataConsegna(request.dataConsegna())
                 .acconto(request.acconto())
                 .build();
@@ -32,11 +28,20 @@ public final class RepairDetailsMapper {
                 .map(RepairMessageMapper::toResponse)
                 .toList();
 
+        List<InterventionQuantitaResponse> interventi = details.getInterventions().stream()
+                .map(rdi -> new InterventionQuantitaResponse(
+                        rdi.getIntervention().getId(),
+                        rdi.getIntervention().getNome(),
+                        rdi.getIntervention().getPrezzo(),
+                        rdi.getQuantita()
+                ))
+                .toList();
+
         return new RepairDetailsResponse(
                 details.getId(),
                 details.getRepair().getId(),
                 details.isPreventivo(),
-                deserializeIds(details.getInterventionIds()),
+                interventi,
                 details.getDataConsegna(),
                 details.getAcconto(),
                 messaggi
@@ -45,30 +50,7 @@ public final class RepairDetailsMapper {
 
     public static void updateEntity(RepairDetails details, UpdateRepairDetailsRequest request) {
         details.setPreventivo(request.isPreventivo());
-        details.setInterventionIds(serializeIds(request.interventionIds()));
         details.setDataConsegna(request.dataConsegna());
         details.setAcconto(request.acconto());
-    }
-
-    public static List<Long> deserializeIds(String json) {
-        if (json == null || json.isBlank()) {
-            return List.of();
-        }
-        try {
-            return objectMapper.readValue(json, new TypeReference<List<Long>>() {});
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to deserialize intervention ids", e);
-        }
-    }
-
-    public static String serializeIds(List<Long> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return null;
-        }
-        try {
-            return objectMapper.writeValueAsString(ids);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to serialize intervention ids", e);
-        }
     }
 }

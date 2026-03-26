@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public record CreateRepairRequest(
-        @NotNull Long customerId,
+        @Valid @NotNull Long customerId,
         @Valid @NotNull CreateProductRequest product,
         @Valid @NotNull CreateRepairDetailsRequest details
 ) {

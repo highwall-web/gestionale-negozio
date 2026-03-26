@@ -28,7 +28,8 @@ public final class RepairMapper {
                 ProductMapper.toResponse(repair.getProduct()),
                 RepairDetailsMapper.toResponse(repair.getDetails()),
                 repair.getStato() != null ? StatoRepairMapper.toResponse(repair.getStato()) : null,
-                repair.getStatoRiparazione() != null ? StatoRiparazioneMapper.toResponse(repair.getStatoRiparazione()) : null
+                repair.getStatoRiparazione() != null ? StatoRiparazioneMapper.toResponse(repair.getStatoRiparazione()) : null,
+                repair.getCostoTotale()
         );
     }
 

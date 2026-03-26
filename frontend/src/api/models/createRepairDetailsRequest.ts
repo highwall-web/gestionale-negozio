@@ -6,10 +6,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { AddMessageRequest } from './addMessageRequest';
+import type { InterventionQuantitaRequest } from './interventionQuantitaRequest';
 
 export interface CreateRepairDetailsRequest {
   isPreventivo?: boolean;
-  interventionIds?: number[];
+  interventi?: InterventionQuantitaRequest[];
   dataConsegna?: string;
   acconto?: number;
   messaggi?: AddMessageRequest[];

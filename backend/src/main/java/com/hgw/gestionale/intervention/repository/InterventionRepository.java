@@ -9,9 +9,10 @@ import java.util.Optional;
 
 @Repository
 public interface InterventionRepository extends JpaRepository<Intervention, Long> {
-    Optional<Intervention> findByNomeIgnoreCase(String nome);
-    List<Intervention> findTop10ByNomeContainingIgnoreCase(String nome);
-    List<Intervention> findByModelIsNull();
-    List<Intervention> findByModelId(Long modelId);
-    List<Intervention> findTop10ByModelIdAndNomeContainingIgnoreCase(Long modelId, String nome);
+    Optional<Intervention> findByNomeIgnoreCaseAndAttivoTrue(String nome);
+    List<Intervention> findByAttivoTrue();
+    List<Intervention> findTop10ByNomeContainingIgnoreCaseAndAttivoTrue(String nome);
+    List<Intervention> findByModelIsNullAndAttivoTrue();
+    List<Intervention> findByModelIdAndAttivoTrue(Long modelId);
+    List<Intervention> findTop10ByModelIdAndNomeContainingIgnoreCaseAndAttivoTrue(Long modelId, String nome);
 }

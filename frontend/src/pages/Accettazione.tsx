@@ -1,8 +1,6 @@
 import { Paper, Stack, Stepper } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandIdQueryKey, useCreateColor, useCreateModel, type CreateProductRequest, type CreateRepairDetailsRequest, type CustomerResponse } from "../api";
+import { type CreateCustomerRequest, type CreateProductRequest, type CreateRepairDetailsRequest } from "../api";
 import FormCliente from "../components/accettazione/FormCliente";
 import FormDifetti from "../components/accettazione/FormDifetti";
 import FormDispositivo from "../components/accettazione/FormDispositivo";
@@ -18,55 +16,17 @@ export default function Accettazione() {
         updateActive,
         setSelectedCliente,
         setSelectedDispositivo,
-        selectedDispositivo,
-        setSelectedDettagli,
-        setSelectedModel,
-        selectedModel
+        setSelectedDettagli
     } = useAccettazione();
-    const queryClient = useQueryClient();
-    const { mutate: createModel } = useCreateModel();
-    const { mutate: createColor } = useCreateColor();
 
-    const handleClienteSuccess = (customer: CustomerResponse) => {
+    const handleClienteSuccess = (customer: CreateCustomerRequest) => {
         setSelectedCliente(customer)
         updateActive(active + 1)
     }
 
-    const handleProductSuccess = (product: CreateProductRequest, brandId?: number | null) => {
+    const handleProductSuccess = (product: CreateProductRequest) => {
         setSelectedDispositivo(product)
-        const unchanged = selectedModel
-            && product.model.brandNome === selectedDispositivo?.model.brandNome
-            && product.model.nome === selectedDispositivo?.model.nome
-            && product.color.nome === selectedDispositivo?.color.nome
-        if (unchanged) {
-            updateActive(active + 1)
-            return
-        }
-        createModel({
-            data: {
-                brandNome: product.model.brandNome,
-                nome: product.model.nome,
-                tipoDispositivo: product.model.tipoDispositivo
-            }
-        }, {
-            onSuccess: (model) => {
-                setSelectedModel(model)
-                createColor({
-                    data: { nome: product.color.nome }
-                }, {
-                    onSuccess: () => {
-                        queryClient.invalidateQueries({ queryKey: getGetAllColorsQueryKey() })
-                        queryClient.invalidateQueries({ queryKey: getGetAllBrandsQueryKey() })
-                        if (brandId) {
-                            queryClient.invalidateQueries({ queryKey: getGetModelsByBrandIdQueryKey(brandId) })
-                        }
-                        updateActive(active + 1)
-                    },
-                    onError: () => toast.error("Qualcosa è andato storto, riprova")
-                })
-            },
-            onError: () => toast.error("Qualcosa è andato storto, riprova")
-        })
+        updateActive(active + 1)
     }
 
     const handleDetailsSuccess = (details: CreateRepairDetailsRequest) => {

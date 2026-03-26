@@ -1,12 +1,12 @@
-import { Autocomplete, Button, SimpleGrid, TextInput, Title } from '@mantine/core'
-import { useDebouncedValue } from '@mantine/hooks'
-import { Controller, useForm, useWatch } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
-import { searchCustomers, useCreateCustomer, useUpdateCustomer } from '../../api'
-import toast from 'react-hot-toast'
-import type { CustomerResponse } from '../../api'
+import { Autocomplete, Button, Group, SimpleGrid, TextInput, Title } from '@mantine/core'
+import { useDebouncedValue } from '@mantine/hooks'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Controller, useForm, useWatch } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { z } from 'zod'
+import type { CreateCustomerRequest, CustomerResponse } from '../../api'
+import { searchCustomers } from '../../api'
 import { useAccettazione } from '../../context/AccettazioneContext'
 
 const schema = z.object({
@@ -23,7 +23,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
-    onSuccess: (customer: CustomerResponse) => void
+    onSuccess: (customer: CreateCustomerRequest) => void
 }
 
 function formatCustomer(res: CustomerResponse, idx: number) {
@@ -32,14 +32,10 @@ function formatCustomer(res: CustomerResponse, idx: number) {
 
 export default function FormCliente({ onSuccess }: Props) {
     const { active, updateActive, isEditing, toggleEditingCliente } = useAccettazione();
-    const { mutate, isPending } = useCreateCustomer()
-    const { mutate: updateCustomer, isPending: isUpdating } = useUpdateCustomer();
-    const [selectedCustomer, setSelectedCustomer] = useState<CustomerResponse | null>(null)
+    const [selectedCustomer, setSelectedCustomer] = useState<CreateCustomerRequest | null>(null)
     const justSelected = useRef(false)
-    const selectedCustomerRef = useRef<CustomerResponse | null>(null)
     const [searchResults, setSearchResults] = useState<CustomerResponse[]>([])
-    const isLoading = isPending || isUpdating;
-    const isDisabled = active !== 0 || isLoading;
+    const isDisabled = active !== 0;
     const wasEditingRef = useRef(false)
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
@@ -50,13 +46,17 @@ export default function FormCliente({ onSuccess }: Props) {
         },
     })
 
-    const [nome, cognome] = useWatch({ control, name: ['nome', 'cognome'] })
+    const [nome, cognome, telefono, email] = useWatch({ control, name: ['nome', 'cognome', 'telefono', 'email'] })
     const [dNome] = useDebouncedValue(nome, 300)
     const [dCognome] = useDebouncedValue(cognome, 300)
+    const telefonoRef = useRef(telefono)
+    const emailRef = useRef(email)
+    useLayoutEffect(() => { telefonoRef.current = telefono }, [telefono])
+    useLayoutEffect(() => { emailRef.current = email }, [email])
 
     const hasSearchTerm = !!(nome || cognome)
 
-    const effectiveResults = (!selectedCustomer && hasSearchTerm) ? searchResults : []
+    const effectiveResults = (hasSearchTerm) ? searchResults : []
 
     function resetToSelected() {
         if (!selectedCustomer) return
@@ -104,13 +104,7 @@ export default function FormCliente({ onSuccess }: Props) {
         setSearchResults([])
     }
 
-
     function onSubmit(data: FormData) {
-        if (selectedCustomer) {
-            onSuccess(selectedCustomer)
-            handleToggleEditing()
-            return
-        }
         createCustomer(data);
     }
 
@@ -127,65 +121,29 @@ export default function FormCliente({ onSuccess }: Props) {
     }
 
     function createCustomer(data: FormData) {
-        mutate({
-            data: {
-                nome: data.nome,
-                cognome: data.cognome,
-                email: data.email,
-                telefono: data.telefono,
-                telefonoSecondario: data.telefonoSecondario || undefined,
-                indirizzo: data.indirizzo || undefined,
-                citta: data.citta || undefined,
-                cap: data.cap || undefined,
-            }
-        }, {
-            onSuccess: (customer) => {
-                toast.success('Cliente inserito')
-                setSelectedCustomer(customer)
-                onSuccess(customer)
-                handleToggleEditing()
-            },
-            onError: () => toast.error("Errore nell'inserimento del cliente"),
-        })
+        const customer: CreateCustomerRequest = {
+            nome: data.nome,
+            cognome: data.cognome,
+            email: data.email,
+            telefono: data.telefono,
+            telefonoSecondario: data.telefonoSecondario || undefined,
+            indirizzo: data.indirizzo || undefined,
+            citta: data.citta || undefined,
+            cap: data.cap || undefined,
+        }
+        toast.success('Cliente inserito')
+        setSelectedCustomer(customer)
+        onSuccess(customer)
+        handleToggleEditing()
     }
-
-    const handleCreate = handleSubmit(createCustomer)
-
-    const handleUpdate = handleSubmit((data) => {
-        if (!selectedCustomer) return;
-        updateCustomer({
-            id: selectedCustomer.id,
-            data: {
-                nome: data.nome,
-                cognome: data.cognome,
-                email: data.email,
-                telefono: data.telefono,
-                telefonoSecondario: data.telefonoSecondario || undefined,
-                indirizzo: data.indirizzo || undefined,
-                citta: data.citta || undefined,
-                cap: data.cap || undefined,
-            }
-        }, {
-            onSuccess: (customer) => {
-                toast.success("Cliente aggiornato")
-                setSelectedCustomer(customer)
-                onSuccess(customer)
-                handleToggleEditing()
-            },
-            onError: () => toast.error("Errore nell'aggiornamento del cliente")
-        })
-    })
-
-    useLayoutEffect(() => {
-        selectedCustomerRef.current = selectedCustomer
-    }, [selectedCustomer])
 
     useEffect(() => {
         if (!dNome && !dCognome) return
-        if (selectedCustomerRef.current) return
         searchCustomers({
             nome: dNome || undefined,
             cognome: dCognome || undefined,
+            telefono: telefonoRef.current || undefined,
+            email: emailRef.current || undefined,
         }).then(res => setSearchResults(res))
     }, [dNome, dCognome])
 
@@ -279,55 +237,48 @@ export default function FormCliente({ onSuccess }: Props) {
                     {...register('cap')}
                 />
             </SimpleGrid>
-            <Button.Group mt="xl">
-                {active === 0 && (
-                    <>
-                        {
-                            !isEditing.editingCliente ? (
-                                <Button
-                                    type={"submit"}
-                                    loading={isPending}
-                                    disabled={isUpdating}
-                                >
-                                    {selectedCustomer ? 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
-                                </Button>
-                            ) : (
-                                <Button
-                                    type={"button"}
-                                    loading={isPending}
-                                    disabled={isUpdating}
-                                    onClick={(e) => { e.preventDefault(); handleUndo() }}
-                                >
-                                    Annulla modifiche
-                                </Button>
-                            )
-                        }
-
-                        {
-                            !!selectedCustomer && (
-                                <Button type="button" variant="outline" onClick={handleUpdate} loading={isUpdating} disabled={isPending}>
-                                    {'Modifica questo cliente'}
-                                </Button>
-                            )
-                        }
-                        {
-                            !!selectedCustomer && (
-                                <Button type="button" variant="outline" onClick={handleCreate} loading={isPending} disabled={isUpdating}>
-                                    {'Inserisci cliente come nuovo'}
-                                </Button>
-                            )
-                        }
-                        <Button variant="default" type="button" onClick={handleReset} disabled={isLoading}>
-                            Reset
+            <Group justify="flex-end" mt="xl">
+                <Button.Group>
+                    {active === 0 && (
+                        <>
+                            <Button variant="default" type="button" onClick={handleReset}>
+                                Reset
+                            </Button>
+                            {
+                                !isEditing.editingCliente ? (
+                                    <Button
+                                        type={"submit"}
+                                    >
+                                        {selectedCustomer ? 'Usa questo cliente' : 'Inserisci cliente come nuovo'}
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        type={"button"}
+                                        variant='outline'
+                                        onClick={(e) => { e.preventDefault(); handleUndo() }}
+                                    >
+                                        Annulla modifiche
+                                    </Button>
+                                )
+                            }
+                            {
+                                isEditing.editingCliente && (
+                                    <Button
+                                        type="submit"
+                                    >
+                                        {'Applica modifiche'}
+                                    </Button>
+                                )
+                            }
+                        </>
+                    )}
+                    {(isDisabled && !!selectedCustomer) && (
+                        <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(0); toggleEditingCliente() }}>
+                            Modifica cliente
                         </Button>
-                    </>
-                )}
-                {(isDisabled && !!selectedCustomer) && (
-                    <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(0); toggleEditingCliente() }}>
-                        Modifica cliente
-                    </Button>
-                )}
-            </Button.Group>
+                    )}
+                </Button.Group>
+            </Group>
         </form>
     )
 }

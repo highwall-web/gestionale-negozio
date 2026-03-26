@@ -8,7 +8,7 @@ public record RepairDetailsResponse(
         Long id,
         Long repairId,
         boolean isPreventivo,
-        List<Long> interventions,
+        List<InterventionQuantitaResponse> interventi,
         LocalDate dataConsegna,
         BigDecimal acconto,
         List<RepairMessageResponse> messaggi

@@ -26,6 +26,8 @@ export * from './createStatoRiparazioneRequest';
 export * from './customerResponse';
 export * from './getAllRepairsParams';
 export * from './healthCheck200';
+export * from './interventionQuantitaRequest';
+export * from './interventionQuantitaResponse';
 export * from './interventionResponse';
 export * from './loginRequest';
 export * from './loginResponse';
