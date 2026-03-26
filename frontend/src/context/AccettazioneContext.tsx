@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { useGetAllBrands, useGetAllColors, useGetInterventiGenerali, useGetInterventionsByModel, type BrandResponse, type ColorResponse, type CreateCustomerRequest, type CreateProductRequest, type CreateRepairDetailsRequest, type CustomerResponse, type InterventionResponse, type ModelResponse } from "../api";
+import { useGetAllBrands, useGetAllColors, useGetInterventiGenerali, useGetInterventionsByModel, type BrandResponse, type ColorResponse, type CreateCustomerRequest, type CreateProductRequest, type CreateProductRequestTestDiagnostici, type CreateRepairDetailsRequest, type InterventionResponse, type ModelResponse } from "../api";
 
 interface isEditingType {
     editingCliente: boolean
     editingDispositivo: boolean
     editingDettagli: boolean
+    editingTest: boolean
 }
 
 interface AccettazioneContextValue {
@@ -22,6 +23,7 @@ interface AccettazioneContextValue {
     toggleEditingCliente: () => void,
     toggleEditingDispositivo: () => void,
     toggleEditingDettagli: () => void,
+    toggleEditingTest: () => void,
     selectedCliente: CreateCustomerRequest | null,
     setSelectedCliente: (c: CreateCustomerRequest | null) => void,
     selectedDispositivo: CreateProductRequest | null,
@@ -53,7 +55,8 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
     const [isEditing, setIsEditing] = useState<isEditingType>({
         editingCliente: false,
         editingDispositivo: false,
-        editingDettagli: false
+        editingDettagli: false,
+        editingTest: false
     })
 
     function toggleEditingCliente() {
@@ -61,7 +64,8 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
             {
                 editingCliente: !isEditing.editingCliente,
                 editingDispositivo: false,
-                editingDettagli: false
+                editingDettagli: false,
+                editingTest: false
             }
         )
     }
@@ -71,7 +75,8 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
             {
                 editingCliente: false,
                 editingDispositivo: !isEditing.editingDispositivo,
-                editingDettagli: false
+                editingDettagli: false,
+                editingTest: false
             }
         )
     }
@@ -81,7 +86,19 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
             {
                 editingCliente: false,
                 editingDispositivo: false,
-                editingDettagli: !isEditing.editingDettagli
+                editingDettagli: !isEditing.editingDettagli,
+                editingTest: false
+            }
+        )
+    }
+
+    function toggleEditingTest() {
+        setIsEditing(
+            {
+                editingCliente: false,
+                editingDispositivo: false,
+                editingDettagli: false,
+                editingTest: !isEditing.editingTest
             }
         )
     }
@@ -104,6 +121,7 @@ export function AccettazioneProvider({ children }: { children: React.ReactNode }
             toggleEditingCliente,
             toggleEditingDispositivo,
             toggleEditingDettagli,
+            toggleEditingTest,
             selectedCliente,
             setSelectedCliente,
             selectedDispositivo,

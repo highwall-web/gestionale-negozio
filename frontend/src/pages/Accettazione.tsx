@@ -1,6 +1,6 @@
 import { Paper, Stack, Stepper } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { type CreateCustomerRequest, type CreateProductRequest, type CreateRepairDetailsRequest } from "../api";
+import { type CreateCustomerRequest, type CreateProductRequest, type CreateProductRequestTestDiagnostici, type CreateRepairDetailsRequest } from "../api";
 import FormCliente from "../components/accettazione/FormCliente";
 import FormDifetti from "../components/accettazione/FormDifetti";
 import FormDispositivo from "../components/accettazione/FormDispositivo";
@@ -16,7 +16,8 @@ export default function Accettazione() {
         updateActive,
         setSelectedCliente,
         setSelectedDispositivo,
-        setSelectedDettagli
+        setSelectedDettagli,
+        selectedDispositivo
     } = useAccettazione();
 
     const handleClienteSuccess = (customer: CreateCustomerRequest) => {
@@ -34,6 +35,15 @@ export default function Accettazione() {
         updateActive(active + 1)
     }
 
+    const handleTestSuccess = (testDiagnostici: CreateProductRequestTestDiagnostici) => {
+        if (!selectedDispositivo) return;
+        setSelectedDispositivo({
+            ...selectedDispositivo,
+            testDiagnostici: testDiagnostici
+        })
+        updateActive(active + 1)
+    }
+
     return <Stack gap={16}>
         {!isMobile &&
             <Paper
@@ -44,18 +54,34 @@ export default function Accettazione() {
                 shadow="md"
             >
                 <Stepper active={active}>
-                    <Stepper.Step label="Primo step" description="Inserisci il cliente">
-                        Step 1: Inserisci il cliente
+                    <Stepper.Step
+                        label="Primo step"
+                        description="Inserisci il cliente"
+                    >
+                        Inserisci il cliente
                     </Stepper.Step>
-                    <Stepper.Step label="Secondo step" description="Inserisci il dispositivo">
-                        Step 2: Inserisci il dispositivo
+                    <Stepper.Step
+                        label="Secondo step"
+                        description="Inserisci il dispositivo"
+                    >
+                        Inserisci il dispositivo
                     </Stepper.Step>
-                    <Stepper.Step label="Terzo step" description="Inserisci i dettagli della riparazione">
-                        Step 3: Inserisci i dettagli della riparazione
+                    <Stepper.Step
+                        label="Terzo step"
+                        description="Inserisci i dettagli della riparazione"
+                    >
+                        Inserisci i dettagli della riparazione
                     </Stepper.Step>
-                    <Stepper.Step label="Quarto step" description="Inserisci i difetti del dispositivo">
-                        Step 4: Inserisci i difetti del dispositivo
+                    <Stepper.Step
+                        label="Quarto step"
+                        description="Inserisci i difetti del dispositivo"
+                    >
+                        Inserisci i difetti del dispositivo
                     </Stepper.Step>
+                    <Stepper.Completed
+                    >
+                        Completa l'accettazione
+                    </Stepper.Completed>
                 </Stepper>
             </Paper>
         }
@@ -90,7 +116,7 @@ export default function Accettazione() {
                 style={{ position: 'relative' }}
                 shadow="md"
             >
-                <FormDifetti />
+                <FormDifetti onSuccess={handleTestSuccess} />
             </Paper>
         </Stack>
     </Stack>
