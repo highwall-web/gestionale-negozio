@@ -38,6 +38,7 @@ public final class ProductMapper {
                 .imei(request.imei())
                 .codiceModello(request.codiceModello())
                 .testDiagnostici(serializeMap(request.testDiagnostici()))
+                .lasciatoInNegozio(request.lasciatoInNegozio())
                 .build();
     }
 
@@ -57,7 +58,8 @@ public final class ProductMapper {
                 product.getSeriale(),
                 product.getImei(),
                 product.getCodiceModello(),
-                deserializeMap(product.getTestDiagnostici())
+                deserializeMap(product.getTestDiagnostici()),
+                product.getLasciatoInNegozio()
         );
     }
 
@@ -76,6 +78,7 @@ public final class ProductMapper {
         product.setImei(request.imei());
         product.setCodiceModello(request.codiceModello());
         product.setTestDiagnostici(serializeMap(request.testDiagnostici()));
+        product.setLasciatoInNegozio(request.lasciatoInNegozio());
     }
 
     private static String serializeList(List<Integer> list) {

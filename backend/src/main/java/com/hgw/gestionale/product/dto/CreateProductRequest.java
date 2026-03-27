@@ -23,6 +23,7 @@ public record CreateProductRequest(
         String seriale,
         String imei,
         String codiceModello,
-        Map<String, List<String>> testDiagnostici
+        Map<String, List<String>> testDiagnostici,
+        Boolean lasciatoInNegozio
 ) {
 }

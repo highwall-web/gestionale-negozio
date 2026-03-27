@@ -24,4 +24,5 @@ export interface CreateProductRequest {
   imei?: string;
   codiceModello?: string;
   testDiagnostici?: CreateProductRequestTestDiagnostici;
+  lasciatoInNegozio?: boolean;
 }

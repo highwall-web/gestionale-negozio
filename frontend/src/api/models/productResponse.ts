@@ -25,4 +25,5 @@ export interface ProductResponse {
   imei?: string;
   codiceModello?: string;
   testDiagnostici?: ProductResponseTestDiagnostici;
+  lasciatoInNegozio?: boolean;
 }

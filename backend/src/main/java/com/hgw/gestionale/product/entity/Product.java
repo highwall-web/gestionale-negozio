@@ -80,6 +80,9 @@ public class Product {
     @Column
     private String codiceModello;
 
+    @Column
+    private Boolean lasciatoInNegozio;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
     private String testDiagnostici;
