@@ -8,8 +8,10 @@ import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "repairs")
@@ -44,4 +46,8 @@ public class Repair {
 
     @Column
     private BigDecimal costoTotale;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 }

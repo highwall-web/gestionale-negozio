@@ -85,6 +85,7 @@ export default function RiparazioniAttiveTable() {
 
         return (
             <Table.Tr key={r.id}>
+                <Table.Td>{r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}</Table.Td>
                 <Table.Td>{r.customer.nome} {r.customer.cognome}</Table.Td>
                 <Table.Td>{r.customer.telefono}</Table.Td>
                 <Table.Td>{r.product.model.nome ?? r.product.model.id}, {r.product.color.nome}</Table.Td>
@@ -143,6 +144,7 @@ export default function RiparazioniAttiveTable() {
                     <Table striped highlightOnHover withTableBorder>
                         <Table.Thead>
                             <Table.Tr>
+                                <Table.Th>Creata il</Table.Th>
                                 <Table.Th>Cliente</Table.Th>
                                 <Table.Th>N. Telefono</Table.Th>
                                 <Table.Th>Dispositivo</Table.Th>

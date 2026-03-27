@@ -27,7 +27,8 @@ public final class RepairMapper {
                 RepairDetailsMapper.toResponse(repair.getDetails()),
                 repair.getStato(),
                 repair.getStatoRiparazione(),
-                repair.getCostoTotale()
+                repair.getCostoTotale(),
+                repair.getCreatedAt()
         );
     }
 

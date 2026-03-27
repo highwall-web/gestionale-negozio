@@ -9,6 +9,7 @@ import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public record RepairResponse(
         @NotNull Long id,
@@ -17,6 +18,7 @@ public record RepairResponse(
         RepairDetailsResponse details,
         StatoRepair stato,
         StatoRiparazione statoRiparazione,
-        BigDecimal costoTotale
+        BigDecimal costoTotale,
+        LocalDateTime createdAt
 ) {
 }
