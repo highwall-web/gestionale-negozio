@@ -28,6 +28,7 @@ auth:
     expiration-days: ${REFRESH_EXP:1}
     expiration-days-remember-me: ${REFRESH_EXP_REMEMBER:30}
     cookie-secure: ${COOKIE_SECURE:false}
+    cookie-same-site: ${COOKIE_SAME_SITE:false}
 
 springdoc:
   api-docs:

@@ -43,6 +43,9 @@ public class AuthService {
     @Value("${auth.refresh-token.cookie-secure}")
     private boolean cookieSecure;
 
+    @Value("${auth.refresh-token.cookie-same-site}")
+    private String sameSite;
+
     public void register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.username())
@@ -87,7 +90,7 @@ public class AuthService {
                 .secure(cookieSecure)
                 .path("/api/auth")
                 .maxAge(rememberMe ? 60L * 60 * 24 * refreshTokenExpirationDaysRememberMe : 60L * 60 * 24 * refreshTokenExpirationDays)
-                .sameSite("Lax")
+                .sameSite(sameSite)
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
@@ -148,7 +151,7 @@ public class AuthService {
                 .secure(cookieSecure)
                 .path("/api/auth")
                 .maxAge(0)
-                .sameSite("Lax")
+                .sameSite(sameSite)
                 .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
