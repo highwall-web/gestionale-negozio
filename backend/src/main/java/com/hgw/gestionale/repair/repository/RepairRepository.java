@@ -9,9 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RepairRepository extends JpaRepository<Repair, Long> {
     Page<Repair> findByStato(StatoRepair stato, Pageable pageable);
     Page<Repair> findByStatoRiparazione(StatoRiparazione statoRiparazione, Pageable pageable);
     Page<Repair> findByStatoAndStatoRiparazione(StatoRepair stato, StatoRiparazione statoRiparazione, Pageable pageable);
+    List<Repair> findByStatoNot(StatoRepair stato);
 }

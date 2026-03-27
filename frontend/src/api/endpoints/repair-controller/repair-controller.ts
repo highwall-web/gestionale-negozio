@@ -463,3 +463,87 @@ export function useSearchRepairs<TData = Awaited<ReturnType<typeof searchRepairs
 
 
 
+export const getAttive = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairResponse[]>(
+      {url: `/api/repairs/attive`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetAttiveQueryKey = () => {
+    return [
+    `/api/repairs/attive`
+    ] as const;
+    }
+
+    
+export const getGetAttiveQueryOptions = <TData = Awaited<ReturnType<typeof getAttive>>, TError = ApiError>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAttiveQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAttive>>> = ({ signal }) => getAttive(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAttiveQueryResult = NonNullable<Awaited<ReturnType<typeof getAttive>>>
+export type GetAttiveQueryError = ApiError
+
+
+export function useGetAttive<TData = Awaited<ReturnType<typeof getAttive>>, TError = ApiError>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAttive>>,
+          TError,
+          Awaited<ReturnType<typeof getAttive>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAttive<TData = Awaited<ReturnType<typeof getAttive>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAttive>>,
+          TError,
+          Awaited<ReturnType<typeof getAttive>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAttive<TData = Awaited<ReturnType<typeof getAttive>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAttive<TData = Awaited<ReturnType<typeof getAttive>>, TError = ApiError>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAttive>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAttiveQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+

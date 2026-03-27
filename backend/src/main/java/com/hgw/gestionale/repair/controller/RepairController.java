@@ -17,6 +17,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/api/repairs", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
@@ -47,6 +49,12 @@ public class RepairController {
     ) {
         log.info("RepairController.search stato={} statoRiparazione={}", stato, statoRiparazione);
         return repairService.search(stato, statoRiparazione, pageable);
+    }
+
+    @GetMapping("/attive")
+    public List<RepairResponse> getAttive() {
+        log.info("RepairController.getAttive richiesta riparazioni non consegnate");
+        return repairService.getAllNotConsegnato();
     }
 
     @GetMapping("/{id}")

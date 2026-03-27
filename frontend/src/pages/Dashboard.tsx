@@ -1,5 +1,6 @@
 import { Paper, Stack, Text, Title } from '@mantine/core'
 import { useAuth } from '../context/AuthContext'
+import RiparazioniAttiveTable from '../components/dashboard/RiparazioniAttiveTable'
 
 export default function Dashboard() {
     const { user } = useAuth()
@@ -12,6 +13,7 @@ export default function Dashboard() {
                     <Text c="dimmed">Bentornato nel gestionale negozio. Usa la barra laterale per navigare.</Text>
                 </Stack>
             </Paper>
+            <RiparazioniAttiveTable />
         </div>
     )
 }

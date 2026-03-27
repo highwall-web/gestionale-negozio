@@ -3,7 +3,8 @@ package com.hgw.gestionale.statorepair;
 public enum StatoRepair {
     NUOVO("Nuovo"),
     IN_CORSO("In corso"),
-    PRONTO("Pronto");
+    PRONTO("Pronto"),
+    CONSEGNATO("Consegnato");
 
     private final String label;
 

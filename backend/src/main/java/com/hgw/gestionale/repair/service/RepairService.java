@@ -23,6 +23,7 @@ import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -105,6 +106,13 @@ public class RepairService {
         Repair updated = repairRepository.save(repair);
 
         return RepairMapper.toResponse(updated);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RepairResponse> getAllNotConsegnato() {
+        return repairRepository.findByStatoNot(StatoRepair.CONSEGNATO).stream()
+                .map(RepairMapper::toResponse)
+                .toList();
     }
 
     @Transactional

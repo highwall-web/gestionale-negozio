@@ -13,4 +13,5 @@ export const UpdateRepairRequestStato = {
   NUOVO: 'NUOVO',
   IN_CORSO: 'IN_CORSO',
   PRONTO: 'PRONTO',
+  CONSEGNATO: 'CONSEGNATO',
 } as const;

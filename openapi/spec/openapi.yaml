@@ -2323,6 +2323,7 @@ paths:
           - NUOVO
           - IN_CORSO
           - PRONTO
+          - CONSEGNATO
       - name: statoRiparazione
         in: query
         required: false
@@ -2349,6 +2350,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
+        "403":
+          description: Non autorizzato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "500":
+          description: Errore interno del server
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "409":
+          description: Conflitto - risorsa già esistente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "404":
+          description: Risorsa non trovata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+  /api/repairs/attive:
+    get:
+      tags:
+      - repair-controller
+      operationId: getAttive
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RepairResponse"
         "403":
           description: Non autorizzato
           content:
@@ -3663,6 +3714,7 @@ components:
           - NUOVO
           - IN_CORSO
           - PRONTO
+          - CONSEGNATO
         statoRiparazione:
           type: string
           enum:
@@ -3812,6 +3864,7 @@ components:
           - NUOVO
           - IN_CORSO
           - PRONTO
+          - CONSEGNATO
         statoRiparazione:
           type: string
           enum:
