@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Box, Loader, Paper, Stack, Table, Text, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Badge, Loader, Paper, ScrollArea, Stack, Table, Text, Title, Tooltip } from '@mantine/core'
 import { IconArrowRight } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
@@ -89,7 +89,7 @@ export default function RiparazioniAttiveTable() {
                 <Table.Td>{r.customer.nome} {r.customer.cognome}</Table.Td>
                 <Table.Td>{r.customer.telefono}</Table.Td>
                 <Table.Td>{r.product.model.nome ?? r.product.model.id}, {r.product.color.nome}</Table.Td>
-                <Table.Td>
+                <Table.Td style={{ whiteSpace: 'nowrap' }}>
                     <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
                         {r.stato ? (
                             <Badge color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace('_', ' ')}</Badge>
@@ -110,7 +110,7 @@ export default function RiparazioniAttiveTable() {
                         )}
                     </Stack>
                 </Table.Td>
-                <Table.Td>
+                <Table.Td style={{ whiteSpace: 'nowrap' }}>
                     <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
                         {r.statoRiparazione ? (
                             <Badge color={statoRiparazioneColors[r.statoRiparazione] ?? 'gray'}>{r.statoRiparazione.replaceAll('_', ' ')}</Badge>
@@ -140,8 +140,8 @@ export default function RiparazioniAttiveTable() {
             ) : riparazioni?.length === 0 ? (
                 <Text c="dimmed" ta="center" py="xl">Nessuna riparazione attiva</Text>
             ) : (
-                <Box style={{ borderRadius: 'var(--mantine-radius-sm)', overflow: 'hidden' }}>
-                    <Table striped highlightOnHover withTableBorder>
+                <ScrollArea>
+                    <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
                         <Table.Thead>
                             <Table.Tr>
                                 <Table.Th>Creata il</Table.Th>
@@ -156,7 +156,7 @@ export default function RiparazioniAttiveTable() {
                         </Table.Thead>
                         <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
-                </Box>
+                </ScrollArea>
             )}
         </Paper>
     )
