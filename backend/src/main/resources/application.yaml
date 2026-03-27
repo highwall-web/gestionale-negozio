@@ -20,6 +20,9 @@ server:
 jwt:
   secret: ${JWT_SECRET:change-me-with-a-strong-32-bytes-minimum-secret-key-value}
 
+cors:
+  frontend-url: ${FRONTEND_URL:http://localhost:*}
+
 auth:
   refresh-token:
     expiration-days: ${REFRESH_EXP:1}
