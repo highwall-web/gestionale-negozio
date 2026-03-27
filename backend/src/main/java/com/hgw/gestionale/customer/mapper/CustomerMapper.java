@@ -47,4 +47,15 @@ public final class CustomerMapper {
         customer.setTelefonoSecondario(request.telefonoSecondario());
     }
 
+    public static void updateEntity(Customer customer, CreateCustomerRequest request){
+        customer.setNome(request.nome());
+        customer.setCognome(request.cognome());
+        customer.setEmail(request.email());
+        customer.setIndirizzo(request.indirizzo());
+        customer.setCitta(request.citta());
+        customer.setCap(request.cap());
+        customer.setTelefono(request.telefono());
+        customer.setTelefonoSecondario(request.telefonoSecondario());
+    }
+
 }

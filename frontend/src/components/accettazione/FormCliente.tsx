@@ -23,7 +23,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 
 interface Props {
-    onSuccess: (customer: CreateCustomerRequest) => void
+    onSuccess: (customer: CreateCustomerRequest, id: number | null) => void
 }
 
 function formatCustomer(res: CustomerResponse, idx: number) {
@@ -31,10 +31,12 @@ function formatCustomer(res: CustomerResponse, idx: number) {
 }
 
 export default function FormCliente({ onSuccess }: Props) {
-    const { active, updateActive, isEditing, toggleEditingCliente } = useAccettazione();
+    const { active, updateActive, isEditing, toggleEditingCliente, selectedCliente, selectedClienteId } = useAccettazione();
     const [selectedCustomer, setSelectedCustomer] = useState<CreateCustomerRequest | null>(null)
     const justSelected = useRef(false)
     const [searchResults, setSearchResults] = useState<CustomerResponse[]>([])
+    const [customerId, setCustomerId] = useState<number | null>(null)
+    const [isEditable, setIsEditable] = useState(false);
     const isDisabled = active !== 0;
     const wasEditingRef = useRef(false)
 
@@ -59,16 +61,18 @@ export default function FormCliente({ onSuccess }: Props) {
     const effectiveResults = (hasSearchTerm) ? searchResults : []
 
     function resetToSelected() {
-        if (!selectedCustomer) return
+        if (!selectedCliente) return
+        setSelectedCustomer(selectedCliente);
+        setCustomerId(selectedClienteId);
         reset({
-            nome: selectedCustomer.nome ?? "",
-            cognome: selectedCustomer.cognome ?? "",
-            email: selectedCustomer.email ?? "",
-            telefono: selectedCustomer.telefono ?? "",
-            telefonoSecondario: selectedCustomer.telefonoSecondario ?? "",
-            indirizzo: selectedCustomer.indirizzo ?? "",
-            citta: selectedCustomer.citta ?? "",
-            cap: selectedCustomer.cap ?? ""
+            nome: selectedCliente.nome ?? "",
+            cognome: selectedCliente.cognome ?? "",
+            email: selectedCliente.email ?? "",
+            telefono: selectedCliente.telefono ?? "",
+            telefonoSecondario: selectedCliente.telefonoSecondario ?? "",
+            indirizzo: selectedCliente.indirizzo ?? "",
+            citta: selectedCliente.citta ?? "",
+            cap: selectedCliente.cap ?? ""
         })
     }
 
@@ -77,6 +81,7 @@ export default function FormCliente({ onSuccess }: Props) {
         if (!customer) return
         justSelected.current = true
         setSelectedCustomer(customer)
+        setCustomerId(customer.id)
         setValue('nome', customer.nome ?? '')
         setValue('cognome', customer.cognome ?? '')
         setValue('email', customer.email ?? '')
@@ -98,13 +103,13 @@ export default function FormCliente({ onSuccess }: Props) {
             citta: "",
             cap: ""
         })
-        if (!isEditing.editingCliente) {
-            setSelectedCustomer(null)
-        }
+        setSelectedCustomer(null)
+        setCustomerId(null)
         setSearchResults([])
     }
 
     function onSubmit(data: FormData) {
+        setIsEditable(true);
         createCustomer(data);
     }
 
@@ -114,9 +119,9 @@ export default function FormCliente({ onSuccess }: Props) {
     }
 
     function handleUndo() {
-        if (!selectedCustomer) return;
+        if (!selectedCliente) return;
         resetToSelected();
-        onSuccess(selectedCustomer);
+        onSuccess(selectedCliente, selectedClienteId);
         handleToggleEditing();
     }
 
@@ -133,7 +138,7 @@ export default function FormCliente({ onSuccess }: Props) {
         }
         toast.success('Cliente inserito')
         setSelectedCustomer(customer)
-        onSuccess(customer)
+        onSuccess(customer, customerId)
         handleToggleEditing()
     }
 
@@ -149,7 +154,7 @@ export default function FormCliente({ onSuccess }: Props) {
 
     useEffect(() => {
         if (wasEditingRef.current && !isEditing.editingCliente) {
-            resetToSelected()
+            resetToSelected() // eslint-disable-line react-hooks/set-state-in-effect
         }
         wasEditingRef.current = isEditing.editingCliente
     }, [isEditing.editingCliente]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -174,7 +179,7 @@ export default function FormCliente({ onSuccess }: Props) {
                             }}
                             onOptionSubmit={onOptionSubmit}
                             styles={{ root: { position: 'relative' }, error: { position: 'absolute' } }}
-                            disabled={isDisabled}
+                            disabled={isDisabled || !!customerId}
                         />
                     )}
                 />
@@ -194,7 +199,7 @@ export default function FormCliente({ onSuccess }: Props) {
                             }}
                             onOptionSubmit={onOptionSubmit}
                             styles={{ root: { position: 'relative' }, error: { position: 'absolute' } }}
-                            disabled={isDisabled}
+                            disabled={isDisabled || !!customerId}
                         />
                     )}
                 />
@@ -272,7 +277,7 @@ export default function FormCliente({ onSuccess }: Props) {
                             }
                         </>
                     )}
-                    {(isDisabled && !!selectedCustomer) && (
+                    {(isDisabled && isEditable) && (
                         <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(0); toggleEditingCliente() }}>
                             Modifica cliente
                         </Button>

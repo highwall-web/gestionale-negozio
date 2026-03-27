@@ -6,9 +6,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { Pageable } from './pageable';
+import type { SearchRepairsStato } from './searchRepairsStato';
+import type { SearchRepairsStatoRiparazione } from './searchRepairsStatoRiparazione';
 
 export type SearchRepairsParams = {
-statoId?: number;
-statoRiparazioneId?: number;
+stato?: SearchRepairsStato;
+statoRiparazione?: SearchRepairsStatoRiparazione;
 pageable: Pageable;
 };

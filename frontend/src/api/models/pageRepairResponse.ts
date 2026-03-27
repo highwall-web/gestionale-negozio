@@ -10,14 +10,14 @@ import type { RepairResponse } from './repairResponse';
 import type { SortObject } from './sortObject';
 
 export interface PageRepairResponse {
-  totalPages?: number;
   totalElements?: number;
-  first?: boolean;
-  last?: boolean;
+  totalPages?: number;
   size?: number;
   content?: RepairResponse[];
   number?: number;
   sort?: SortObject;
+  first?: boolean;
+  last?: boolean;
   numberOfElements?: number;
   pageable?: PageableObject;
   empty?: boolean;

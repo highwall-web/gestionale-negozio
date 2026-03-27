@@ -71,34 +71,52 @@ interface Props {
 }
 
 export default function FormDifetti({ onSuccess }: Props) {
-    const { active, selectedDispositivo } = useAccettazione()
+    const { active, selectedDispositivo, updateActive, toggleEditingTest, isEditing } = useAccettazione()
     const isDisabled = active !== 3
+    const [isEditable, setIsEditable] = useState(false);
 
-    const [tests, setTests] = useState<CreateProductRequestTestDiagnostici>(
+    const [selectedTests, setSelectedTests] = useState<CreateProductRequestTestDiagnostici>(
         selectedDispositivo?.testDiagnostici ?? {}
     )
 
     function handleChange(categoria: string, values: string[]) {
-        setTests(prev => ({ ...prev, [categoria]: values }))
+        setSelectedTests(prev => ({ ...prev, [categoria]: values }))
     }
+
 
     function countSelected(categoria: string) {
-        return tests[categoria]?.length ?? 0
+        return selectedTests[categoria]?.length ?? 0
     }
 
-    const totalSelected = Object.values(tests).reduce((acc, v) => acc + v.length, 0)
+    const totalSelected = Object.values(selectedTests).reduce((acc, v) => acc + v.length, 0)
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
-        const filtered = Object.fromEntries(
-            Object.entries(tests).filter(([, v]) => v.length > 0)
-        )
         toast.success("Test diagnostici salvati")
-        onSuccess(filtered)
+        handleToggleEditing();
+        setIsEditable(true);
+        onSuccess(selectedTests)
     }
 
     function handleReset() {
-        setTests({})
+        setSelectedTests({})
+    }
+
+    function handleUndo() {
+        if (!selectedDispositivo?.testDiagnostici) return;
+        resetToSelected();
+        onSuccess(selectedDispositivo?.testDiagnostici);
+        handleToggleEditing();
+    }
+
+    function handleToggleEditing() {
+        if (!isEditing.editingTest) return;
+        toggleEditingTest()
+    }
+
+    function resetToSelected() {
+        if (!selectedDispositivo?.testDiagnostici) return
+        setSelectedTests(selectedDispositivo.testDiagnostici)
     }
 
     return (
@@ -124,7 +142,7 @@ export default function FormDifetti({ onSuccess }: Props) {
                             </Accordion.Control>
                             <Accordion.Panel>
                                 <Checkbox.Group
-                                    value={tests[categoria] ?? []}
+                                    value={selectedTests[categoria] ?? []}
                                     onChange={values => handleChange(categoria, values)}
                                 >
                                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
@@ -150,10 +168,35 @@ export default function FormDifetti({ onSuccess }: Props) {
                             <Button variant="default" type="button" onClick={handleReset}>
                                 Reset
                             </Button>
-                            <Button type="submit">
-                                Conferma test
-                            </Button>
+                            {
+                                !isEditing.editingTest ? (
+                                    <Button type="submit">
+                                        Conferma test diagnostici
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        type={"button"}
+                                        onClick={(e) => { e.preventDefault(); handleUndo() }}
+                                        variant="outline"
+                                    >
+                                        Annulla modifiche
+                                    </Button>
+                                )
+                            }
+
+                            {
+                                isEditing.editingTest && (
+                                    <Button type="submit">
+                                        {"Applica modifiche"}
+                                    </Button>
+                                )
+                            }
                         </>
+                    )}
+                    {(isDisabled && isEditable) && (
+                        <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(3); toggleEditingTest() }}>
+                            Modifica test diagnostici
+                        </Button>
                     )}
                 </Button.Group>
             </Group>

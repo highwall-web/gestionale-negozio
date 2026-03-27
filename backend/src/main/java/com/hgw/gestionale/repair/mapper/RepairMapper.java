@@ -6,10 +6,8 @@ import com.hgw.gestionale.product.mapper.ProductMapper;
 import com.hgw.gestionale.repair.dto.RepairResponse;
 import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.repairdetails.mapper.RepairDetailsMapper;
-import com.hgw.gestionale.statorepair.entity.StatoRepair;
-import com.hgw.gestionale.statorepair.mapper.StatoRepairMapper;
-import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
-import com.hgw.gestionale.statoriparazione.mapper.StatoRiparazioneMapper;
+import com.hgw.gestionale.statorepair.StatoRepair;
+import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 
 public final class RepairMapper {
 
@@ -27,8 +25,8 @@ public final class RepairMapper {
                 CustomerMapper.toResponse(repair.getCustomer()),
                 ProductMapper.toResponse(repair.getProduct()),
                 RepairDetailsMapper.toResponse(repair.getDetails()),
-                repair.getStato() != null ? StatoRepairMapper.toResponse(repair.getStato()) : null,
-                repair.getStatoRiparazione() != null ? StatoRiparazioneMapper.toResponse(repair.getStatoRiparazione()) : null,
+                repair.getStato(),
+                repair.getStatoRiparazione(),
                 repair.getCostoTotale()
         );
     }

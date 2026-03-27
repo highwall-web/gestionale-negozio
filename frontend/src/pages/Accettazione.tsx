@@ -2,6 +2,7 @@ import { Paper, Stack, Stepper } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
 import { type CreateCustomerRequest, type CreateProductRequest, type CreateProductRequestTestDiagnostici, type CreateRepairDetailsRequest } from "../api";
 import FormCliente from "../components/accettazione/FormCliente";
+import FormConferma from "../components/accettazione/FormConferma";
 import FormDifetti from "../components/accettazione/FormDifetti";
 import FormDispositivo from "../components/accettazione/FormDispositivo";
 import FormRiparazione from "../components/accettazione/FormRiparazione";
@@ -15,13 +16,15 @@ export default function Accettazione() {
         active,
         updateActive,
         setSelectedCliente,
+        setSelectedClienteId,
         setSelectedDispositivo,
         setSelectedDettagli,
         selectedDispositivo
     } = useAccettazione();
 
-    const handleClienteSuccess = (customer: CreateCustomerRequest) => {
+    const handleClienteSuccess = (customer: CreateCustomerRequest, id: number | null) => {
         setSelectedCliente(customer)
+        setSelectedClienteId(id)
         updateActive(active + 1)
     }
 
@@ -78,8 +81,7 @@ export default function Accettazione() {
                     >
                         Inserisci i difetti del dispositivo
                     </Stepper.Step>
-                    <Stepper.Completed
-                    >
+                    <Stepper.Completed>
                         Completa l'accettazione
                     </Stepper.Completed>
                 </Stepper>
@@ -117,6 +119,14 @@ export default function Accettazione() {
                 shadow="md"
             >
                 <FormDifetti onSuccess={handleTestSuccess} />
+            </Paper>
+            <Paper
+                radius={12}
+                p="md"
+                style={{ position: 'relative' }}
+                shadow="md"
+            >
+                <FormConferma />
             </Paper>
         </Stack>
     </Stack>

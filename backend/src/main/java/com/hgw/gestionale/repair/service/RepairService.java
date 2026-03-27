@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hgw.gestionale.common.exception.NotFoundException;
 import com.hgw.gestionale.customer.entity.Customer;
+import com.hgw.gestionale.customer.mapper.CustomerMapper;
 import com.hgw.gestionale.customer.repository.CustomerRepository;
 import com.hgw.gestionale.product.service.ProductService;
 import com.hgw.gestionale.repair.dto.CreateRepairRequest;
@@ -16,10 +17,8 @@ import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.repair.mapper.RepairMapper;
 import com.hgw.gestionale.repair.repository.RepairRepository;
 import com.hgw.gestionale.repairdetails.service.RepairDetailsService;
-import com.hgw.gestionale.statorepair.entity.StatoRepair;
-import com.hgw.gestionale.statorepair.repository.StatoRepairRepository;
-import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
-import com.hgw.gestionale.statoriparazione.repository.StatoRiparazioneRepository;
+import com.hgw.gestionale.statorepair.StatoRepair;
+import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,17 +30,28 @@ public class RepairService {
     private final RepairRepository repairRepository;
     private final CustomerRepository customerRepository;
     private final ProductService productService;
-    private final StatoRepairRepository statoRepairRepository;
-    private final StatoRiparazioneRepository statoRiparazioneRepository;
     private final RepairDetailsService repairDetailsService;
 
     @Transactional
     public RepairResponse create(CreateRepairRequest request, String autore) {
 
-        Customer customer = customerRepository.findById(request.customerId())
+        Customer customer = null;
+
+        if (request.customerId() != null) {
+            customer = customerRepository.findById(request.customerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
+            CustomerMapper.updateEntity(customer, request.customer());
+            customer = customerRepository.save(customer);
+        }else{
+            customer = customerRepository.save(CustomerMapper.toEntity(request.customer()));
+        }
 
         Repair saved = repairRepository.save(RepairMapper.toEntity(customer));
+
+        saved.setStato(StatoRepair.NUOVO);
+        saved.setStatoRiparazione(request.details().isPreventivo()
+                ? StatoRiparazione.IN_ATTESA_DI_PREVENTIVO
+                : StatoRiparazione.ACCETTATO);
 
         saved.setProduct(productService.createEntity(request.product(), saved));
         saved.setDetails(repairDetailsService.createEntity(request.details(), saved, autore));
@@ -56,14 +66,7 @@ public class RepairService {
     }
 
     @Transactional(readOnly = true)
-    public Page<RepairResponse> search(Long statoId, Long statoRiparazioneId, Pageable pageable) {
-        StatoRepair stato = statoId != null
-                ? statoRepairRepository.findById(statoId).orElseThrow(() -> new NotFoundException("StatoRepair not found"))
-                : null;
-        StatoRiparazione statoRiparazione = statoRiparazioneId != null
-                ? statoRiparazioneRepository.findById(statoRiparazioneId).orElseThrow(() -> new NotFoundException("StatoRiparazione not found"))
-                : null;
-
+    public Page<RepairResponse> search(StatoRepair stato, StatoRiparazione statoRiparazione, Pageable pageable) {
         Page<Repair> page;
         if (stato != null && statoRiparazione != null) {
             page = repairRepository.findByStatoAndStatoRiparazione(stato, statoRiparazione, pageable);
@@ -74,13 +77,13 @@ public class RepairService {
         } else {
             page = repairRepository.findAll(pageable);
         }
-        return page.map(r -> RepairMapper.toResponse(r));
+        return page.map(RepairMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
     public Page<RepairResponse> getAll(Pageable pageable) {
         return repairRepository.findAll(pageable)
-                .map(r -> RepairMapper.toResponse(r));
+                .map(RepairMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
@@ -98,14 +101,7 @@ public class RepairService {
         Customer customer = customerRepository.findById(request.customerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found"));
 
-        StatoRepair stato = request.statoId() != null
-                ? statoRepairRepository.findById(request.statoId()).orElseThrow(() -> new NotFoundException("StatoRepair not found"))
-                : null;
-        StatoRiparazione statoRiparazione = request.statoRiparazioneId() != null
-                ? statoRiparazioneRepository.findById(request.statoRiparazioneId()).orElseThrow(() -> new NotFoundException("StatoRiparazione not found"))
-                : null;
-
-        RepairMapper.updateEntity(repair, customer, stato, statoRiparazione);
+        RepairMapper.updateEntity(repair, customer, request.stato(), request.statoRiparazione());
         Repair updated = repairRepository.save(repair);
 
         return RepairMapper.toResponse(updated);

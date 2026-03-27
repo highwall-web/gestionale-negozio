@@ -1,10 +1,12 @@
 package com.hgw.gestionale.repair.dto;
 
+import com.hgw.gestionale.statorepair.StatoRepair;
+import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 import jakarta.validation.constraints.NotNull;
 
 public record UpdateRepairRequest(
         @NotNull Long customerId,
-        Long statoId,
-        Long statoRiparazioneId
+        StatoRepair stato,
+        StatoRiparazione statoRiparazione
 ) {
 }

@@ -3,8 +3,8 @@ package com.hgw.gestionale.repair.entity;
 import com.hgw.gestionale.customer.entity.Customer;
 import com.hgw.gestionale.product.entity.Product;
 import com.hgw.gestionale.repairdetails.entity.RepairDetails;
-import com.hgw.gestionale.statorepair.entity.StatoRepair;
-import com.hgw.gestionale.statoriparazione.entity.StatoRiparazione;
+import com.hgw.gestionale.statorepair.StatoRepair;
+import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,12 +34,12 @@ public class Repair {
     @OneToOne(mappedBy = "repair", fetch = FetchType.LAZY)
     private RepairDetails details;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stato_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stato")
     private StatoRepair stato;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "stato_riparazione_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "stato_riparazione")
     private StatoRiparazione statoRiparazione;
 
     @Column

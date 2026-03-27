@@ -35,6 +35,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
     const [searchDispositivo, setSearchDispositivo] = useState("")
     const [searchGenerali, setSearchGenerali] = useState("")
     const [selectedDetails, setSelectedDetails] = useState<CreateRepairDetailsRequest | null>(null)
+    const [isEditable, setIsEditable] = useState(false);
 
     const wasEditingRef = useRef(false)
 
@@ -52,7 +53,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
     const [isPreventivo] = useWatch({ control, name: ['isPreventivo'] })
 
     function toggleIntervento(id: number, checked: boolean, current: InterventionQuantitaRequest[]) {
-        return checked ? [...current, { interventionId: id }] : current.filter(x => x.interventionId !== id)
+        return checked ? [...current, { interventionId: id, quantita: 1 }] : current.filter(x => x.interventionId !== id)
     }
 
     function handleUndo() {
@@ -92,6 +93,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
     }
 
     function onSubmit(data: FormData) {
+        setIsEditable(true);
         createDetails(data);
     }
 
@@ -336,7 +338,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
                                 }
                             </>
                         )}
-                        {(isDisabled && !!selectedDetails) && (
+                        {(isDisabled && isEditable) && (
                             <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(2); toggleEditingDettagli() }}>
                                 Modifica dettagli
                             </Button>

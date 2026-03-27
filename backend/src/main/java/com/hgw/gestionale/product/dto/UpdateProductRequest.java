@@ -7,11 +7,11 @@ import com.hgw.gestionale.color.dto.CreateColorRequest;
 import com.hgw.gestionale.model.dto.CreateModelRequest;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateProductRequest(
-        @Valid @NotBlank CreateModelRequest model,
-        @Valid @NotBlank CreateColorRequest color,
+        @Valid @NotNull CreateModelRequest model,
+        @Valid @NotNull CreateColorRequest color,
         String capacita,
         String codiceUnlock,
         List<Integer> sequenzaUnlock,

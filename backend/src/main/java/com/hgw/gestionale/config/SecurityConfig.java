@@ -43,7 +43,8 @@ public class SecurityConfig {
                                 "/api-docs",
                                 "/api-docs/**",
                                 "/api-docs.yaml",
-                                "/api/auth/refresh"
+                                "/api/auth/refresh",
+                                "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

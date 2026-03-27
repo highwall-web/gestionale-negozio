@@ -5,11 +5,13 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { CreateCustomerRequest } from './createCustomerRequest';
 import type { CreateProductRequest } from './createProductRequest';
 import type { CreateRepairDetailsRequest } from './createRepairDetailsRequest';
 
 export interface CreateRepairRequest {
-  customerId: number;
+  customerId?: number;
+  customer: CreateCustomerRequest;
   product: CreateProductRequest;
   details: CreateRepairDetailsRequest;
 }

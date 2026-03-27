@@ -41,6 +41,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
     const isDisabled = active !== 1;
     const [selectedProduct, setSelectedProduct] = useState<CreateProductRequest | null>(null);
     const [isModelSelected, setIsModelSelected] = useState(false)
+    const [isEditable, setIsEditable] = useState(false);
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -102,6 +103,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
     }
 
     function onSubmit(data: FormData) {
+        setIsEditable(true);
         createProduct(data);
     }
 
@@ -398,7 +400,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                             }
                         </>
                     )}
-                    {(isDisabled && !!selectedProduct) && (
+                    {(isDisabled && isEditable) && (
                         <Button type='button' onClick={(e) => { e.preventDefault(); updateActive(1); toggleEditingDispositivo() }}>
                             Modifica dispositivo
                         </Button>

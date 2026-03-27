@@ -8,15 +8,15 @@
 import type { CustomerResponse } from './customerResponse';
 import type { ProductResponse } from './productResponse';
 import type { RepairDetailsResponse } from './repairDetailsResponse';
-import type { StatoRepairResponse } from './statoRepairResponse';
-import type { StatoRiparazioneResponse } from './statoRiparazioneResponse';
+import type { RepairResponseStato } from './repairResponseStato';
+import type { RepairResponseStatoRiparazione } from './repairResponseStatoRiparazione';
 
 export interface RepairResponse {
   id: number;
   customer: CustomerResponse;
   product: ProductResponse;
   details?: RepairDetailsResponse;
-  stato?: StatoRepairResponse;
-  statoRiparazione?: StatoRiparazioneResponse;
+  stato?: RepairResponseStato;
+  statoRiparazione?: RepairResponseStatoRiparazione;
   costoTotale?: number;
 }

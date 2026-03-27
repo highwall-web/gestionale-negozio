@@ -4,6 +4,8 @@ import com.hgw.gestionale.repair.dto.CreateRepairRequest;
 import com.hgw.gestionale.repair.dto.RepairResponse;
 import com.hgw.gestionale.repair.dto.UpdateRepairRequest;
 import com.hgw.gestionale.repair.service.RepairService;
+import com.hgw.gestionale.statorepair.StatoRepair;
+import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,12 +41,12 @@ public class RepairController {
 
     @GetMapping("/search")
     public Page<RepairResponse> searchRepairs(
-            @RequestParam(required = false) Long statoId,
-            @RequestParam(required = false) Long statoRiparazioneId,
+            @RequestParam(required = false) StatoRepair stato,
+            @RequestParam(required = false) StatoRiparazione statoRiparazione,
             @PageableDefault(size = 20, sort = "id") Pageable pageable
     ) {
-        log.info("RepairController.search statoId={} statoRiparazioneId={}", statoId, statoRiparazioneId);
-        return repairService.search(statoId, statoRiparazioneId, pageable);
+        log.info("RepairController.search stato={} statoRiparazione={}", stato, statoRiparazione);
+        return repairService.search(stato, statoRiparazione, pageable);
     }
 
     @GetMapping("/{id}")
