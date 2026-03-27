@@ -13,6 +13,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          time_zone: Europe/Rome
 
 server:
   port: 8080
