@@ -1,11 +1,11 @@
-import { ActionIcon, AppShell, Burger, Group, NavLink, Stack, Switch } from '@mantine/core'
-import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconMoonStars, IconSun } from '@tabler/icons-react'
-import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
-import { useTheme } from '../context/ThemeContext'
-import { ROUTES } from '../routes'
-import { checkActivePath } from '../utils/urlUtils'
+import {AppShell, Burger, Group, NavLink, Stack, Switch} from '@mantine/core'
+import {useDisclosure, useMediaQuery} from '@mantine/hooks'
+import {IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun} from '@tabler/icons-react'
+import {Outlet, useLocation, useNavigate} from 'react-router-dom'
+import {useAuth} from '../context/AuthContext'
+import {useTheme} from '../context/ThemeContext'
+import {ROUTES} from '../routes'
+import {checkActivePath} from '../utils/urlUtils'
 
 export default function AppLayout() {
     const [opened, { toggle: toggleNav }] = useDisclosure()
