@@ -52,7 +52,7 @@ public class AuthService {
                 .nome(request.nome())
                 .passwordHash(passwordEncoder.encode(request.password()))
                 .email(request.email())
-                .role(Role.COMMESSO)
+                .role(request.role())
                 .enabled(true)
                 .build();
         userRepository.save(user);

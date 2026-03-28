@@ -1,11 +1,12 @@
-import { AppShell, Burger, Group, NavLink, Stack, Switch } from '@mantine/core'
+import { Accordion, AppShell, Burger, Group, NavLink, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun } from '@tabler/icons-react'
+import { IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun, IconUser } from '@tabler/icons-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { ROUTES } from '../routes'
 import { checkActivePath } from '../utils/urlUtils'
+import { UserResponseRole } from '../api'
 
 export default function AppLayout() {
     const [opened, { toggle: toggleNav }] = useDisclosure()
@@ -13,6 +14,7 @@ export default function AppLayout() {
     const location = useLocation();
     const { authLogout } = useAuth()
     const { isDark, toggle } = useTheme()
+    const { isInRole } = useAuth()
     const isDesktop = useMediaQuery('(min-width: 48em)')
 
     return (
@@ -68,6 +70,37 @@ export default function AppLayout() {
                             active={checkActivePath(location.pathname, ROUTES.ACCETTAZIONE)}
                             leftSection={<IconDeviceMobilePlus size={18} stroke={1.5} />}
                         />
+                        <Accordion
+                            variant="filled"
+                            radius="md"
+                            chevronPosition="right"
+                            defaultValue={checkActivePath(location.pathname, ROUTES.CREA_UTENTE) || checkActivePath(location.pathname, ROUTES.MODIFICA_UTENTE) ? 'utenti' : null}
+                            styles={{ item: { backgroundColor: 'transparent' }, label: { padding: '8px 0' }, control: { paddingLeft: 12, paddingRight: 12 } }}
+                        >
+                            <Accordion.Item value="utenti">
+                                <Accordion.Control icon={<IconUser size={18} stroke={1.5} />}>
+                                    <Text size="sm">Utenti</Text>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Stack gap={2}>
+                                        {isInRole(UserResponseRole.ADMIN) && (
+                                            <NavLink
+                                                label="Crea utente"
+                                                onClick={() => { navigate(ROUTES.CREA_UTENTE); toggleNav() }}
+                                                variant='light'
+                                                active={checkActivePath(location.pathname, ROUTES.CREA_UTENTE)}
+                                            />
+                                        )}
+                                        <NavLink
+                                            label="Modifica dati utente"
+                                            onClick={() => { navigate(ROUTES.MODIFICA_UTENTE); toggleNav() }}
+                                            variant='light'
+                                            active={checkActivePath(location.pathname, ROUTES.MODIFICA_UTENTE)}
+                                        />
+                                    </Stack>
+                                </Accordion.Panel>
+                            </Accordion.Item>
+                        </Accordion>
                     </Stack>
                     <NavLink
                         label="Logout"

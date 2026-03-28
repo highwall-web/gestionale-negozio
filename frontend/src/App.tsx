@@ -15,6 +15,9 @@ import { ThemeProvider } from './context/ThemeContext'
 import { ROUTES } from './routes'
 import Accettazione from './pages/Accettazione'
 import { AccettazioneProvider } from './context/AccettazioneContext'
+import CreaUtente from './pages/CreaUtente'
+import ModificaUtente from './pages/ModificaUtente'
+import AdminRoute from './components/AdminRoute'
 
 const theme = createTheme({
     cursorType: 'pointer',
@@ -42,6 +45,19 @@ const router = createBrowserRouter([
                         element: <AccettazioneProvider>
                             <Accettazione />
                         </AccettazioneProvider>,
+                    },
+                    {
+                        path: ROUTES.MODIFICA_UTENTE,
+                        element: <ModificaUtente />,
+                    },
+                    {
+                        element: <AdminRoute />,
+                        children: [
+                            {
+                                path: ROUTES.CREA_UTENTE,
+                                element: <CreaUtente />,
+                            }
+                        ]
                     }
                 ],
             },

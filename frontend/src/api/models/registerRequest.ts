@@ -5,6 +5,7 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
+import type { RegisterRequestRole } from './registerRequestRole';
 
 export interface RegisterRequest {
   /** @minLength 1 */
@@ -15,4 +16,5 @@ export interface RegisterRequest {
   email: string;
   /** @minLength 1 */
   password: string;
+  role: RegisterRequestRole;
 }

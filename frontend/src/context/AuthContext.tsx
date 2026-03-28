@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { logout, refresh } from '../api/endpoints/auth-controller/auth-controller'
 import { tokenStore } from '../api/tokenStore'
-import { getCurrentUser, type UserResponse } from '../api'
+import { getCurrentUser, UserResponseRole, type UserResponse } from '../api'
 import toast from 'react-hot-toast'
 
 interface AuthContextType {
@@ -9,6 +9,7 @@ interface AuthContextType {
     isLoading: boolean
     authLogin: (token: string) => void
     authLogout: () => void
+    isInRole: (role: UserResponseRole) => boolean
     user: UserResponse | undefined
 }
 
@@ -34,6 +35,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             .catch(() => toast.error("Errore nel logout"))
     }
 
+    function isInRole(role: UserResponseRole) {
+        if (user) {
+            return user.role === role;
+        }
+        return false;
+    }
+
     useEffect(() => {
         refresh()
             .then((res) => {
@@ -56,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [isAuthenticated])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, authLogin, authLogout, user }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, authLogin, authLogout, user, isInRole }}>
             {children}
         </AuthContext.Provider>
     )
