@@ -4,6 +4,7 @@ import com.hgw.gestionale.repair.entity.Repair;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ public class RepairDetails {
     private boolean isPreventivo;
 
     @OneToMany(mappedBy = "repairDetails", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 30)
     @Builder.Default
     private List<RepairDetailsIntervention> interventions = new ArrayList<>();
 
@@ -42,6 +44,7 @@ public class RepairDetails {
 
     @OneToMany(mappedBy = "repairDetails", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("createdAt ASC")
+    @BatchSize(size = 30)
     @Builder.Default
     private List<RepairMessage> messaggi = new ArrayList<>();
 }

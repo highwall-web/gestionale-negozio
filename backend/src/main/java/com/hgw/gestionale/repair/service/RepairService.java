@@ -110,7 +110,7 @@ public class RepairService {
 
     @Transactional(readOnly = true)
     public List<RepairResponse> getAllNotConsegnato() {
-        return repairRepository.findByStatoNot(StatoRepair.CONSEGNATO).stream()
+        return repairRepository.findByStatoNotWithDetails(StatoRepair.CONSEGNATO).stream()
                 .map(RepairMapper::toResponse)
                 .toList();
     }

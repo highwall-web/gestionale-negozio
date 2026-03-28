@@ -73,8 +73,8 @@ public class AuthService {
         boolean rememberMe = Boolean.TRUE.equals(request.rememberMe());
 
         LocalDateTime expiresAt = rememberMe
-                ? LocalDateTime.now().plusDays(30)
-                : LocalDateTime.now().plusDays(1);
+                ? LocalDateTime.now().plusDays(refreshTokenExpirationDaysRememberMe)
+                : LocalDateTime.now().plusDays(refreshTokenExpirationDays);
 
         RefreshToken refreshToken = RefreshToken.builder()
                 .token(refreshTokenValue)
