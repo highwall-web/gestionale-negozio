@@ -49,6 +49,7 @@ public class AuthService {
     public void register(RegisterRequest request) {
         User user = User.builder()
                 .username(request.username())
+                .nome(request.nome())
                 .passwordHash(passwordEncoder.encode(request.password()))
                 .email(request.email())
                 .role(Role.COMMESSO)

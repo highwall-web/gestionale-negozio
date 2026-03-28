@@ -10,8 +10,8 @@ import type { RepairResponse } from './repairResponse';
 import type { SortObject } from './sortObject';
 
 export interface PageRepairResponse {
-  totalElements?: number;
   totalPages?: number;
+  totalElements?: number;
   size?: number;
   content?: RepairResponse[];
   number?: number;

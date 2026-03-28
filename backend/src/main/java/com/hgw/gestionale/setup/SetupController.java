@@ -31,6 +31,7 @@ public class SetupController {
 
         User admin = User.builder()
                 .username(request.username())
+                .nome(request.nome())
                 .email(request.email())
                 .passwordHash(passwordEncoder.encode(request.password()))
                 .role(Role.ADMIN)

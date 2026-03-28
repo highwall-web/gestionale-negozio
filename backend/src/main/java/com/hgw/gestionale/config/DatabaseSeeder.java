@@ -22,6 +22,7 @@ public class DatabaseSeeder {
             if (userRepository.findByUsername("admin").isEmpty()) {
                 User admin = User.builder()
                         .username("admin")
+                        .nome("admin")
                         .passwordHash(passwordEncoder.encode("admin123"))
                         .email("m.m@m.it")
                         .role(Role.ADMIN)

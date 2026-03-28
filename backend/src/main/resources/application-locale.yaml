@@ -14,6 +14,9 @@ spring:
       hibernate:
         format_sql: true
 
+  flyway:
+    enabled: false
+
 server:
   port: 8080
 
@@ -30,11 +33,10 @@ auth:
     cookie-secure: ${COOKIE_SECURE:false}
     cookie-same-site: ${COOKIE_SAME_SITE:lax}
 
-  flyway:
-    enabled: false
-
 springdoc:
   api-docs:
     path: /api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
+    enabled: true

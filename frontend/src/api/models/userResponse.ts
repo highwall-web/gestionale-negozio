@@ -10,6 +10,7 @@ import type { UserResponseRole } from './userResponseRole';
 export interface UserResponse {
   id?: number;
   username?: string;
+  nome?: string;
   email?: string;
   role?: UserResponseRole;
   enabled?: boolean;

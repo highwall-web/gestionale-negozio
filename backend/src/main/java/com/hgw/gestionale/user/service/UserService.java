@@ -18,6 +18,7 @@ public class UserService {
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),
+                user.getNome(),
                 user.getEmail(),
                 user.getRole(),
                 user.getEnabled()

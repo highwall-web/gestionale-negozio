@@ -26,26 +26,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairDetailsResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -56,8 +50,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -86,26 +86,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairDetailsResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -116,8 +110,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -136,26 +136,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -166,8 +160,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -191,26 +191,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -221,8 +215,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -251,26 +251,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -281,8 +275,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -301,26 +301,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -331,8 +325,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -356,26 +356,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -386,8 +380,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -416,26 +416,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -446,8 +440,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -466,26 +466,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -496,8 +490,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -521,26 +521,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -551,8 +545,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -581,26 +581,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -611,8 +605,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -631,26 +631,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -661,8 +655,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -686,26 +686,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -716,8 +710,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -746,26 +746,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -776,8 +770,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -796,26 +796,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -826,8 +820,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -851,26 +851,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -881,8 +875,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -911,26 +911,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -941,8 +935,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -961,26 +961,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -991,8 +985,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1016,26 +1016,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1046,8 +1040,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1076,26 +1076,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1106,8 +1100,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1126,26 +1126,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1156,8 +1150,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1181,26 +1181,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1211,8 +1205,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1241,26 +1241,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1271,8 +1265,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1291,26 +1291,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1321,8 +1315,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1345,26 +1345,20 @@ paths:
             application/json:
               schema:
                 type: string
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1375,8 +1369,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1399,26 +1399,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1429,8 +1423,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1452,26 +1452,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1482,8 +1476,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1513,26 +1513,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/RepairMessageResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1543,8 +1537,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1563,26 +1563,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1593,8 +1587,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1616,26 +1616,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1646,8 +1640,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1666,26 +1666,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1696,8 +1690,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1719,26 +1719,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1749,8 +1743,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1769,26 +1769,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1799,8 +1793,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1822,26 +1822,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CustomerResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1852,8 +1846,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1872,26 +1872,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1902,8 +1896,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1925,26 +1925,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -1955,8 +1949,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -1975,26 +1975,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2005,8 +1999,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2028,26 +2028,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2058,8 +2052,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2078,26 +2078,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2108,8 +2102,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2126,26 +2126,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2156,8 +2150,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2170,26 +2170,20 @@ paths:
       responses:
         "200":
           description: OK
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2200,8 +2194,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2224,26 +2224,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/LoginResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2254,8 +2248,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2272,26 +2272,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2302,8 +2296,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2350,26 +2350,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PageRepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2380,8 +2374,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2400,26 +2400,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/RepairResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2430,8 +2424,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2450,26 +2450,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2480,8 +2474,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2506,26 +2506,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2536,8 +2530,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2560,26 +2560,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2590,8 +2584,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2614,26 +2614,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProductResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2644,8 +2638,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2670,26 +2670,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2700,8 +2694,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2732,26 +2732,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2762,8 +2756,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2793,26 +2793,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2823,8 +2817,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2847,26 +2847,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2877,8 +2871,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2904,26 +2904,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ModelResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2934,8 +2928,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -2960,26 +2960,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -2990,8 +2984,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3022,26 +3022,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3052,8 +3046,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3072,26 +3072,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3102,8 +3096,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3126,26 +3126,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3156,8 +3150,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3183,26 +3183,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterventionResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3213,8 +3207,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3233,26 +3233,20 @@ paths:
                 type: object
                 additionalProperties:
                   type: string
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3263,8 +3257,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3304,26 +3304,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CustomerResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3334,8 +3328,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3360,26 +3360,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3390,8 +3384,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3414,26 +3414,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ColorResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3444,8 +3438,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3470,26 +3470,20 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3500,8 +3494,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3524,26 +3524,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BrandResponse"
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3554,8 +3548,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -3581,26 +3581,20 @@ paths:
       responses:
         "204":
           description: No Content
-        "404":
-          description: Risorsa non trovata
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ApiError"
         "409":
           description: Conflitto - risorsa già esistente
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "400":
-          description: Richiesta non valida
+        "404":
+          description: Risorsa non trovata
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "401":
-          description: Non autenticato
+        "403":
+          description: Non autorizzato
           content:
             application/json:
               schema:
@@ -3611,8 +3605,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ApiError"
-        "403":
-          description: Non autorizzato
+        "401":
+          description: Non autenticato
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApiError"
+        "400":
+          description: Richiesta non valida
           content:
             application/json:
               schema:
@@ -4082,6 +4082,9 @@ components:
         username:
           type: string
           minLength: 1
+        nome:
+          type: string
+          minLength: 1
         email:
           type: string
           minLength: 1
@@ -4090,6 +4093,7 @@ components:
           minLength: 1
       required:
       - email
+      - nome
       - password
       - username
     AddMessageRequest:
@@ -4264,6 +4268,8 @@ components:
           format: int64
         username:
           type: string
+        nome:
+          type: string
         email:
           type: string
         role:
@@ -4291,12 +4297,12 @@ components:
     PageRepairResponse:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         size:
           type: integer
           format: int32
@@ -4328,7 +4334,7 @@ components:
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
-        unpaged:
+        paged:
           type: boolean
         pageNumber:
           type: integer
@@ -4336,14 +4342,14 @@ components:
         pageSize:
           type: integer
           format: int32
-        paged:
+        unpaged:
           type: boolean
     SortObject:
       type: object
       properties:
         empty:
           type: boolean
-        unsorted:
-          type: boolean
         sorted:
+          type: boolean
+        unsorted:
           type: boolean

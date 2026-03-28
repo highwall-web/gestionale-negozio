@@ -9,7 +9,7 @@ export default function Dashboard() {
         <div>
             <Paper radius={12} p="md" mb="md">
                 <Stack align="center" gap={4}>
-                    <Title order={2}>Benvenuto, {user?.username ?? 'utente'} 👋</Title>
+                    <Title order={2}>Benvenuto, {user?.nome ?? 'utente'} 👋</Title>
                     <Text c="dimmed">Bentornato nel gestionale negozio. Usa la barra laterale per navigare.</Text>
                 </Stack>
             </Paper>
