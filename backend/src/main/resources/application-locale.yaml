@@ -30,6 +30,9 @@ auth:
     cookie-secure: ${COOKIE_SECURE:false}
     cookie-same-site: ${COOKIE_SAME_SITE:lax}
 
+  flyway:
+    enabled: false
+
 springdoc:
   api-docs:
     path: /api-docs
