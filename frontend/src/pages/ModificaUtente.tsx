@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Group, Paper, PasswordInput, Stack, TextInput, Title } from '@mantine/core'
+import { Alert, Button, Group, Paper, PasswordInput, Stack, TextInput, Title } from '@mantine/core'
+import { IconInfoCircle } from '@tabler/icons-react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
@@ -64,6 +65,9 @@ export default function ModificaUtente() {
     return (
         <Paper radius={12} p="md" maw={480}>
             <Title order={3} mb="md">Modifica utente ({user?.username})</Title>
+            <Alert icon={<IconInfoCircle size={16} />} color="blue" mb="md">
+                Puoi compilare anche solo i campi che vuoi modificare.
+            </Alert>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack>
                     <TextInput
