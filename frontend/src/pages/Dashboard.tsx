@@ -1,9 +1,17 @@
 import { Paper, Stack, Text, Title } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
 import { useAuth } from '../context/AuthContext'
 import RiparazioniAttiveTable from '../components/dashboard/RiparazioniAttiveTable'
+import RiparazioniAttiveTableMobile from '../components/dashboard/RiparazioniAttiveTableMobile'
+import { useGetAttive } from '../api'
 
 export default function Dashboard() {
     const { user } = useAuth()
+    const { data: raw = [], isLoading } = useGetAttive()
+    const riparazioni = [...raw].sort((a, b) =>
+        new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
+    )
+    const isMobile = useMediaQuery('(max-width: 768px)')
 
     return (
         <div>
@@ -13,7 +21,10 @@ export default function Dashboard() {
                     <Text c="dimmed">Bentornato nel gestionale negozio. Usa la barra laterale per navigare.</Text>
                 </Stack>
             </Paper>
-            <RiparazioniAttiveTable />
+            {isMobile
+                ? <RiparazioniAttiveTableMobile riparazioni={riparazioni} isLoading={isLoading} />
+                : <RiparazioniAttiveTable riparazioni={riparazioni} isLoading={isLoading} />
+            }
         </div>
     )
 }

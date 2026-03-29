@@ -1,23 +1,25 @@
 import './App.css'
+import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import AppLayout from './components/AppLayout'
+import AdminRoute from './components/AdminRoute'
 import { AuthProvider } from './context/AuthContext'
 import '@mantine/core/styles.css'
 import '@mantine/dates/styles.css'
-import { createTheme, MantineProvider } from "@mantine/core";
+import { Center, createTheme, Loader, MantineProvider } from "@mantine/core";
 import { DatesProvider } from "@mantine/dates";
 import 'dayjs/locale/it';
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from './context/ThemeContext'
 import { ROUTES } from './routes'
-import Accettazione from './pages/Accettazione'
 import { AccettazioneProvider } from './context/AccettazioneContext'
-import CreaUtente from './pages/CreaUtente'
-import ModificaUtente from './pages/ModificaUtente'
-import AdminRoute from './components/AdminRoute'
+
+const Login = lazy(() => import('./pages/Login'))
+const Dashboard = lazy(() => import('./pages/Dashboard'))
+const Accettazione = lazy(() => import('./pages/Accettazione'))
+const CreaUtente = lazy(() => import('./pages/CreaUtente'))
+const ModificaUtente = lazy(() => import('./pages/ModificaUtente'))
 
 const theme = createTheme({
     cursorType: 'pointer',
@@ -25,10 +27,12 @@ const theme = createTheme({
     white: '#eef1f3'
 });
 
+const fallback = <Center style={{ height: '100vh' }}><Loader /></Center>
+
 const router = createBrowserRouter([
     {
         path: ROUTES.LOGIN,
-        element: <Login />,
+        element: <Suspense fallback={fallback}><Login /></Suspense>,
     },
     {
         element: <ProtectedRoute />,
@@ -38,24 +42,26 @@ const router = createBrowserRouter([
                 children: [
                     {
                         path: ROUTES.HOME,
-                        element: <Dashboard />,
+                        element: <Suspense fallback={fallback}><Dashboard /></Suspense>,
                     },
                     {
                         path: ROUTES.ACCETTAZIONE,
-                        element: <AccettazioneProvider>
-                            <Accettazione />
-                        </AccettazioneProvider>,
+                        element: <Suspense fallback={fallback}>
+                            <AccettazioneProvider>
+                                <Accettazione />
+                            </AccettazioneProvider>
+                        </Suspense>,
                     },
                     {
                         path: ROUTES.MODIFICA_UTENTE,
-                        element: <ModificaUtente />,
+                        element: <Suspense fallback={fallback}><ModificaUtente /></Suspense>,
                     },
                     {
                         element: <AdminRoute />,
                         children: [
                             {
                                 path: ROUTES.CREA_UTENTE,
-                                element: <CreaUtente />,
+                                element: <Suspense fallback={fallback}><CreaUtente /></Suspense>,
                             }
                         ]
                     }

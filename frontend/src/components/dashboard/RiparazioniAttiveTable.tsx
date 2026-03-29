@@ -4,27 +4,10 @@ import { useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { getGetAttiveQueryKey, useGetAttive, useUpdateRepair } from '../../api/endpoints/repair-controller/repair-controller'
 import { RepairResponseStato } from '../../api/models/repairResponseStato'
-import { RepairResponseStatoRiparazione } from '../../api/models/repairResponseStatoRiparazione'
 import { UpdateRepairRequestStatoRiparazione } from '../../api/models/updateRepairRequestStatoRiparazione'
 import { UpdateRepairRequestStato } from '../../api/models/updateRepairRequestStato'
-
-const statoColors: Record<string, string> = {
-    [RepairResponseStato.NUOVO]: 'blue',
-    [RepairResponseStato.IN_CORSO]: 'orange',
-    [RepairResponseStato.PRONTO]: 'green',
-    [RepairResponseStato.CONSEGNATO]: 'gray',
-}
-
-const statoRiparazioneColors: Record<string, string> = {
-    [RepairResponseStatoRiparazione.ACCETTATO]: 'blue',
-    [RepairResponseStatoRiparazione.ANALISI_IN_CORSO]: 'cyan',
-    [RepairResponseStatoRiparazione.RIPARAZIONE_IN_CORSO]: 'orange',
-    [RepairResponseStatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO]: 'yellow',
-    [RepairResponseStatoRiparazione.IN_ATTESA_DI_PREVENTIVO]: 'violet',
-    [RepairResponseStatoRiparazione.PREVENTIVO_NON_ACCETTATO]: 'red',
-    [RepairResponseStatoRiparazione.RIPARAZIONE_CONCLUSA]: 'green',
-    [RepairResponseStatoRiparazione.DISPOSITIVO_NON_RIPARABILE]: 'dark',
-}
+import type { RepairResponse } from '../../api'
+import { statoColors, statoRiparazioneColors, statoSuccessivo } from '../../utils/riparazioniUtils'
 
 function AvanzaButton({ label, onClick, loading }: { label: string; onClick: () => void; loading: boolean }) {
     const [opened, setOpened] = useState(false)
@@ -42,17 +25,14 @@ function AvanzaButton({ label, onClick, loading }: { label: string; onClick: () 
     )
 }
 
-const statoSuccessivo: Partial<Record<UpdateRepairRequestStatoRiparazione, UpdateRepairRequestStatoRiparazione>> = {
-    [UpdateRepairRequestStatoRiparazione.ACCETTATO]: UpdateRepairRequestStatoRiparazione.ANALISI_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.ANALISI_IN_CORSO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_CONCLUSA,
-    [UpdateRepairRequestStatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.IN_ATTESA_DI_PREVENTIVO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
+
+interface Props {
+    riparazioni: RepairResponse[],
+    isLoading: boolean
 }
 
-export default function RiparazioniAttiveTable() {
+export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props) {
     const queryClient = useQueryClient()
-    const { data: riparazioni, isLoading } = useGetAttive()
     const { mutate: updateRepair, isPending } = useUpdateRepair({
         mutation: {
             onSuccess: () => {
@@ -61,7 +41,7 @@ export default function RiparazioniAttiveTable() {
         },
     })
 
-    const rows = [...(riparazioni ?? [])].sort((a, b) => a.id - b.id).map((r) => {
+    const rows = riparazioni.map((r) => {
         const prossimo = r.statoRiparazione
             ? statoSuccessivo[r.statoRiparazione as UpdateRepairRequestStatoRiparazione]
             : undefined
@@ -92,7 +72,7 @@ export default function RiparazioniAttiveTable() {
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>
                     <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
                         {r.stato ? (
-                            <Badge color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace('_', ' ')}</Badge>
+                            <Badge radius="sm" color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace('_', ' ')}</Badge>
                         ) : '—'}
                         {r.stato === RepairResponseStato.PRONTO && (
                             <AvanzaButton
@@ -113,7 +93,7 @@ export default function RiparazioniAttiveTable() {
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>
                     <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
                         {r.statoRiparazione ? (
-                            <Badge color={statoRiparazioneColors[r.statoRiparazione] ?? 'gray'}>{r.statoRiparazione.replaceAll('_', ' ')}</Badge>
+                            <Badge radius="sm" color={statoRiparazioneColors[r.statoRiparazione] ?? 'gray'}>{r.statoRiparazione.replaceAll('_', ' ')}</Badge>
                         ) : '—'}
                         {prossimo && (
                             <AvanzaButton
