@@ -14,5 +14,4 @@ export interface InterventionResponse {
   nome: string;
   prezzo: number;
   periodoGaranzia?: number;
-  cumulabile?: boolean;
 }

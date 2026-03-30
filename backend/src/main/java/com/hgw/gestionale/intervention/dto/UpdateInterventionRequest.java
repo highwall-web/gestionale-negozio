@@ -9,7 +9,6 @@ public record UpdateInterventionRequest(
         Long modelId,
         @NotBlank String nome,
         @NotNull BigDecimal prezzo,
-        Integer periodoGaranzia,
-        Boolean cumulabile
+        Integer periodoGaranzia
 ) {
 }

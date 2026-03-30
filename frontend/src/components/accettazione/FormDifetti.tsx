@@ -1,5 +1,6 @@
 import { Accordion, Badge, Checkbox, Group, SimpleGrid, Title, Text, Button } from "@mantine/core"
 import { useState, type SyntheticEvent } from "react"
+import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import toast from "react-hot-toast"
 import { type CreateProductRequestTestDiagnostici } from "../../api"
 import { useAccettazione } from "../../context/AccettazioneContext"
@@ -118,6 +119,8 @@ export default function FormDifetti({ onSuccess }: Props) {
         if (!selectedDispositivo?.testDiagnostici) return
         setSelectedTests(selectedDispositivo.testDiagnostici)
     }
+
+    useResetOnEditEnd(isEditing.editingTest, resetToSelected)
 
     return (
         <form onSubmit={handleSubmit}>

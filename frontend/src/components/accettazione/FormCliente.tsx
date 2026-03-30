@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Autocomplete, Button, Group, SimpleGrid, TextInput, Title } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
@@ -38,7 +39,7 @@ export default function FormCliente({ onSuccess }: Props) {
     const [customerId, setCustomerId] = useState<number | null>(null)
     const [isEditable, setIsEditable] = useState(false);
     const isDisabled = active !== 0;
-    const wasEditingRef = useRef(false)
+
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -152,12 +153,7 @@ export default function FormCliente({ onSuccess }: Props) {
         }).then(res => setSearchResults(res))
     }, [dNome, dCognome])
 
-    useEffect(() => {
-        if (wasEditingRef.current && !isEditing.editingCliente) {
-            resetToSelected() // eslint-disable-line react-hooks/set-state-in-effect
-        }
-        wasEditingRef.current = isEditing.editingCliente
-    }, [isEditing.editingCliente]) // eslint-disable-line react-hooks/exhaustive-deps
+    useResetOnEditEnd(isEditing.editingCliente, resetToSelected)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

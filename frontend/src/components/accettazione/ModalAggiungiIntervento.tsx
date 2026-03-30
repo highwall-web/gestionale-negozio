@@ -1,17 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Checkbox, Group, Modal, NumberInput, Stack, Switch, Text, TextInput } from "@mantine/core"
+import { Button, Group, Modal, NumberInput, Stack, Switch, Text, TextInput } from "@mantine/core"
+import { useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
-import z from "zod"
-import { useQueryClient } from "@tanstack/react-query"
-import { getGetInterventiGeneraliQueryKey, getGetInterventionsByModelQueryKey, useCreateIntervention, type CreateInterventionRequest, type ModelResponse } from "../../api"
 import toast from "react-hot-toast"
+import z from "zod"
+import { getGetInterventiGeneraliQueryKey, getGetInterventionsByModelQueryKey, useCreateIntervention, type CreateInterventionRequest, type ModelResponse } from "../../api"
 
 const schema = z.object({
     nome: z.string().min(1, "Il nome è obbligatorio"),
     prezzo: z.number({ error: "Il prezzo è obbligatorio" }).min(0, "Il prezzo è obbligatorio"),
-    periodoGaranzia: z.number().min(0).optional(),
-    cumulabile: z.boolean().optional(),
+    periodoGaranzia: z.number().min(0).optional()
 })
 
 type FormData = z.infer<typeof schema>
@@ -33,8 +32,7 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
         defaultValues: {
             nome: "",
             prezzo: undefined,
-            periodoGaranzia: undefined,
-            cumulabile: false,
+            periodoGaranzia: undefined
         }
     })
 
@@ -43,7 +41,6 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
             nome: data.nome,
             prezzo: data.prezzo,
             periodoGaranzia: data.periodoGaranzia,
-            cumulabile: data.cumulabile,
             modelId: isGenerale ? undefined : model?.id,
         }
         createIntervention({ data: payload }, {
@@ -117,17 +114,6 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
                                 value={field.value ?? ""}
                                 onChange={field.onChange}
                                 error={errors.periodoGaranzia?.message}
-                            />
-                        )}
-                    />
-                    <Controller
-                        name="cumulabile"
-                        control={control}
-                        render={({ field }) => (
-                            <Checkbox
-                                label="Cumulabile"
-                                checked={field.value ?? false}
-                                onChange={e => field.onChange(e.currentTarget.checked)}
                             />
                         )}
                     />

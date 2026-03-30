@@ -3,7 +3,8 @@ import { Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, Stack, Sw
 import { useDisclosure } from "@mantine/hooks"
 import { DateInput } from "@mantine/dates"
 import { IconPlus, IconSearch } from "@tabler/icons-react"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
+import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import { Controller, useForm, useWatch } from "react-hook-form"
 import toast from "react-hot-toast"
 import z from "zod"
@@ -37,7 +38,6 @@ export default function FormRiparazione({ onSuccess }: Props) {
     const [selectedDetails, setSelectedDetails] = useState<CreateRepairDetailsRequest | null>(null)
     const [isEditable, setIsEditable] = useState(false);
 
-    const wasEditingRef = useRef(false)
 
     const { register, control, reset, setValue, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -182,12 +182,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
         )
     }
 
-    useEffect(() => {
-        if (wasEditingRef.current && !isEditing.editingDettagli) {
-            resetToSelected()
-        }
-        wasEditingRef.current = isEditing.editingDettagli
-    }, [isEditing.editingDettagli]) // eslint-disable-line react-hooks/exhaustive-deps
+    useResetOnEditEnd(isEditing.editingDettagli, resetToSelected)
 
     return (
         <>

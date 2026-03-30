@@ -12,5 +12,4 @@ export interface CreateInterventionRequest {
   nome: string;
   prezzo: number;
   periodoGaranzia?: number;
-  cumulabile?: boolean;
 }

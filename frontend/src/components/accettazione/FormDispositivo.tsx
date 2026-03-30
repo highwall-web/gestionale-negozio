@@ -1,7 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Autocomplete, Button, Group, SegmentedControl, Select, SimpleGrid, Stack, TextInput, Title, Tooltip } from "@mantine/core";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import { Controller, useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -70,7 +71,6 @@ export default function FormDispositivo({ onSuccess }: Props) {
     const models = modelsData?.map(m => m.nome) ?? []
 
     const justSelectedRef = useRef(false)
-    const wasEditingRef = useRef(false)
 
     function resetToSelected() {
         if (!selectedProduct) return
@@ -174,12 +174,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
         }
     }
 
-    useEffect(() => {
-        if (wasEditingRef.current && !isEditing.editingDispositivo) {
-            resetToSelected()
-        }
-        wasEditingRef.current = isEditing.editingDispositivo
-    }, [isEditing.editingDispositivo]) // eslint-disable-line react-hooks/exhaustive-deps
+    useResetOnEditEnd(isEditing.editingDispositivo, resetToSelected)
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

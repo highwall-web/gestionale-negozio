@@ -31,8 +31,6 @@ public class Intervention {
 
     private Integer periodoGaranzia;
 
-    private Boolean cumulabile;
-
     @Column(nullable = false)
     @Builder.Default
     private boolean attivo = true;

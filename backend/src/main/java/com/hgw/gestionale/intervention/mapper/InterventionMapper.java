@@ -15,7 +15,6 @@ public final class InterventionMapper {
                 .nome(request.nome())
                 .prezzo(request.prezzo())
                 .periodoGaranzia(request.periodoGaranzia())
-                .cumulabile(request.cumulabile())
                 .build();
     }
 
@@ -27,8 +26,7 @@ public final class InterventionMapper {
                 model != null ? model.getNome() : null,
                 intervention.getNome(),
                 intervention.getPrezzo(),
-                intervention.getPeriodoGaranzia(),
-                intervention.getCumulabile()
+                intervention.getPeriodoGaranzia()
         );
     }
 
@@ -37,6 +35,5 @@ public final class InterventionMapper {
         intervention.setNome(request.nome());
         intervention.setPrezzo(request.prezzo());
         intervention.setPeriodoGaranzia(request.periodoGaranzia());
-        intervention.setCumulabile(request.cumulabile());
     }
 }
