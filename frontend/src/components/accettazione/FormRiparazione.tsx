@@ -1,15 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, Stack, Switch, Text, TextInput, Title } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import { Alert, Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, Stack, Switch, Text, TextInput, Title } from "@mantine/core"
 import { DateInput } from "@mantine/dates"
-import { IconPlus, IconSearch } from "@tabler/icons-react"
+import { useDisclosure } from "@mantine/hooks"
+import { IconInfoCircle, IconPlus, IconSearch, IconShoppingCart } from "@tabler/icons-react"
 import { useState } from "react"
-import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import { Controller, useForm, useWatch } from "react-hook-form"
 import toast from "react-hot-toast"
 import z from "zod"
 import { type CreateRepairDetailsRequest, type InterventionQuantitaRequest, type InterventionResponse } from "../../api"
 import { useAccettazione } from "../../context/AccettazioneContext"
+import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import ModalAggiungiIntervento from "./ModalAggiungiIntervento"
 
 const schema = z.object({
@@ -29,7 +29,7 @@ interface Props {
 
 export default function FormRiparazione({ onSuccess }: Props) {
 
-    const { active, updateActive, isEditing, toggleEditingDettagli, selectedModel, interventiGenerali, interventiPerModello } = useAccettazione();
+    const { active, updateActive, isEditing, toggleEditingDettagli, selectedModel, interventiGenerali, interventiPerModello, selectedDettagli } = useAccettazione();
     const isDisabled = active !== 2;
 
     const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
@@ -50,16 +50,23 @@ export default function FormRiparazione({ onSuccess }: Props) {
         }
     })
 
-    const [isPreventivo] = useWatch({ control, name: ['isPreventivo'] })
+    const [isPreventivo, interventi] = useWatch({ control, name: ['isPreventivo', 'interventi'] })
+
+    const tuttiInterventi = [...interventiPerModello, ...interventiGenerali]
+    const totaleInterventi = (interventi ?? []).reduce((acc: number, sel: { interventionId: number }) => {
+        const found = tuttiInterventi.find(i => i.id === sel.interventionId)
+        return acc + (found?.prezzo ?? 0)
+    }, 0)
+    const accontoMinimo = isPreventivo ? 10 : totaleInterventi > 0 ? Math.ceil(totaleInterventi * 0.3 * 100) / 100 : null
 
     function toggleIntervento(id: number, checked: boolean, current: InterventionQuantitaRequest[]) {
         return checked ? [...current, { interventionId: id, quantita: 1 }] : current.filter(x => x.interventionId !== id)
     }
 
     function handleUndo() {
-        if (!selectedDetails) return;
+        if (!selectedDettagli) return;
         resetToSelected();
-        onSuccess(selectedDetails);
+        onSuccess(selectedDettagli);
         handleToggleEditing();
     }
 
@@ -69,13 +76,13 @@ export default function FormRiparazione({ onSuccess }: Props) {
     }
 
     function resetToSelected() {
-        if (!selectedDetails) return
+        if (!selectedDettagli) return
         reset({
-            isPreventivo: selectedDetails.isPreventivo ?? false,
-            interventi: selectedDetails.interventi ?? [],
-            messaggio: selectedDetails.messaggi?.at(0)?.testo ?? "",
-            dataConsegna: selectedDetails.dataConsegna ?? null,
-            acconto: selectedDetails.acconto ?? 0
+            isPreventivo: selectedDettagli.isPreventivo ?? false,
+            interventi: selectedDettagli.interventi ?? [],
+            messaggio: selectedDettagli.messaggi?.at(0)?.testo ?? "",
+            dataConsegna: selectedDettagli.dataConsegna ?? null,
+            acconto: selectedDettagli.acconto ?? 0
         })
     }
 
@@ -87,9 +94,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
             dataConsegna: null,
             acconto: 0
         })
-        if (!isEditing.editingDettagli) {
-            setSelectedDetails(null)
-        }
+        setSelectedDetails(null)
     }
 
     function onSubmit(data: FormData) {
@@ -185,7 +190,12 @@ export default function FormRiparazione({ onSuccess }: Props) {
                                     checked={field.value ?? false}
                                     onChange={e => {
                                         field.onChange(e.currentTarget.checked)
-                                        if (e.currentTarget.checked) setValue('interventi', [])
+                                        if (e.currentTarget.checked) {
+                                            setValue('interventi', [])
+                                            setValue('acconto', 10)
+                                        } else {
+                                            setValue('acconto', 0)
+                                        }
                                     }}
                                     disabled={isDisabled}
                                 />
@@ -239,6 +249,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
                         }}
                     />
                 )}
+
                 <SimpleGrid cols={{ base: 1, sm: 2 }} mt={"md"}>
                     <TextInput
                         label="Commenti accettazione"
@@ -262,25 +273,43 @@ export default function FormRiparazione({ onSuccess }: Props) {
                             />
                         )}
                     />
-                    <Controller
-                        name="acconto"
-                        control={control}
-                        render={({ field }) => (
-                            <NumberInput
-                                label="Acconto"
-                                min={0}
-                                prefix="€ "
-                                decimalScale={2}
-                                fixedDecimalScale
-                                value={field.value ?? 0}
-                                onChange={field.onChange}
-                                disabled={isDisabled}
-                                error={errors.acconto?.message}
-                            />
+                    <Stack gap="xs">
+                        <Controller
+                            name="acconto"
+                            control={control}
+                            render={({ field }) => (
+                                <NumberInput
+                                    label="Acconto"
+                                    min={0}
+                                    prefix="€ "
+                                    decimalScale={2}
+                                    fixedDecimalScale
+                                    value={field.value ?? 0}
+                                    onChange={field.onChange}
+                                    disabled={isDisabled}
+                                    error={errors.acconto?.message}
+                                />
+                            )}
+                        />
+                        {accontoMinimo !== null && (
+                            <Alert icon={<IconInfoCircle size={16} />} color="blue" variant="light" p="xs" styles={{ body: { justifyContent: 'center' } }}>
+                                <Text size="xs">
+                                    {isPreventivo
+                                        ? "Per i preventivi l'acconto minimo è €10,00"
+                                        : `Acconto minimo consigliato: €${accontoMinimo.toFixed(2)} (30% degli interventi selezionati)`
+                                    }
+                                </Text>
+                            </Alert>
                         )}
-                    />
+                    </Stack>
                 </SimpleGrid>
-                <Group justify="flex-end" mt="xl">
+                <Group justify="space-between" align="center" mt="xl">
+                    {totaleInterventi > 0
+                        ? <Alert icon={<IconShoppingCart size={16} />} color="green" variant="light" p="xs" styles={{ body: { alignItems: 'center' } }}>
+                            <Text size="sm">Totale: <strong>€{totaleInterventi.toFixed(2)}</strong></Text>
+                        </Alert>
+                        : <span />
+                    }
                     <Button.Group>
                         {active === 2 && (
                             <>
@@ -320,6 +349,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
                         )}
                     </Button.Group>
                 </Group>
+
             </form>
         </>
     )
