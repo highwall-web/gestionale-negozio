@@ -113,13 +113,6 @@ export default function FormRiparazione({ onSuccess }: Props) {
 
     function InterventoCard({ i, field }: { i: InterventionResponse, field: { value?: InterventionQuantitaRequest[], onChange: (v: InterventionQuantitaRequest[]) => void } }) {
         const checked = field.value?.some(x => x.interventionId === i.id) ?? false
-        const quantita = field.value?.find(x => x.interventionId === i.id)?.quantita ?? 1
-
-        function setQuantita(val: number) {
-            field.onChange(
-                (field.value ?? []).map(x => x.interventionId === i.id ? { ...x, quantita: val } : x)
-            )
-        }
 
         return (
             <Group gap={0}>
@@ -147,19 +140,6 @@ export default function FormRiparazione({ onSuccess }: Props) {
                         </Group>
                     </Group>
                 </Checkbox.Card>
-                {i.cumulabile && (
-                    <span onClick={e => e.stopPropagation()}>
-                        <NumberInput
-                            min={1}
-                            value={quantita}
-                            onChange={val => {
-                                if (typeof val === 'number') setQuantita(val)
-                            }}
-                            disabled={!checked || isDisabled}
-                            w={70}
-                        />
-                    </span>
-                )}
             </Group>
         )
     }
