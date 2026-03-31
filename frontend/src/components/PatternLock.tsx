@@ -172,7 +172,7 @@ export default function PatternLock({ value, onChange, disabled = false, size = 
                     variant="outline"
                     size="lg"
                     radius="sm"
-                    onClick={() => onChange([])}
+                    onClick={() => onChange?.([])}
                 >
                     <IconTrash size={18} />
                 </ActionIcon>
