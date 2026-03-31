@@ -79,6 +79,8 @@ export * from './updateRepairRequestStato';
 export * from './updateRepairRequestStatoRiparazione';
 export * from './updateRepairRequestTariffa';
 export * from './updateStatoRepairRequest';
+export * from './updateStatoRepairRequestStato';
+export * from './updateStatoRepairRequestStatoRiparazione';
 export * from './updateStatoRiparazioneRequest';
 export * from './updateUserRequest';
 export * from './userResponse';

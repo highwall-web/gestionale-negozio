@@ -4,26 +4,32 @@ import { IconTrash } from "@tabler/icons-react";
 
 interface Props {
     value: number[];
-    onChange: (value: number[]) => void;
+    onChange?: (value: number[]) => void;
     disabled?: boolean;
+    size?: number;
 }
 
-const SIZE = 240;
-const PADDING = 48;
-const STEP = (SIZE - PADDING * 2) / 2;
-const DOT_RADIUS = 14;
-const HIT_RADIUS = 24;
+const DEFAULT_SIZE = 240;
+const DEFAULT_PADDING = 48;
+const DEFAULT_DOT_RADIUS = 14;
+const DEFAULT_HIT_RADIUS = 24;
 
-function getDotCenter(index: number) {
+function getDotCenter(index: number, padding: number, step: number) {
     const row = Math.floor(index / 3);
     const col = index % 3;
     return {
-        x: PADDING + col * STEP,
-        y: PADDING + row * STEP,
+        x: padding + col * step,
+        y: padding + row * step,
     };
 }
 
-export default function PatternLock({ value, onChange, disabled = false }: Props) {
+export default function PatternLock({ value, onChange, disabled = false, size = DEFAULT_SIZE }: Props) {
+    const scale = size / DEFAULT_SIZE;
+    const padding = DEFAULT_PADDING * scale;
+    const step = (size - padding * 2) / 2;
+    const dotRadius = DEFAULT_DOT_RADIUS * scale;
+    const hitRadius = DEFAULT_HIT_RADIUS * scale;
+
     const [drawing, setDrawing] = useState(false);
     const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(null);
     const svgRef = useRef<SVGSVGElement>(null);
@@ -35,18 +41,18 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
         const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
         const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
         return {
-            x: (clientX - rect.left) * (SIZE / rect.width),
-            y: (clientY - rect.top) * (SIZE / rect.height),
+            x: (clientX - rect.left) * (size / rect.width),
+            y: (clientY - rect.top) * (size / rect.height),
         };
-    }, []);
+    }, [size]);
 
     const getDotAtPos = useCallback((x: number, y: number) => {
         for (let i = 0; i < 9; i++) {
-            const c = getDotCenter(i);
-            if (Math.hypot(x - c.x, y - c.y) <= HIT_RADIUS) return i + 1;
+            const c = getDotCenter(i, padding, step);
+            if (Math.hypot(x - c.x, y - c.y) <= hitRadius) return i + 1;
         }
         return null;
-    }, []);
+    }, [padding, step, hitRadius]);
 
     const handleStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
         if (disabled) return;
@@ -54,7 +60,7 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
         if (!pos) return;
         const dot = getDotAtPos(pos.x, pos.y);
         if (dot !== null) {
-            onChange([dot]);
+            onChange?.([dot]);
             setDrawing(true);
             setMousePos(pos);
         }
@@ -67,7 +73,7 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
         setMousePos(pos);
         const dot = getDotAtPos(pos.x, pos.y);
         if (dot !== null && !value.includes(dot)) {
-            onChange([...value, dot]);
+            onChange?.([...value, dot]);
         }
     }, [drawing, getSVGCoords, getDotAtPos, value, onChange]);
 
@@ -76,15 +82,15 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
         setMousePos(null);
     }, []);
 
-    const lastDot = value.length > 0 ? getDotCenter(value[value.length - 1] - 1) : null;
+    const lastDot = value.length > 0 ? getDotCenter(value[value.length - 1] - 1, padding, step) : null;
 
     return (
         <Group align="flex-end" gap={6}>
             <svg
                 ref={svgRef}
-                width={SIZE}
-                height={SIZE}
-                viewBox={`0 0 ${SIZE} ${SIZE}`}
+                width={size}
+                height={size}
+                viewBox={`0 0 ${size} ${size}`}
                 style={{
                     touchAction: "none",
                     userSelect: "none",
@@ -105,8 +111,8 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
             >
                 {/* Linee tra i dot connessi */}
                 {value.slice(0, -1).map((dotNum, i) => {
-                    const from = getDotCenter(dotNum - 1);
-                    const to = getDotCenter(value[i + 1] - 1);
+                    const from = getDotCenter(dotNum - 1, padding, step);
+                    const to = getDotCenter(value[i + 1] - 1, padding, step);
                     return (
                         <line
                             key={i}
@@ -133,13 +139,13 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
 
                 {/* Dot */}
                 {Array.from({ length: 9 }, (_, i) => {
-                    const { x, y } = getDotCenter(i);
+                    const { x, y } = getDotCenter(i, padding, step);
                     const orderIndex = value.indexOf(i + 1);
                     const active = orderIndex !== -1;
                     return (
                         <g key={i}>
                             <circle
-                                cx={x} cy={y} r={DOT_RADIUS}
+                                cx={x} cy={y} r={dotRadius}
                                 fill={active ? "var(--mantine-color-blue-5)" : "var(--mantine-color-gray-5)"}
                                 style={{ transition: "fill 0.1s" }}
                             />
@@ -149,7 +155,7 @@ export default function PatternLock({ value, onChange, disabled = false }: Props
                                     textAnchor="middle"
                                     dominantBaseline="central"
                                     fill="white"
-                                    fontSize={11}
+                                    fontSize={11 * scale}
                                     fontWeight="bold"
                                     style={{ pointerEvents: "none" }}
                                 >

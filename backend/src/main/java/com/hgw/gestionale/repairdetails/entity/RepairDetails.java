@@ -7,7 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +37,10 @@ public class RepairDetails {
     private List<RepairDetailsIntervention> interventions = new ArrayList<>();
 
     @Column
-    private LocalDate dataConsegna;
+    private LocalDateTime dataConsegna;
+
+    @Column
+    private LocalDateTime dataRiconsegnaEffettiva;
 
     @Column
     private BigDecimal acconto;

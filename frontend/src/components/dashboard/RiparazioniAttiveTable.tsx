@@ -1,30 +1,87 @@
-import { ActionIcon, Badge, Loader, Paper, ScrollArea, Stack, Table, Text, Title, Tooltip } from '@mantine/core'
-import { IconArrowRight } from '@tabler/icons-react'
-import { useQueryClient } from '@tanstack/react-query'
+import { ActionIcon, Badge, Divider, Group, Loader, Paper, Popover, ScrollArea, Stack, Table, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
+import { IconRefresh } from '@tabler/icons-react'
 import { useState } from 'react'
-import type { RepairResponse } from '../../api'
-import { getGetAttiveQueryKey, useUpdateRepair } from '../../api/endpoints/repair-controller/repair-controller'
-import { RepairResponseStato } from '../../api/models/repairResponseStato'
-import { UpdateRepairRequestStato } from '../../api/models/updateRepairRequestStato'
-import { UpdateRepairRequestStatoRiparazione } from '../../api/models/updateRepairRequestStatoRiparazione'
-import { statoColors, statoRiparazioneColors, statoSuccessivo } from '../../utils/riparazioniUtils'
+import type { CustomerResponse, ProductResponse, RepairResponse } from '../../api'
+import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
+import CambiaStatoModal from './CambiaStatoModal'
+import PatternLock from '../PatternLock'
 
-function AvanzaButton({ label, onClick, loading }: { label: string; onClick: () => void; loading: boolean }) {
-    const [opened, setOpened] = useState(false)
+function CustomerCell({ customer }: { customer: CustomerResponse }) {
+    const [opened, { open, close }] = useDisclosure(false)
     return (
-        <Tooltip label={label} withArrow opened={opened} onMouseEnter={() => setOpened(true)} onMouseLeave={() => setOpened(false)}>
-            <ActionIcon
-                size="xs"
-                variant="subtle"
-                loading={loading}
-                onClick={() => { setOpened(false); onClick() }}
-            >
-                <IconArrowRight size={14} />
-            </ActionIcon>
-        </Tooltip>
+        <Popover position="bottom-start" withArrow shadow="md" opened={opened}>
+            <Popover.Target>
+                <UnstyledButton
+                    onMouseEnter={open}
+                    onMouseLeave={close}
+                    style={{ textDecoration: 'underline dotted', cursor: 'default' }}
+                >
+                    {customer.nome} {customer.cognome}
+                </UnstyledButton>
+            </Popover.Target>
+            <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+                <Stack gap={4}>
+                    <Text fw={600} size="sm">{customer.nome} {customer.cognome}</Text>
+                    <Divider />
+                    <Text size="xs" c="dimmed">Email</Text>
+                    <Text size="sm">{customer.email}</Text>
+                    <Text size="xs" c="dimmed">Telefono</Text>
+                    <Text size="sm">{customer.telefono}</Text>
+                    {customer.telefonoSecondario && (
+                        <>
+                            <Text size="xs" c="dimmed">Telefono secondario</Text>
+                            <Text size="sm">{customer.telefonoSecondario}</Text>
+                        </>
+                    )}
+                    {(customer.indirizzo || customer.citta || customer.cap) && (
+                        <>
+                            <Text size="xs" c="dimmed">Indirizzo</Text>
+                            <Text size="sm">
+                                {[customer.indirizzo, customer.citta, customer.cap].filter(Boolean).join(', ')}
+                            </Text>
+                        </>
+                    )}
+                </Stack>
+            </Popover.Dropdown>
+        </Popover>
     )
 }
 
+function ProductCell({ product }: { product: ProductResponse }) {
+    const [opened, { open, close }] = useDisclosure(false)
+    return (
+        <Popover position="bottom-start" withArrow shadow="md" opened={opened}>
+            <Popover.Target>
+                <UnstyledButton
+                    onMouseEnter={open}
+                    onMouseLeave={close}
+                    style={{ textDecoration: 'underline dotted', cursor: 'default' }}
+                >
+                    {product.model.brandNome} {product.model.nome}, {product.color.nome}
+                </UnstyledButton>
+            </Popover.Target>
+            <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+                <Stack gap={4}>
+                    <Text fw={600} size="sm">{product.model.brandNome} {product.model.nome}, {product.color.nome}</Text>
+                    <Divider />
+                    {product.capacita && <><Text size="xs" c="dimmed">Capacità</Text><Text size="sm">{product.capacita}</Text></>}
+                    {product.seriale && <><Text size="xs" c="dimmed">Seriale</Text><Text size="sm">{product.seriale}</Text></>}
+                    {product.imei && <><Text size="xs" c="dimmed">IMEI</Text><Text size="sm">{product.imei}</Text></>}
+                    {product.codiceModello && <><Text size="xs" c="dimmed">Codice modello</Text><Text size="sm">{product.codiceModello}</Text></>}
+                    {product.pin && <><Text size="xs" c="dimmed">PIN</Text><Text size="sm">{product.pin}</Text></>}
+                    {product.codiceUnlock && <><Text size="xs" c="dimmed">Codice unlock</Text><Text size="sm">{product.codiceUnlock}</Text></>}
+                    {product.sequenzaUnlock && <><Text size="xs" c="dimmed">Sequenza unlock</Text><PatternLock value={product.sequenzaUnlock} size={150} disabled /></>}
+                    {product.accessori && <><Text size="xs" c="dimmed">Accessori</Text><Text size="sm">{product.accessori}</Text></>}
+                    {product.contattoConLiquidi && <Text size="sm" c="red">Contatto con liquidi</Text>}
+                    {product.dispositivoNonTestabile && <Text size="sm" c="orange">Dispositivo non testabile</Text>}
+                    {product.acquistatoPressoDiNoi && <Text size="sm" c="teal">Acquistato presso di noi</Text>}
+                    {product.lasciatoInNegozio && <Text size="sm" c="blue">Lasciato in negozio</Text>}
+                </Stack>
+            </Popover.Dropdown>
+        </Popover>
+    )
+}
 
 interface Props {
     riparazioni: RepairResponse[],
@@ -32,80 +89,45 @@ interface Props {
 }
 
 export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props) {
-    const queryClient = useQueryClient()
-    const { mutate: updateRepair, isPending } = useUpdateRepair({
-        mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: getGetAttiveQueryKey() })
-            },
-        },
-    })
+    const [selectedRepair, setSelectedRepair] = useState<RepairResponse | null>(null)
+    const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
+
+    const handleCambiaStato = (repair: RepairResponse) => {
+        setSelectedRepair(repair)
+        openModal()
+    }
 
     const rows = riparazioni.map((r) => {
-        const prossimo = r.statoRiparazione
-            ? statoSuccessivo[r.statoRiparazione as UpdateRepairRequestStatoRiparazione]
-            : undefined
-
-        const handleAvanza = () => {
-            const avanzaDaStato = r.statoRiparazione === UpdateRepairRequestStatoRiparazione.ACCETTATO
-                || r.statoRiparazione === UpdateRepairRequestStatoRiparazione.IN_ATTESA_DI_PREVENTIVO
-            const conclusa = prossimo === UpdateRepairRequestStatoRiparazione.RIPARAZIONE_CONCLUSA
-            let nuovoStato = r.stato as UpdateRepairRequestStato | undefined
-            if (conclusa) nuovoStato = UpdateRepairRequestStato.PRONTO
-            else if (avanzaDaStato) nuovoStato = UpdateRepairRequestStato.IN_CORSO
-            updateRepair({
-                id: r.id,
-                data: {
-                    customerId: r.customer.id,
-                    stato: nuovoStato,
-                    statoRiparazione: prossimo,
-                },
-            })
-        }
 
         return (
             <Table.Tr key={r.id}>
                 <Table.Td>{r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}</Table.Td>
-                <Table.Td>{r.customer.nome} {r.customer.cognome}</Table.Td>
-                <Table.Td>{r.customer.telefono}</Table.Td>
-                <Table.Td>{r.product.model.nome ?? r.product.model.id}, {r.product.color.nome}</Table.Td>
+                <Table.Td>{r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details?.dataConsegna)) : '—'}</Table.Td>
+                <Table.Td><CustomerCell customer={r.customer} /></Table.Td>
+                <Table.Td><ProductCell product={r.product} /></Table.Td>
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>
-                    <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
+                    <Group gap={6} align="center" justify='space-between'>
                         {r.stato ? (
                             <Badge radius="sm" color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace('_', ' ')}</Badge>
                         ) : '—'}
-                        {r.stato === RepairResponseStato.PRONTO && (
-                            <AvanzaButton
-                                label="CONSEGNATO"
-                                loading={isPending}
-                                onClick={() => updateRepair({
-                                    id: r.id,
-                                    data: {
-                                        customerId: r.customer.id,
-                                        stato: UpdateRepairRequestStato.CONSEGNATO,
-                                        statoRiparazione: r.statoRiparazione,
-                                    },
-                                })}
-                            />
-                        )}
-                    </Stack>
+                    </Group>
                 </Table.Td>
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>
-                    <Stack gap={6} align="center" style={{ flexDirection: 'row' }}>
+                    <Group gap={6} align="center" justify='space-between'>
                         {r.statoRiparazione ? (
                             <Badge radius="sm" color={statoRiparazioneColors[r.statoRiparazione] ?? 'gray'}>{r.statoRiparazione.replaceAll('_', ' ')}</Badge>
                         ) : '—'}
-                        {prossimo && (
-                            <AvanzaButton
-                                label={prossimo.replaceAll('_', ' ')}
-                                loading={isPending}
-                                onClick={handleAvanza}
-                            />
-                        )}
-                    </Stack>
+                    </Group>
                 </Table.Td>
                 <Table.Td>{r.costoTotale != null ? `€ ${r.details?.acconto?.toFixed(2)}` : '—'}</Table.Td>
                 <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
+                <Table.Td>
+                    <Tooltip label="Cambia stato">
+                        <ActionIcon variant="subtle" onClick={() => handleCambiaStato(r)}>
+                            <IconRefresh size={16} />
+                        </ActionIcon>
+                    </Tooltip>
+                </Table.Td>
             </Table.Tr>
         )
     })
@@ -125,19 +147,25 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                         <Table.Thead>
                             <Table.Tr>
                                 <Table.Th>Creata il</Table.Th>
+                                <Table.Th>Data di consegna stimata</Table.Th>
                                 <Table.Th>Cliente</Table.Th>
-                                <Table.Th>N. Telefono</Table.Th>
                                 <Table.Th>Dispositivo</Table.Th>
                                 <Table.Th>Stato</Table.Th>
                                 <Table.Th>Stato riparazione</Table.Th>
                                 <Table.Th>Acconto</Table.Th>
                                 <Table.Th>Totale</Table.Th>
+                                <Table.Th>Azioni</Table.Th>
                             </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>{rows}</Table.Tbody>
                     </Table>
                 </ScrollArea>
             )}
+            <CambiaStatoModal
+                repair={selectedRepair}
+                opened={modalOpened}
+                onClose={closeModal}
+            />
         </Paper>
     )
 }

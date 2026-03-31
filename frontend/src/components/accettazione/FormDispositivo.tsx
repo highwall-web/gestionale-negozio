@@ -9,7 +9,7 @@ import z from "zod";
 import { CreateProductRequestTipoDispositivo, getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandIdQueryKey, useCreateColor, useCreateModel, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
 import { useAccettazione } from "../../context/AccettazioneContext";
 import { capitalize } from "../../utils/stringUtils";
-import PatternLock from "./PatternLock";
+import PatternLock from "../PatternLock";
 
 const schema = z.object({
     brandNome: z.string().min(1, "Campo obbligatorio"),

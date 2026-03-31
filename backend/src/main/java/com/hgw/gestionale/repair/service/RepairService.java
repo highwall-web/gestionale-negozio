@@ -13,6 +13,7 @@ import com.hgw.gestionale.product.service.ProductService;
 import com.hgw.gestionale.repair.dto.CreateRepairRequest;
 import com.hgw.gestionale.repair.dto.RepairResponse;
 import com.hgw.gestionale.repair.dto.UpdateRepairRequest;
+import com.hgw.gestionale.repair.dto.UpdateStatoRepairRequest;
 import com.hgw.gestionale.repair.entity.Repair;
 import com.hgw.gestionale.repair.mapper.RepairMapper;
 import com.hgw.gestionale.repair.repository.RepairRepository;
@@ -23,6 +24,7 @@ import com.hgw.gestionale.statoriparazione.StatoRiparazione;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -113,6 +115,24 @@ public class RepairService {
         return repairRepository.findByStatoNotWithDetails(StatoRepair.CONSEGNATO).stream()
                 .map(RepairMapper::toResponse)
                 .toList();
+    }
+
+    @Transactional
+    public RepairResponse updateStato(Long id, UpdateStatoRepairRequest request) {
+        Repair repair = repairRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Repair not found"));
+
+        if (request.stato() != null) {
+            if (request.stato() == StatoRepair.CONSEGNATO && repair.getDetails().getDataRiconsegnaEffettiva() == null) {
+                repair.getDetails().setDataRiconsegnaEffettiva(LocalDateTime.now());
+            }
+            repair.setStato(request.stato());
+        }
+        if (request.statoRiparazione() != null) {
+            repair.setStatoRiparazione(request.statoRiparazione());
+        }
+        Repair updated = repairRepository.save(repair);
+        return RepairMapper.toResponse(updated);
     }
 
     @Transactional

@@ -3,6 +3,7 @@ package com.hgw.gestionale.repair.controller;
 import com.hgw.gestionale.repair.dto.CreateRepairRequest;
 import com.hgw.gestionale.repair.dto.RepairResponse;
 import com.hgw.gestionale.repair.dto.UpdateRepairRequest;
+import com.hgw.gestionale.repair.dto.UpdateStatoRepairRequest;
 import com.hgw.gestionale.repair.service.RepairService;
 import com.hgw.gestionale.statorepair.StatoRepair;
 import com.hgw.gestionale.statoriparazione.StatoRiparazione;
@@ -70,6 +71,15 @@ public class RepairController {
     ) {
         log.info("RepairController.update aggiornamento riparazione id={}", id);
         return repairService.update(id, request);
+    }
+
+    @PatchMapping("/{id}/stato")
+    public RepairResponse updateStatoRepair(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateStatoRepairRequest request
+    ) {
+        log.info("RepairController.updateStato aggiornamento stato riparazione id={} stato={}", id, request.stato());
+        return repairService.updateStato(id, request);
     }
 
     @DeleteMapping("/{id}")

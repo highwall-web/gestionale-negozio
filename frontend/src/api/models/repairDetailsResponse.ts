@@ -14,6 +14,7 @@ export interface RepairDetailsResponse {
   isPreventivo?: boolean;
   interventi?: InterventionQuantitaResponse[];
   dataConsegna?: string;
+  dataRiconsegnaEffettiva?: string;
   acconto?: number;
   messaggi?: RepairMessageResponse[];
 }

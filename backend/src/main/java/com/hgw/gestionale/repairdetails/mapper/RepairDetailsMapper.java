@@ -43,6 +43,7 @@ public final class RepairDetailsMapper {
                 details.isPreventivo(),
                 interventi,
                 details.getDataConsegna(),
+                details.getDataRiconsegnaEffettiva(),
                 details.getAcconto(),
                 messaggi
         );

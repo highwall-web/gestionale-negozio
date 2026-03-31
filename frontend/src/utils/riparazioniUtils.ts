@@ -1,6 +1,5 @@
 import { RepairResponseStato } from '../api/models/repairResponseStato'
 import { RepairResponseStatoRiparazione } from '../api/models/repairResponseStatoRiparazione'
-import { UpdateRepairRequestStatoRiparazione } from '../api/models/updateRepairRequestStatoRiparazione'
 
 export const statoColors: Record<string, string> = {
     [RepairResponseStato.NUOVO]: 'blue',
@@ -18,12 +17,4 @@ export const statoRiparazioneColors: Record<string, string> = {
     [RepairResponseStatoRiparazione.PREVENTIVO_NON_ACCETTATO]: 'red',
     [RepairResponseStatoRiparazione.RIPARAZIONE_CONCLUSA]: 'green',
     [RepairResponseStatoRiparazione.DISPOSITIVO_NON_RIPARABILE]: 'dark',
-}
-
-export const statoSuccessivo: Partial<Record<UpdateRepairRequestStatoRiparazione, UpdateRepairRequestStatoRiparazione>> = {
-    [UpdateRepairRequestStatoRiparazione.ACCETTATO]: UpdateRepairRequestStatoRiparazione.ANALISI_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.ANALISI_IN_CORSO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_CONCLUSA,
-    [UpdateRepairRequestStatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
-    [UpdateRepairRequestStatoRiparazione.IN_ATTESA_DI_PREVENTIVO]: UpdateRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO,
 }

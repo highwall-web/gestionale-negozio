@@ -31,7 +31,8 @@ import type {
   PageRepairResponse,
   RepairResponse,
   SearchRepairsParams,
-  UpdateRepairRequest
+  UpdateRepairRequest,
+  UpdateStatoRepairRequest
 } from '../../models';
 
 import { axiosInstance } from '../../axiosInstance';
@@ -377,6 +378,64 @@ const {mutation: mutationOptions} = options ?
         TContext
       > => {
       return useMutation(getCreateRepairMutationOptions(options), queryClient);
+    }
+    export const updateStatoRepair = (
+    id: number,
+    updateStatoRepairRequest: UpdateStatoRepairRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairResponse>(
+      {url: `/api/repairs/${id}/stato`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateStatoRepairRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getUpdateStatoRepairMutationOptions = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext> => {
+
+const mutationKey = ['updateStatoRepair'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStatoRepair>>, {id: number;data: UpdateStatoRepairRequest}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateStatoRepair(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateStatoRepairMutationResult = NonNullable<Awaited<ReturnType<typeof updateStatoRepair>>>
+    export type UpdateStatoRepairMutationBody = UpdateStatoRepairRequest
+    export type UpdateStatoRepairMutationError = ApiError
+
+    export const useUpdateStatoRepair = <TError = ApiError,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateStatoRepair>>,
+        TError,
+        {id: number;data: UpdateStatoRepairRequest},
+        TContext
+      > => {
+      return useMutation(getUpdateStatoRepairMutationOptions(options), queryClient);
     }
     export const searchRepairs = (
     params: SearchRepairsParams,

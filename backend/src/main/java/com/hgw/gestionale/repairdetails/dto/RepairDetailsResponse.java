@@ -1,7 +1,7 @@
 package com.hgw.gestionale.repairdetails.dto;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record RepairDetailsResponse(
@@ -9,7 +9,8 @@ public record RepairDetailsResponse(
         Long repairId,
         boolean isPreventivo,
         List<InterventionQuantitaResponse> interventi,
-        LocalDate dataConsegna,
+        LocalDateTime dataConsegna,
+        LocalDateTime dataRiconsegnaEffettiva,
         BigDecimal acconto,
         List<RepairMessageResponse> messaggi
 ) {

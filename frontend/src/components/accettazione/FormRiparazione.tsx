@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Alert, Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, Stack, Switch, Text, TextInput, Title } from "@mantine/core"
-import { DateInput } from "@mantine/dates"
+import { DateTimePicker } from "@mantine/dates"
 import { useDisclosure } from "@mantine/hooks"
 import { IconInfoCircle, IconPlus, IconSearch, IconShoppingCart } from "@tabler/icons-react"
 import { useState } from "react"
@@ -107,7 +107,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
             isPreventivo: data.isPreventivo,
             interventi: data.interventi,
             messaggi: data.messaggio ? [{ testo: data.messaggio }] : [],
-            dataConsegna: data.dataConsegna ?? undefined,
+            dataConsegna: data.dataConsegna ? new Date(data.dataConsegna).toISOString() : undefined,
             acconto: data.acconto
         }
         toast.success("Dettagli inseriti")
@@ -261,13 +261,13 @@ export default function FormRiparazione({ onSuccess }: Props) {
                         name="dataConsegna"
                         control={control}
                         render={({ field }) => (
-                            <DateInput
+                            <DateTimePicker
                                 label="Data stimata di riconsegna"
                                 value={field.value}
                                 onChange={field.onChange}
                                 error={errors.dataConsegna?.message}
                                 minDate={new Date()}
-                                valueFormat="DD/MM/YYYY"
+                                valueFormat="DD/MM/YYYY HH:mm"
                                 disabled={isDisabled}
                                 clearable
                             />

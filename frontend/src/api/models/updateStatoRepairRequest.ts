@@ -5,8 +5,10 @@
  * API del gestionale negozio
  * OpenAPI spec version: 1.0.0
  */
-import type { StatoRepairItem } from './statoRepairItem';
+import type { UpdateStatoRepairRequestStato } from './updateStatoRepairRequestStato';
+import type { UpdateStatoRepairRequestStatoRiparazione } from './updateStatoRepairRequestStatoRiparazione';
 
 export interface UpdateStatoRepairRequest {
-  stati: StatoRepairItem[];
+  stato?: UpdateStatoRepairRequestStato;
+  statoRiparazione?: UpdateStatoRepairRequestStatoRiparazione;
 }
