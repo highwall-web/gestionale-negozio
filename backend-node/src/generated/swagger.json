@@ -1,0 +1,3134 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Role": {
+				"type": "string",
+				"enum": [
+					"ADMIN",
+					"COMMESSO"
+				]
+			},
+			"UserResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					},
+					"enabled": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"nome",
+					"email",
+					"role",
+					"enabled"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionQuantitaResponse": {
+				"properties": {
+					"interventionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantita": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"interventionId",
+					"nome",
+					"prezzo",
+					"quantita"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RepairMessageResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"testo": {
+						"type": "string"
+					},
+					"autore": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"testo",
+					"autore",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RepairDetailsResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"repairId": {
+						"type": "number",
+						"format": "double"
+					},
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaResponse"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"dataRiconsegnaEffettiva": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					},
+					"messaggi": {
+						"items": {
+							"$ref": "#/components/schemas/RepairMessageResponse"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"repairId",
+					"isPreventivo",
+					"interventi",
+					"messaggi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionQuantitaRequest": {
+				"properties": {
+					"interventionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantita": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"interventionId",
+					"quantita"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateRepairDetailsRequest": {
+				"properties": {
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaRequest"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"isPreventivo",
+					"interventi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AddMessageRequest": {
+				"properties": {
+					"testo": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"testo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomerResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TipoDispositivo": {
+				"type": "string",
+				"enum": [
+					"TELEFONO",
+					"TABLET",
+					"COMPUTER"
+				]
+			},
+			"ModelResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandId": {
+						"type": "number",
+						"format": "double"
+					},
+					"brandNome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"tipoDispositivo",
+					"brandId",
+					"brandNome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ColorResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.string-Array_": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"ProductResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"model": {
+						"$ref": "#/components/schemas/ModelResponse"
+					},
+					"color": {
+						"$ref": "#/components/schemas/ColorResponse"
+					},
+					"capacita": {
+						"type": "string"
+					},
+					"codiceUnlock": {
+						"type": "string"
+					},
+					"sequenzaUnlock": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"pin": {
+						"type": "string"
+					},
+					"accessori": {
+						"type": "string"
+					},
+					"contattoConLiquidi": {
+						"type": "boolean"
+					},
+					"dispositivoNonTestabile": {
+						"type": "boolean"
+					},
+					"acquistatoPressoDiNoi": {
+						"type": "boolean"
+					},
+					"seriale": {
+						"type": "string"
+					},
+					"imei": {
+						"type": "string"
+					},
+					"codiceModello": {
+						"type": "string"
+					},
+					"testDiagnostici": {
+						"$ref": "#/components/schemas/Record_string.string-Array_"
+					},
+					"lasciatoInNegozio": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"model",
+					"color"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StatoRepair": {
+				"type": "string",
+				"enum": [
+					"NUOVO",
+					"IN_CORSO",
+					"PRONTO",
+					"CONSEGNATO"
+				]
+			},
+			"StatoRiparazione": {
+				"type": "string",
+				"enum": [
+					"ACCETTATO",
+					"ANALISI_IN_CORSO",
+					"RIPARAZIONE_IN_CORSO",
+					"ATTESA_PEZZI_DI_RICAMBIO",
+					"IN_ATTESA_DI_PREVENTIVO",
+					"PREVENTIVO_NON_ACCETTATO",
+					"RIPARAZIONE_CONCLUSA",
+					"DISPOSITIVO_NON_RIPARABILE"
+				]
+			},
+			"RepairResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"customer": {
+						"$ref": "#/components/schemas/CustomerResponse"
+					},
+					"product": {
+						"$ref": "#/components/schemas/ProductResponse"
+					},
+					"details": {
+						"$ref": "#/components/schemas/RepairDetailsResponse"
+					},
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					},
+					"costoTotale": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"customer",
+					"product",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCustomerRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateModelRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandNome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"tipoDispositivo",
+					"brandNome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateColorRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateProductRequest": {
+				"properties": {
+					"model": {
+						"$ref": "#/components/schemas/CreateModelRequest"
+					},
+					"color": {
+						"$ref": "#/components/schemas/CreateColorRequest"
+					},
+					"capacita": {
+						"type": "string"
+					},
+					"codiceUnlock": {
+						"type": "string"
+					},
+					"sequenzaUnlock": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"pin": {
+						"type": "string"
+					},
+					"accessori": {
+						"type": "string"
+					},
+					"contattoConLiquidi": {
+						"type": "boolean"
+					},
+					"dispositivoNonTestabile": {
+						"type": "boolean"
+					},
+					"acquistatoPressoDiNoi": {
+						"type": "boolean"
+					},
+					"seriale": {
+						"type": "string"
+					},
+					"imei": {
+						"type": "string"
+					},
+					"codiceModello": {
+						"type": "string"
+					},
+					"testDiagnostici": {
+						"$ref": "#/components/schemas/Record_string.string-Array_"
+					},
+					"lasciatoInNegozio": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"model",
+					"color"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRepairDetailsRequest": {
+				"properties": {
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaRequest"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					},
+					"messaggi": {
+						"items": {
+							"$ref": "#/components/schemas/AddMessageRequest"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"isPreventivo",
+					"interventi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					},
+					"customer": {
+						"$ref": "#/components/schemas/CreateCustomerRequest"
+					},
+					"product": {
+						"$ref": "#/components/schemas/CreateProductRequest"
+					},
+					"details": {
+						"$ref": "#/components/schemas/CreateRepairDetailsRequest"
+					}
+				},
+				"required": [
+					"customer",
+					"product",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PageResponse_RepairResponse_": {
+				"properties": {
+					"content": {
+						"items": {
+							"$ref": "#/components/schemas/RepairResponse"
+						},
+						"type": "array"
+					},
+					"totalElements": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					},
+					"size": {
+						"type": "number",
+						"format": "double"
+					},
+					"number": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"content",
+					"totalElements",
+					"totalPages",
+					"size",
+					"number"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					},
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					}
+				},
+				"required": [
+					"customerId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateStatoRepairRequest": {
+				"properties": {
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateProductRequest": {
+				"$ref": "#/components/schemas/CreateProductRequest"
+			},
+			"UpdateModelRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"nome",
+					"tipoDispositivo",
+					"brandId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"modelNome": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateInterventionRequest": {
+				"properties": {
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateInterventionRequest": {
+				"properties": {
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HealthResponse": {
+				"properties": {
+					"status": {
+						"type": "string",
+						"enum": [
+							"ok"
+						],
+						"nullable": false
+					},
+					"timestamp": {
+						"type": "string"
+					},
+					"uptime": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"status",
+					"timestamp",
+					"uptime"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateCustomerRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateColorRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BrandResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateBrandRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBrandRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginResponse": {
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"accessToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"rememberMe": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"username",
+					"password",
+					"rememberMe"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					}
+				},
+				"required": [
+					"username",
+					"nome",
+					"email",
+					"password",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "backend-node",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/users/me": {
+			"get": {
+				"operationId": "getCurrentUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "updateCurrentUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{repairId}/details": {
+			"get": {
+				"operationId": "getRepairDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairDetailsResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateRepairDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairDetailsResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRepairDetailsRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteRepairDetails",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/{repairId}/details/messages": {
+			"post": {
+				"operationId": "addRepairMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairMessageResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddMessageRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{repairId}/details/messages/{messageId}": {
+			"delete": {
+				"operationId": "deleteRepairMessage",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "path",
+						"name": "messageId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs": {
+			"post": {
+				"operationId": "createRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRepairRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllRepairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PageResponse_RepairResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/search": {
+			"get": {
+				"operationId": "searchRepairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PageResponse_RepairResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "stato",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRepair"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statoRiparazione",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRiparazione"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/attive": {
+			"get": {
+				"operationId": "getRepairsAttive",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/RepairResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/repairs/{id}": {
+			"get": {
+				"operationId": "getRepairById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRepairRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteRepair",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/{id}/stato": {
+			"patch": {
+				"operationId": "updateStatoRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateStatoRepairRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products": {
+			"get": {
+				"operationId": "getAllProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/products/search": {
+			"get": {
+				"operationId": "searchProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "modelNome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/by-seriale/{seriale}": {
+			"get": {
+				"operationId": "getProductBySeriale",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "seriale",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/by-imei/{imei}": {
+			"get": {
+				"operationId": "getProductByImei",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "imei",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"operationId": "getProductById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateProduct",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateProductRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteProduct",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/models": {
+			"post": {
+				"operationId": "createModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateModelRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllModels",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/models/search": {
+			"get": {
+				"operationId": "searchModels",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/search/by-brand": {
+			"get": {
+				"operationId": "searchModelsByBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/search/by-brand-name": {
+			"get": {
+				"operationId": "searchModelsByBrandName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "brandNome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/by-brand-id/{id}": {
+			"get": {
+				"operationId": "getModelsByBrandId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/models/by-name/{nome}": {
+			"get": {
+				"operationId": "getModelByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/{id}": {
+			"get": {
+				"operationId": "getModelById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateModelRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteModel",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/interventions": {
+			"post": {
+				"operationId": "createIntervention",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateInterventionRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllInterventions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/interventions/generali": {
+			"get": {
+				"operationId": "getInterventiGenerali",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/interventions/search": {
+			"get": {
+				"operationId": "searchInterventions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/search/by-model": {
+			"get": {
+				"operationId": "searchInterventionsByModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "modelId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/by-model/{modelId}": {
+			"get": {
+				"operationId": "getInterventionsByModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "modelId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/by-name/{nome}": {
+			"get": {
+				"operationId": "getInterventionByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/{id}": {
+			"get": {
+				"operationId": "getInterventionById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateIntervention",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateInterventionRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteIntervention",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/health": {
+			"get": {
+				"operationId": "healthCheck",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Health"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/customers": {
+			"post": {
+				"operationId": "createCustomer",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCustomerRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CustomerResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/customers/search": {
+			"get": {
+				"operationId": "searchCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CustomerResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cognome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "telefono",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/customers/{id}": {
+			"get": {
+				"operationId": "getCustomerById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateCustomer",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateCustomerRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteCustomer",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/colors": {
+			"post": {
+				"operationId": "createColor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateColorRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllColors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ColorResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/colors/search": {
+			"get": {
+				"operationId": "searchColors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ColorResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/colors/by-name/{nome}": {
+			"get": {
+				"operationId": "getColorByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/colors/{id}": {
+			"get": {
+				"operationId": "getColorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateColor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateColorRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteColor",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/brands": {
+			"post": {
+				"operationId": "createBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBrandRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/BrandResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/brands/search": {
+			"get": {
+				"operationId": "searchBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/BrandResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/brands/by-name/{nome}": {
+			"get": {
+				"operationId": "getBrandByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/brands/{id}": {
+			"get": {
+				"operationId": "getBrandById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBrandRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteBrand",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"operationId": "register",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "refresh",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "logout",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	]
+}
