@@ -97,7 +97,7 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                                     {r.product.codiceModello && <RigaInfo label="Codice modello"><Text size="sm">{r.product.codiceModello}</Text></RigaInfo>}
                                     {r.product.pin && <RigaInfo label="PIN"><Text size="sm">{r.product.pin}</Text></RigaInfo>}
                                     {r.product.codiceUnlock && <RigaInfo label="Codice unlock"><Text size="sm">{r.product.codiceUnlock}</Text></RigaInfo>}
-                                    {r.product.sequenzaUnlock && (
+                                    {(!!r.product.sequenzaUnlock && r.product.sequenzaUnlock.length > 0) && (
                                         <RigaInfo label="Sequenza unlock">
                                             <PatternLock value={r.product.sequenzaUnlock} size={150} disabled />
                                         </RigaInfo>

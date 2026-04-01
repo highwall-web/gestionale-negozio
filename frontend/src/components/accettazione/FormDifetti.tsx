@@ -2,8 +2,8 @@ import { Accordion, Badge, Checkbox, Group, SimpleGrid, Title, Text, Button } fr
 import { useState, type SyntheticEvent } from "react"
 import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import toast from "react-hot-toast"
-import { type CreateProductRequestTestDiagnostici } from "../../api"
 import { useAccettazione } from "../../context/AccettazioneContext"
+import type { RecordStringStringArray } from "../../api"
 
 const CATEGORIE: Record<string, string[]> = {
     "Estetica": [
@@ -68,7 +68,7 @@ const CATEGORIE: Record<string, string[]> = {
 }
 
 interface Props {
-    onSuccess: (testDiagnostici: CreateProductRequestTestDiagnostici) => void
+    onSuccess: (testDiagnostici: RecordStringStringArray) => void
 }
 
 export default function FormDifetti({ onSuccess }: Props) {
@@ -76,7 +76,7 @@ export default function FormDifetti({ onSuccess }: Props) {
     const isDisabled = active !== 3
     const [isEditable, setIsEditable] = useState(false);
 
-    const [selectedTests, setSelectedTests] = useState<CreateProductRequestTestDiagnostici>(
+    const [selectedTests, setSelectedTests] = useState<RecordStringStringArray>(
         selectedDispositivo?.testDiagnostici ?? {}
     )
 

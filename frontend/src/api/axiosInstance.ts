@@ -70,7 +70,7 @@ AXIOS_INSTANCE.interceptors.response.use(
 
             try {
                 const { data } = await Axios.post(
-                    `${import.meta.env.VITE_API_BASE_URL}/api/auth/refresh`,
+                    `${import.meta.env.VITE_API_BASE_URL}/auth/refresh`,
                     null,
                     { withCredentials: true }
                 );

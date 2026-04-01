@@ -3,11 +3,11 @@ import { useMediaQuery } from '@mantine/hooks'
 import { useAuth } from '../context/AuthContext'
 import RiparazioniAttiveTable from '../components/dashboard/RiparazioniAttiveTable'
 import RiparazioniAttiveTableMobile from '../components/dashboard/RiparazioniAttiveTableMobile'
-import { useGetAttive } from '../api'
+import { useGetRepairsAttive } from '../api'
 
 export default function Dashboard() {
     const { user } = useAuth()
-    const { data: raw = [], isLoading } = useGetAttive()
+    const { data: raw = [], isLoading } = useGetRepairsAttive()
     const riparazioni = [...raw].sort((a, b) =>
         new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime()
     )

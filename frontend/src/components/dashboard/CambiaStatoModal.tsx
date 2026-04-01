@@ -1,10 +1,7 @@
 import { Button, Group, Modal, Select, Stack } from '@mantine/core'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import type { RepairResponse } from '../../api'
-import { getGetAttiveQueryKey, useUpdateStatoRepair } from '../../api/endpoints/repair-controller/repair-controller'
-import { UpdateStatoRepairRequestStato } from '../../api/models/updateStatoRepairRequestStato'
-import { UpdateStatoRepairRequestStatoRiparazione } from '../../api/models/updateStatoRepairRequestStatoRiparazione'
+import { getGetRepairsAttiveQueryKey, StatoRepair, StatoRiparazione, useUpdateStatoRepair, type RepairResponse } from '../../api'
 
 interface Props {
     repair: RepairResponse | null
@@ -13,21 +10,21 @@ interface Props {
 }
 
 const statoOptions = [
-    { value: UpdateStatoRepairRequestStato.NUOVO, label: 'Nuovo' },
-    { value: UpdateStatoRepairRequestStato.IN_CORSO, label: 'In corso' },
-    { value: UpdateStatoRepairRequestStato.PRONTO, label: 'Pronto' },
-    { value: UpdateStatoRepairRequestStato.CONSEGNATO, label: 'Consegnato' },
+    { value: StatoRepair.NUOVO, label: 'Nuovo' },
+    { value: StatoRepair.IN_CORSO, label: 'In corso' },
+    { value: StatoRepair.PRONTO, label: 'Pronto' },
+    { value: StatoRepair.CONSEGNATO, label: 'Consegnato' },
 ]
 
 const statoRiparazioneOptions = [
-    { value: UpdateStatoRepairRequestStatoRiparazione.ACCETTATO, label: 'Accettato' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.ANALISI_IN_CORSO, label: 'Analisi in corso' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.RIPARAZIONE_IN_CORSO, label: 'Riparazione in corso' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO, label: 'Attesa pezzi di ricambio' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.IN_ATTESA_DI_PREVENTIVO, label: 'In attesa di preventivo' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.PREVENTIVO_NON_ACCETTATO, label: 'Preventivo non accettato' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.RIPARAZIONE_CONCLUSA, label: 'Riparazione conclusa' },
-    { value: UpdateStatoRepairRequestStatoRiparazione.DISPOSITIVO_NON_RIPARABILE, label: 'Dispositivo non riparabile' },
+    { value: StatoRiparazione.ACCETTATO, label: 'Accettato' },
+    { value: StatoRiparazione.ANALISI_IN_CORSO, label: 'Analisi in corso' },
+    { value: StatoRiparazione.RIPARAZIONE_IN_CORSO, label: 'Riparazione in corso' },
+    { value: StatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO, label: 'Attesa pezzi di ricambio' },
+    { value: StatoRiparazione.IN_ATTESA_DI_PREVENTIVO, label: 'In attesa di preventivo' },
+    { value: StatoRiparazione.PREVENTIVO_NON_ACCETTATO, label: 'Preventivo non accettato' },
+    { value: StatoRiparazione.RIPARAZIONE_CONCLUSA, label: 'Riparazione conclusa' },
+    { value: StatoRiparazione.DISPOSITIVO_NON_RIPARABILE, label: 'Dispositivo non riparabile' },
 ]
 
 export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
@@ -45,7 +42,7 @@ export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
     const { mutate: updateStato, isPending } = useUpdateStatoRepair({
         mutation: {
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: getGetAttiveQueryKey() })
+                queryClient.invalidateQueries({ queryKey: getGetRepairsAttiveQueryKey() })
                 onClose()
             },
         },
@@ -58,8 +55,8 @@ export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
         updateStato({
             id: repair.id,
             data: {
-                stato: stato as UpdateStatoRepairRequestStato ?? undefined,
-                statoRiparazione: statoRiparazione as UpdateStatoRepairRequestStatoRiparazione ?? undefined,
+                stato: stato as StatoRepair ?? undefined,
+                statoRiparazione: statoRiparazione as StatoRiparazione ?? undefined,
             },
         })
     }

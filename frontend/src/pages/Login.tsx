@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { Button, Checkbox, Container, Paper, PasswordInput, TextInput, Title } from '@mantine/core'
 import { login } from '../api'
 import toast from 'react-hot-toast'
@@ -18,7 +18,7 @@ type FormData = z.infer<typeof schema>
 
 export default function Login() {
     const navigate = useNavigate()
-    const { authLogin } = useAuth()
+    const { authLogin, isAuthenticated } = useAuth()
 
     const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -33,6 +33,10 @@ export default function Login() {
         } catch {
             toast.error('Login fallito. Verifica le credenziali.')
         }
+    }
+
+    if (isAuthenticated) {
+        return <Navigate to={ROUTES.HOME} replace />
     }
 
     return (

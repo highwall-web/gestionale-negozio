@@ -3,11 +3,11 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 
 import { IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun, IconUser } from '@tabler/icons-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { UserResponseRole } from '../api'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { ROUTES } from '../routes'
 import { checkActivePath } from '../utils/urlUtils'
+import { Role } from '../api'
 
 export default function AppLayout() {
     const [opened, { toggle: toggleNav }] = useDisclosure()
@@ -83,7 +83,7 @@ export default function AppLayout() {
                                 </Accordion.Control>
                                 <Accordion.Panel>
                                     <Stack gap={2}>
-                                        {isInRole(UserResponseRole.ADMIN) && (
+                                        {isInRole(Role.ADMIN) && (
                                             <NavLink
                                                 label="Crea utente"
                                                 onClick={() => { navigate(ROUTES.CREA_UTENTE); toggleNav() }}

@@ -6,7 +6,7 @@ import { useResetOnEditEnd } from '../../hooks/useResetOnEditEnd'
 import { Controller, useForm, useWatch } from "react-hook-form";
 import toast from "react-hot-toast";
 import z from "zod";
-import { CreateProductRequestTipoDispositivo, getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandIdQueryKey, useCreateColor, useCreateModel, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
+import { getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandIdQueryKey, TipoDispositivo, useCreateColor, useCreateModel, useGetModelsByBrandId, type CreateProductRequest } from "../../api";
 import { useAccettazione } from "../../context/AccettazioneContext";
 import { capitalize } from "../../utils/stringUtils";
 import PatternLock from "../PatternLock";
@@ -16,7 +16,7 @@ const schema = z.object({
     modelNome: z.string().min(1, "Campo obbligatorio"),
     colorNome: z.string().min(1, "Campo obbligatorio"),
     codiceModello: z.string().optional(),
-    tipoDispositivo: z.enum(CreateProductRequestTipoDispositivo),
+    tipoDispositivo: z.enum(TipoDispositivo),
     capacita: z.string().optional(),
     codiceUnlock: z.string().optional(),
     sequenzaUnlock: z.array(z.number()).optional(),
@@ -250,7 +250,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                                 <Select
                                     label="Tipo dispositivo"
                                     withAsterisk
-                                    data={Object.values(CreateProductRequestTipoDispositivo).map(v => ({
+                                    data={Object.values(TipoDispositivo).map(v => ({
                                         value: v,
                                         label: capitalize(v)
                                     }))}

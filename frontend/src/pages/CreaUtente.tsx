@@ -3,8 +3,7 @@ import { Button, Group, Paper, PasswordInput, Select, Stack, TextInput, Title } 
 import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
-import { useRegister } from '../api/endpoints/auth-controller/auth-controller'
-import { RegisterRequestRole } from '../api/models/registerRequestRole'
+import { Role, useRegister } from '../api'
 
 const schema = z.object({
     username: z.string().min(1, 'Campo obbligatorio'),
@@ -12,7 +11,7 @@ const schema = z.object({
     email: z.email({ error: 'Email non valida' }),
     password: z.string().min(6, 'Minimo 6 caratteri'),
     confermaPassword: z.string().min(1, 'Campo obbligatorio'),
-    ruolo: z.enum([RegisterRequestRole.ADMIN, RegisterRequestRole.COMMESSO], { error: 'Campo obbligatorio' }),
+    ruolo: z.enum([Role.ADMIN, Role.COMMESSO], { error: 'Campo obbligatorio' }),
 }).refine((d) => d.password === d.confermaPassword, {
     message: 'Le password non coincidono',
     path: ['confermaPassword'],
@@ -23,7 +22,7 @@ type FormData = z.infer<typeof schema>
 export default function CreaUtente() {
     const { register: registerField, handleSubmit, reset, control, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
-        defaultValues: { ruolo: RegisterRequestRole.COMMESSO },
+        defaultValues: { ruolo: Role.COMMESSO },
     })
 
     const { mutate: registerUser, isPending } = useRegister({
@@ -88,8 +87,8 @@ export default function CreaUtente() {
                             <Select
                                 label="Ruolo"
                                 data={[
-                                    { value: RegisterRequestRole.COMMESSO, label: 'Commesso' },
-                                    { value: RegisterRequestRole.ADMIN, label: 'Admin' },
+                                    { value: Role.COMMESSO, label: 'Commesso' },
+                                    { value: Role.ADMIN, label: 'Admin' },
                                 ]}
                                 value={field.value ?? null}
                                 onChange={field.onChange}

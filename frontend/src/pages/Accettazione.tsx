@@ -1,6 +1,6 @@
 import { Paper, Stack, Stepper } from "@mantine/core";
 import { useMediaQuery } from "@mantine/hooks";
-import { type CreateCustomerRequest, type CreateProductRequest, type CreateProductRequestTestDiagnostici, type CreateRepairDetailsRequest } from "../api";
+import { type CreateCustomerRequest, type CreateProductRequest, type CreateRepairDetailsRequest, type RecordStringStringArray } from "../api";
 import FormCliente from "../components/accettazione/FormCliente";
 import FormConferma from "../components/accettazione/FormConferma";
 import FormDifetti from "../components/accettazione/FormDifetti";
@@ -38,7 +38,7 @@ export default function Accettazione() {
         updateActive(active + 1)
     }
 
-    const handleTestSuccess = (testDiagnostici: CreateProductRequestTestDiagnostici) => {
+    const handleTestSuccess = (testDiagnostici: RecordStringStringArray) => {
         if (!selectedDispositivo) return;
         setSelectedDispositivo({
             ...selectedDispositivo,

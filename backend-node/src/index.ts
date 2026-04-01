@@ -1,17 +1,22 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./generated/routes";
 import { errorHandler } from "./middleware/errorHandler";
+import { scheduleTokenCleanup } from "./jobs/cleanupTokens";
+import { seedAdmin } from "./jobs/seedAdmin";
+import { client } from "./config/db";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // Swagger UI
 const swaggerDocument = require("./generated/swagger.json");
@@ -22,9 +27,22 @@ RegisterRoutes(apiRouter);
 app.use("/api", apiRouter);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Docs: http://localhost:${PORT}/docs`);
+const cronTask = scheduleTokenCleanup();
+seedAdmin();
+
+const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Docs: http://localhost:${PORT}/docs`);
 });
+
+const shutdown = async () => {
+    cronTask.stop();
+    server.close();
+    await client.end();
+    process.exit(0);
+};
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
 
 export default app;

@@ -14,7 +14,7 @@ import ModalAggiungiIntervento from "./ModalAggiungiIntervento"
 
 const schema = z.object({
     isPreventivo: z.boolean().optional(),
-    interventi: z.array(z.object({ interventionId: z.number(), quantita: z.number().optional() })).optional(),
+    interventi: z.array(z.object({ interventionId: z.number(), quantita: z.number() })).optional(),
     messaggio: z.string().optional(),
     dataConsegna: z.string().nullable().optional(),
     acconto: z.number().optional()
@@ -104,8 +104,8 @@ export default function FormRiparazione({ onSuccess }: Props) {
 
     function createDetails(data: FormData) {
         const details: CreateRepairDetailsRequest = {
-            isPreventivo: data.isPreventivo,
-            interventi: data.interventi,
+            isPreventivo: data.isPreventivo ?? false,
+            interventi: data.interventi ?? [],
             messaggi: data.messaggio ? [{ testo: data.messaggio }] : [],
             dataConsegna: data.dataConsegna ? new Date(data.dataConsegna).toISOString() : undefined,
             acconto: data.acconto

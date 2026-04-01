@@ -71,7 +71,7 @@ function ProductCell({ product }: { product: ProductResponse }) {
                     {product.codiceModello && <><Text size="xs" c="dimmed">Codice modello</Text><Text size="sm">{product.codiceModello}</Text></>}
                     {product.pin && <><Text size="xs" c="dimmed">PIN</Text><Text size="sm">{product.pin}</Text></>}
                     {product.codiceUnlock && <><Text size="xs" c="dimmed">Codice unlock</Text><Text size="sm">{product.codiceUnlock}</Text></>}
-                    {product.sequenzaUnlock && <><Text size="xs" c="dimmed">Sequenza unlock</Text><PatternLock value={product.sequenzaUnlock} size={150} disabled /></>}
+                    {(!!product.sequenzaUnlock && product.sequenzaUnlock.length > 0) && <><Text size="xs" c="dimmed">Sequenza unlock</Text><PatternLock value={product.sequenzaUnlock} size={150} disabled /></>}
                     {product.accessori && <><Text size="xs" c="dimmed">Accessori</Text><Text size="sm">{product.accessori}</Text></>}
                     {product.contattoConLiquidi && <Text size="sm" c="red">Contatto con liquidi</Text>}
                     {product.dispositivoNonTestabile && <Text size="sm" c="orange">Dispositivo non testabile</Text>}
