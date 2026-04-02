@@ -3,7 +3,7 @@ import { Alert, Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, St
 import { DateTimePicker } from "@mantine/dates"
 import { useDisclosure } from "@mantine/hooks"
 import { IconInfoCircle, IconPlus, IconSearch, IconShoppingCart } from "@tabler/icons-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Controller, useForm, useWatch } from "react-hook-form"
 import toast from "react-hot-toast"
 import z from "zod"
@@ -52,12 +52,21 @@ export default function FormRiparazione({ onSuccess }: Props) {
 
     const [isPreventivo, interventi] = useWatch({ control, name: ['isPreventivo', 'interventi'] })
 
-    const tuttiInterventi = [...interventiPerModello, ...interventiGenerali]
-    const totaleInterventi = (interventi ?? []).reduce((acc: number, sel: { interventionId: number }) => {
-        const found = tuttiInterventi.find(i => i.id === sel.interventionId)
-        return acc + (found?.prezzo ?? 0)
-    }, 0)
-    const accontoMinimo = isPreventivo ? 10 : totaleInterventi > 0 ? Math.ceil(totaleInterventi * 0.3 * 100) / 100 : null
+    const tuttiInterventi = useMemo(
+        () => [...interventiPerModello, ...interventiGenerali],
+        [interventiPerModello, interventiGenerali]
+    )
+    const totaleInterventi = useMemo(
+        () => (interventi ?? []).reduce((acc: number, sel: { interventionId: number }) => {
+            const found = tuttiInterventi.find(i => i.id === sel.interventionId)
+            return acc + (found?.prezzo ?? 0)
+        }, 0),
+        [interventi, tuttiInterventi]
+    )
+    const accontoMinimo = useMemo(
+        () => isPreventivo ? 10 : totaleInterventi > 0 ? Math.ceil(totaleInterventi * 0.3 * 100) / 100 : null,
+        [isPreventivo, totaleInterventi]
+    )
 
     function toggleIntervento(id: number, checked: boolean, current: InterventionQuantitaRequest[]) {
         return checked ? [...current, { interventionId: id, quantita: 1 }] : current.filter(x => x.interventionId !== id)
@@ -125,7 +134,6 @@ export default function FormRiparazione({ onSuccess }: Props) {
                     component="div"
                     checked={checked}
                     onClick={() => { if (!isDisabled) field.onChange(toggleIntervento(i.id, !checked, field.value ?? [])) }}
-                    radius="sm"
                     disabled={isDisabled}
                     style={{ flex: 1, height: 36 }}
                     px="xs"

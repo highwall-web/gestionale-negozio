@@ -32,6 +32,12 @@ interface Props {
     onSuccess: (product: CreateProductRequest) => void
 }
 
+const CAPACITA_OPTIONS = Array.from({ length: 9 }, (_, i) => {
+    const gb = 8 * Math.pow(2, i)
+    const label = gb >= 1024 ? `${gb / 1024}TB` : `${gb}GB`
+    return { value: label, label }
+})
+
 export default function FormDispositivo({ onSuccess }: Props) {
 
     const { active, updateActive, isEditing, toggleEditingDispositivo, brands, colors, setSelectedModel } = useAccettazione();
@@ -286,11 +292,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                     render={({ field }) => (
                         <Select
                             label="Capacità"
-                            data={Array.from({ length: 9 }, (_, i) => {
-                                const gb = 8 * Math.pow(2, i);
-                                const label = gb >= 1024 ? `${gb / 1024}TB` : `${gb}GB`;
-                                return { value: label, label };
-                            })}
+                            data={CAPACITA_OPTIONS}
                             error={errors.capacita?.message}
                             value={field.value || null}
                             onChange={field.onChange}

@@ -61,7 +61,7 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
     }
 
     return (
-        <Modal opened={opened} onClose={handleClose} title="Aggiungi intervento" centered>
+        <Modal opened={opened} onClose={handleClose} title="Aggiungi intervento">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack>
                     <Group gap="sm">
@@ -118,14 +118,14 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
                         )}
                     />
                     <Group justify="space-between" mt="sm">
-                        <Button variant="default" type="button" onClick={() => reset()}>
+                        <Button variant="default" type="button" onClick={() => reset()} radius={"sm"}>
                             Reset
                         </Button>
                         <Button.Group>
-                            <Button variant="default" type="button" onClick={handleClose}>
+                            <Button variant="default" type="button" onClick={handleClose} radius={"sm"}>
                                 Annulla
                             </Button>
-                            <Button type="submit" loading={isPending}>
+                            <Button type="submit" loading={isPending} radius={"sm"}>
                                 Aggiungi
                             </Button>
                         </Button.Group>

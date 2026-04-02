@@ -24,8 +24,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setIsAuthenticated(true)
     }
 
-    console.log(isAuthenticated);
-
 
     function authLogout() {
         logout()

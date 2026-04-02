@@ -5,7 +5,7 @@ import { useState } from 'react'
 import type { RepairResponse } from '../../api'
 import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
 import PatternLock from '../PatternLock'
-import CambiaStatoModal from './CambiaStatoModal'
+import CambiaStatoModal from './ModalCambiaStato'
 
 function RigaInfo({ label, children }: { label: string; children: React.ReactNode }) {
     return (
@@ -46,7 +46,7 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
 
     const cards = riparazioni.map((r) => {
         return (
-            <Paper key={r.id} radius="sm" withBorder p="sm">
+            <Paper key={r.id} withBorder p="sm">
                 <Stack gap={6}>
                     <RigaInfo label="Creata il">
                         <Text size="sm">{r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}</Text>
@@ -141,10 +141,12 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
     })
 
     return (
-        <Paper radius={12} p="md">
-            <Title order={4} mb="sm">Riparazioni attive</Title>
-            <Stack gap="sm">{cards}</Stack>
+        <>
             <CambiaStatoModal repair={selectedRepair} opened={modalOpened} onClose={closeModal} />
-        </Paper>
+            <Paper radius={12} p="md">
+                <Title order={4} mb="sm">Riparazioni attive</Title>
+                <Stack gap="sm">{cards}</Stack>
+            </Paper>
+        </>
     )
 }

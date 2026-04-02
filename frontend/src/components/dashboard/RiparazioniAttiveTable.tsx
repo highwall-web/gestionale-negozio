@@ -1,11 +1,13 @@
 import { ActionIcon, Badge, Divider, Group, Loader, Paper, Popover, ScrollArea, Stack, Table, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconRefresh } from '@tabler/icons-react'
+import { IconRefresh, IconSend2 } from '@tabler/icons-react'
 import { useState } from 'react'
-import type { CustomerResponse, ProductResponse, RepairResponse } from '../../api'
+import { getGetRepairsAttiveQueryKey, StatoRepair, useUpdateStatoRepair, type CustomerResponse, type ProductResponse, type RepairResponse } from '../../api'
 import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
-import CambiaStatoModal from './CambiaStatoModal'
+import CambiaStatoModal from './ModalCambiaStato'
 import PatternLock from '../PatternLock'
+import { useQueryClient } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 
 function CustomerCell({ customer }: { customer: CustomerResponse }) {
     const [opened, { open, close }] = useDisclosure(false)
@@ -89,12 +91,30 @@ interface Props {
 }
 
 export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props) {
+    const queryClient = useQueryClient()
     const [selectedRepair, setSelectedRepair] = useState<RepairResponse | null>(null)
     const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
+    const { mutate: updateStato, isPending } = useUpdateStatoRepair({
+        mutation: {
+            onSuccess: (res) => {
+                toast.success(`Dispositivo riconsegnato il: ${res.details?.dataRiconsegnaEffettiva ? new Date(res.details.dataRiconsegnaEffettiva).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' }) : '—'}`)
+                queryClient.invalidateQueries({ queryKey: getGetRepairsAttiveQueryKey() })
+            },
+        },
+    })
 
-    const handleCambiaStato = (repair: RepairResponse) => {
+    function handleCambiaStato(repair: RepairResponse) {
         setSelectedRepair(repair)
         openModal()
+    }
+
+    function handleConsegna(repair: RepairResponse) {
+        updateStato({
+            id: repair.id,
+            data: {
+                stato: StatoRepair.CONSEGNATO
+            }
+        })
     }
 
     const rows = riparazioni.map((r) => {
@@ -122,50 +142,69 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                 <Table.Td>{r.costoTotale != null ? `€ ${r.details?.acconto?.toFixed(2)}` : '—'}</Table.Td>
                 <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
                 <Table.Td>
-                    <Tooltip label="Cambia stato">
-                        <ActionIcon variant="subtle" onClick={() => handleCambiaStato(r)}>
-                            <IconRefresh size={16} />
-                        </ActionIcon>
-                    </Tooltip>
+                    <Group gap={0}>
+                        <Tooltip label="Cambia stato">
+                            <ActionIcon
+                                variant="subtle"
+                                onClick={() => handleCambiaStato(r)}
+                                loading={isPending}
+                            >
+                                <IconRefresh size={16} />
+                            </ActionIcon>
+                        </Tooltip>
+                        {r.stato === StatoRepair.PRONTO && (
+                            <Tooltip label="Consegna">
+                                <ActionIcon
+                                    variant='subtle'
+                                    onClick={() => handleConsegna(r)}
+                                    loading={isPending}
+                                >
+                                    <IconSend2 size={16} />
+                                </ActionIcon>
+                            </Tooltip>
+                        )}
+                    </Group>
                 </Table.Td>
             </Table.Tr>
         )
     })
 
     return (
-        <Paper radius={12} p="md">
-            <Title order={4} mb="sm">Riparazioni attive</Title>
-            {isLoading ? (
-                <Stack align="center" py="xl">
-                    <Loader />
-                </Stack>
-            ) : riparazioni?.length === 0 ? (
-                <Text c="dimmed" ta="center" py="xl">Nessuna riparazione attiva</Text>
-            ) : (
-                <ScrollArea>
-                    <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
-                        <Table.Thead>
-                            <Table.Tr>
-                                <Table.Th>Creata il</Table.Th>
-                                <Table.Th>Data di consegna stimata</Table.Th>
-                                <Table.Th>Cliente</Table.Th>
-                                <Table.Th>Dispositivo</Table.Th>
-                                <Table.Th>Stato</Table.Th>
-                                <Table.Th>Stato riparazione</Table.Th>
-                                <Table.Th>Acconto</Table.Th>
-                                <Table.Th>Totale</Table.Th>
-                                <Table.Th>Azioni</Table.Th>
-                            </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>{rows}</Table.Tbody>
-                    </Table>
-                </ScrollArea>
-            )}
+        <>
             <CambiaStatoModal
                 repair={selectedRepair}
                 opened={modalOpened}
                 onClose={closeModal}
             />
-        </Paper>
+            <Paper radius={12} p="md">
+                <Title order={4} mb="sm">Riparazioni attive</Title>
+                {isLoading ? (
+                    <Stack align="center" py="xl">
+                        <Loader />
+                    </Stack>
+                ) : riparazioni?.length === 0 ? (
+                    <Text c="dimmed" ta="center" py="xl">Nessuna riparazione attiva</Text>
+                ) : (
+                    <ScrollArea>
+                        <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>Creata il</Table.Th>
+                                    <Table.Th>Data di consegna stimata</Table.Th>
+                                    <Table.Th>Cliente</Table.Th>
+                                    <Table.Th>Dispositivo</Table.Th>
+                                    <Table.Th>Stato</Table.Th>
+                                    <Table.Th>Stato riparazione</Table.Th>
+                                    <Table.Th>Acconto</Table.Th>
+                                    <Table.Th>Totale</Table.Th>
+                                    <Table.Th>Azioni</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>{rows}</Table.Tbody>
+                        </Table>
+                    </ScrollArea>
+                )}
+            </Paper>
+        </>
     )
 }

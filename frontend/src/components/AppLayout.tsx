@@ -1,16 +1,19 @@
 import { Accordion, AppShell, Burger, Group, NavLink, Stack, Switch, Text } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 
-import { IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun, IconUser } from '@tabler/icons-react'
+import { IconCalendar, IconDeviceDesktopSearch, IconDeviceMobilePlus, IconHome, IconLogout, IconMoon, IconSun, IconUser } from '@tabler/icons-react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useTheme } from '../context/ThemeContext'
 import { ROUTES } from '../routes'
 import { checkActivePath } from '../utils/urlUtils'
 import { Role } from '../api'
+import { Suspense } from 'react'
+import { fallback } from './PageFallback'
 
 export default function AppLayout() {
     const [opened, { toggle: toggleNav }] = useDisclosure()
+    const handleNav = () => { if (!isDesktop) toggleNav() }
     const navigate = useNavigate()
     const location = useLocation()
     const { authLogout } = useAuth()
@@ -59,24 +62,60 @@ export default function AppLayout() {
                         </Group>
                         <NavLink
                             label="Dashboard"
-                            onClick={() => { navigate(ROUTES.HOME); toggleNav() }}
+                            onClick={() => { navigate(ROUTES.HOME); handleNav() }}
                             variant='light'
                             active={checkActivePath(location.pathname, ROUTES.HOME)}
                             leftSection={<IconHome size={18} stroke={1.5} />}
                         />
                         <NavLink
                             label="Accettazione"
-                            onClick={() => { navigate(ROUTES.ACCETTAZIONE); toggleNav() }}
+                            onClick={() => { navigate(ROUTES.ACCETTAZIONE); handleNav() }}
                             variant='light'
                             active={checkActivePath(location.pathname, ROUTES.ACCETTAZIONE)}
                             leftSection={<IconDeviceMobilePlus size={18} stroke={1.5} />}
+                        />
+                        <NavLink
+                            label="Calendario"
+                            onClick={() => { navigate(ROUTES.CALENDARIO); handleNav() }}
+                            variant='light'
+                            active={checkActivePath(location.pathname, ROUTES.CALENDARIO)}
+                            leftSection={<IconCalendar size={18} stroke={1.5} />}
                         />
                         <Accordion
                             variant="filled"
                             radius="md"
                             chevronPosition="right"
-                            styles={{ item: { backgroundColor: 'transparent' }, label: { padding: '8px 0' }, control: { paddingLeft: 12, paddingRight: 12 } }}
+                            styles={{ item: { backgroundColor: 'transparent' }, label: { padding: '4px 0' }, control: { color: 'var(--mantine-color-text)', padding: "8px 12px" } }}
                         >
+                            <Accordion.Item value={"gestione"}>
+                                <Accordion.Control icon={<IconDeviceDesktopSearch size={18} stroke={1.5} />}>
+                                    <Text size="sm">Gestione</Text>
+                                </Accordion.Control>
+                                <Accordion.Panel>
+                                    <Stack gap={2}>
+                                        <NavLink
+                                            label="Riparazioni"
+                                            onClick={() => { navigate(ROUTES.GESTIONE_RIPARAZIONI); handleNav() }}
+                                            active={checkActivePath(location.pathname, ROUTES.GESTIONE_RIPARAZIONI)}
+                                        />
+                                        <NavLink
+                                            label="Clienti"
+                                            onClick={() => { navigate(ROUTES.GESTIONE_CLIENTI); handleNav() }}
+                                            active={checkActivePath(location.pathname, ROUTES.GESTIONE_CLIENTI)}
+                                        />
+                                        <NavLink
+                                            label="Dispositivi"
+                                            onClick={() => { navigate(ROUTES.GESTIONE_DISPOSITIVI); handleNav() }}
+                                            active={checkActivePath(location.pathname, ROUTES.GESTIONE_DISPOSITIVI)}
+                                        />
+                                        <NavLink
+                                            label="Interventi"
+                                            onClick={() => { navigate(ROUTES.GESTIONE_INTERVENTI); handleNav() }}
+                                            active={checkActivePath(location.pathname, ROUTES.GESTIONE_INTERVENTI)}
+                                        />
+                                    </Stack>
+                                </Accordion.Panel>
+                            </Accordion.Item>
                             <Accordion.Item value="utenti">
                                 <Accordion.Control icon={<IconUser size={18} stroke={1.5} />}>
                                     <Text size="sm">Utenti</Text>
@@ -86,15 +125,13 @@ export default function AppLayout() {
                                         {isInRole(Role.ADMIN) && (
                                             <NavLink
                                                 label="Crea utente"
-                                                onClick={() => { navigate(ROUTES.CREA_UTENTE); toggleNav() }}
-                                                variant='light'
+                                                onClick={() => { navigate(ROUTES.CREA_UTENTE); handleNav() }}
                                                 active={checkActivePath(location.pathname, ROUTES.CREA_UTENTE)}
                                             />
                                         )}
                                         <NavLink
                                             label="Modifica dati utente"
-                                            onClick={() => { navigate(ROUTES.MODIFICA_UTENTE); toggleNav() }}
-                                            variant='light'
+                                            onClick={() => { navigate(ROUTES.MODIFICA_UTENTE); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.MODIFICA_UTENTE)}
                                         />
                                     </Stack>
@@ -111,7 +148,9 @@ export default function AppLayout() {
             </AppShell.Navbar>
 
             <AppShell.Main>
-                <Outlet />
+                <Suspense key={location.pathname} fallback={fallback}>
+                    <Outlet />
+                </Suspense>
             </AppShell.Main>
         </AppShell>
     )

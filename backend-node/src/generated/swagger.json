@@ -1447,6 +1447,35 @@
 				"parameters": []
 			}
 		},
+		"/repairs/senza-data-riconsegna-stimata": {
+			"get": {
+				"operationId": "getRepairsSenzaDataRiconsegnaStiamata",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/RepairResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
 		"/repairs/{id}": {
 			"get": {
 				"operationId": "getRepairById",

@@ -69,6 +69,12 @@ export class RepairController extends Controller {
         return repairService.getAttive();
     }
 
+    @Get("/senza-data-riconsegna-stimata")
+    @OperationId("getRepairsSenzaDataRiconsegnaStiamata")
+    public async getRepairsSenzaDataRiconsegnaStiamata(): Promise<RepairResponse[]> {
+        return repairService.getSenzaDataRiconsegnaStiamata();
+    }
+
     @Get("/{id}")
     @OperationId("getRepairById")
     public async getRepairById(@Path() id: number): Promise<RepairResponse> {

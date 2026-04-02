@@ -28,7 +28,6 @@ export default function ModalStatoDispositivo({ opened, onClose, onConferma, isP
             opened={opened}
             onClose={onClose}
             title="Stato del dispositivo"
-            centered
         >
             <Stack gap="md">
                 <Text size="sm" c="dimmed">
@@ -57,10 +56,12 @@ export default function ModalStatoDispositivo({ opened, onClose, onConferma, isP
                 />
                 <Divider />
                 <Group justify="flex-end">
-                    <Button variant="default" onClick={onClose}>Annulla</Button>
-                    <Button onClick={handleConferma} loading={isPending}>
-                        Conferma e crea
-                    </Button>
+                    <Button.Group>
+                        <Button variant="default" onClick={onClose} radius={"sm"}>Annulla</Button>
+                        <Button onClick={handleConferma} loading={isPending} radius={"sm"}>
+                            Conferma e crea
+                        </Button>
+                    </Button.Group>
                 </Group>
             </Stack>
         </Modal>

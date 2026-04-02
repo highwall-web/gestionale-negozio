@@ -2,6 +2,7 @@ import { Button, Group, Modal, Select, Stack } from '@mantine/core'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getGetRepairsAttiveQueryKey, StatoRepair, StatoRiparazione, useUpdateStatoRepair, type RepairResponse } from '../../api'
+import toast from 'react-hot-toast'
 
 interface Props {
     repair: RepairResponse | null
@@ -12,8 +13,7 @@ interface Props {
 const statoOptions = [
     { value: StatoRepair.NUOVO, label: 'Nuovo' },
     { value: StatoRepair.IN_CORSO, label: 'In corso' },
-    { value: StatoRepair.PRONTO, label: 'Pronto' },
-    { value: StatoRepair.CONSEGNATO, label: 'Consegnato' },
+    { value: StatoRepair.PRONTO, label: 'Pronto' }
 ]
 
 const statoRiparazioneOptions = [
@@ -31,17 +31,10 @@ export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
     const queryClient = useQueryClient()
     const [stato, setStato] = useState<string | null>(repair?.stato ?? null)
     const [statoRiparazione, setStatoRiparazione] = useState<string | null>(repair?.statoRiparazione ?? null)
-
-    useEffect(() => {
-        if (opened) {
-            setStato(repair?.stato ?? null)
-            setStatoRiparazione(repair?.statoRiparazione ?? null)
-        }
-    }, [opened, repair])
-
     const { mutate: updateStato, isPending } = useUpdateStatoRepair({
         mutation: {
             onSuccess: () => {
+                toast.success("Stato aggiornato")
                 queryClient.invalidateQueries({ queryKey: getGetRepairsAttiveQueryKey() })
                 onClose()
             },
@@ -61,12 +54,18 @@ export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
         })
     }
 
+    useEffect(() => {
+        if (opened) {
+            setStato(repair?.stato ?? null)
+            setStatoRiparazione(repair?.statoRiparazione ?? null)
+        }
+    }, [opened, repair])
+
     return (
         <Modal
             opened={opened}
             onClose={onClose}
             title="Cambia stato riparazione"
-            centered
         >
             <Stack>
                 <Select
@@ -81,9 +80,11 @@ export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
                     value={statoRiparazione}
                     onChange={setStatoRiparazione}
                 />
-                <Group justify="flex-end" mt="sm">
-                    <Button variant="default" onClick={onClose}>Annulla</Button>
-                    <Button onClick={handleSubmit} loading={isPending} disabled={unchanged}>Salva</Button>
+                <Group mt={"sm"} justify='flex-end'>
+                    <Button.Group>
+                        <Button variant="default" onClick={onClose} >Annulla</Button>
+                        <Button onClick={handleSubmit} loading={isPending} disabled={unchanged} >Salva</Button>
+                    </Button.Group>
                 </Group>
             </Stack>
         </Modal>

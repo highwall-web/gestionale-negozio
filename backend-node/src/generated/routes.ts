@@ -869,6 +869,36 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsRepairController_getRepairsSenzaDataRiconsegnaStiamata: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/repairs/senza-data-riconsegna-stimata',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(RepairController)),
+            ...(fetchMiddlewares<RequestHandler>(RepairController.prototype.getRepairsSenzaDataRiconsegnaStiamata)),
+
+            async function RepairController_getRepairsSenzaDataRiconsegnaStiamata(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsRepairController_getRepairsSenzaDataRiconsegnaStiamata, request, response });
+
+                const controller = new RepairController();
+
+              await templateService.apiHandler({
+                methodName: 'getRepairsSenzaDataRiconsegnaStiamata',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairController_getRepairById: Record<string, TsoaRoute.ParameterSchema> = {
                 id: {"in":"path","name":"id","required":true,"dataType":"double"},
         };

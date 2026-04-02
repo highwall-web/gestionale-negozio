@@ -1,4 +1,4 @@
-import { and, count, eq, ilike, inArray, ne, SQL } from "drizzle-orm";
+import { and, count, eq, ilike, inArray, isNull, ne, SQL } from "drizzle-orm";
 import { db } from "../config/db";
 import {
     CreateRepairRequest,
@@ -235,6 +235,15 @@ export class RepairService {
     async getAttive(): Promise<RepairResponse[]> {
         const rows = await db.select().from(repairs).where(ne(repairs.stato, 'CONSEGNATO'));
         return Promise.all(rows.map(r => this.buildRepairResponse(r)));
+    }
+
+    async getSenzaDataRiconsegnaStiamata(): Promise<RepairResponse[]> {
+        const rows = await db
+            .select({ repair: repairs })
+            .from(repairs)
+            .innerJoin(repairDetails, eq(repairDetails.repairId, repairs.id))
+            .where(isNull(repairDetails.dataConsegna));
+        return Promise.all(rows.map(r => this.buildRepairResponse(r.repair)));
     }
 
     async getById(id: number): Promise<RepairResponse> {

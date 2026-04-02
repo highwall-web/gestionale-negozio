@@ -349,6 +349,90 @@ export function useGetRepairsAttive<TData = Awaited<ReturnType<typeof getRepairs
 
 
 
+export const getRepairsSenzaDataRiconsegnaStiamata = (
+    
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairResponse[]>(
+      {url: `/repairs/senza-data-riconsegna-stimata`, method: 'GET', signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetRepairsSenzaDataRiconsegnaStiamataQueryKey = () => {
+    return [
+    `/repairs/senza-data-riconsegna-stimata`
+    ] as const;
+    }
+
+    
+export const getGetRepairsSenzaDataRiconsegnaStiamataQueryOptions = <TData = Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRepairsSenzaDataRiconsegnaStiamataQueryKey();
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>> = ({ signal }) => getRepairsSenzaDataRiconsegnaStiamata(signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRepairsSenzaDataRiconsegnaStiamataQueryResult = NonNullable<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>>
+export type GetRepairsSenzaDataRiconsegnaStiamataQueryError = unknown
+
+
+export function useGetRepairsSenzaDataRiconsegnaStiamata<TData = Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>,
+          TError,
+          Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRepairsSenzaDataRiconsegnaStiamata<TData = Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>,
+          TError,
+          Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRepairsSenzaDataRiconsegnaStiamata<TData = Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetRepairsSenzaDataRiconsegnaStiamata<TData = Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsSenzaDataRiconsegnaStiamata>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetRepairsSenzaDataRiconsegnaStiamataQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
 export const getRepairById = (
     id: number,
  signal?: AbortSignal
