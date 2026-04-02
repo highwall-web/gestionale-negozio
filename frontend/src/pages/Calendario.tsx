@@ -1,7 +1,7 @@
 import { Paper } from '@mantine/core';
-import { Schedule, type ScheduleEventData, type ScheduleLabels, type ScheduleViewLevel, getStartOfWeek, getEndOfWeek, getMonthRange } from '@mantine/schedule';
+import { Schedule, type ScheduleEventData, type ScheduleLabels, type ScheduleViewLevel } from '@mantine/schedule';
 import dayjs from 'dayjs';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import CalendarioModal from '../components/calendario/CalendarioModal';
 
 const labels: Partial<ScheduleLabels> = {
