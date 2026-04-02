@@ -1,3 +1,0 @@
-ALTER TABLE users ADD COLUMN nome VARCHAR(255);
-UPDATE users SET nome = username WHERE nome IS NULL;
-ALTER TABLE users ALTER COLUMN nome SET NOT NULL;
