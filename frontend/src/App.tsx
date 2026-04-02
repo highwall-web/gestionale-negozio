@@ -1,20 +1,20 @@
-import './App.css'
-import { lazy, Suspense } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import ProtectedRoute from './components/ProtectedRoute'
-import AppLayout from './components/AppLayout'
-import AdminRoute from './components/AdminRoute'
-import { AuthProvider } from './context/AuthContext'
+import { createTheme, MantineProvider } from "@mantine/core"
 import '@mantine/core/styles.css'
+import { DatesProvider } from "@mantine/dates"
 import '@mantine/dates/styles.css'
-import '@mantine/schedule/styles.css';
-import { createTheme, MantineProvider } from "@mantine/core";
-import { DatesProvider } from "@mantine/dates";
-import 'dayjs/locale/it';
-import { Toaster } from "react-hot-toast";
+import '@mantine/schedule/styles.css'
+import 'dayjs/locale/it'
+import { lazy } from 'react'
+import { Toaster } from "react-hot-toast"
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import './App.css'
+import AdminRoute from './components/AdminRoute'
+import AppLayout from './components/AppLayout'
+import ProtectedRoute from './components/ProtectedRoute'
+import { AccettazioneProvider } from './context/AccettazioneContext'
+import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
 import { ROUTES } from './routes'
-import { AccettazioneProvider } from './context/AccettazioneContext'
 
 const Login = lazy(() => import('./pages/Login'))
 const Calendario = lazy(() => import('./pages/Calendario'))

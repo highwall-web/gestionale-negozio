@@ -148,7 +148,7 @@ export default function FormDifetti({ onSuccess }: Props) {
                                     value={selectedTests[categoria] ?? []}
                                     onChange={values => handleChange(categoria, values)}
                                 >
-                                    <SimpleGrid cols={{ base: 1, sm: 2 }} gap="xs">
+                                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
                                         {opzioni.map(opzione => (
                                             <Checkbox
                                                 key={opzione}

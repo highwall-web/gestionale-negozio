@@ -28,18 +28,18 @@ export default function Calendario() {
     const [view, setView] = useState<ScheduleViewLevel>('week')
     const [modalDatetime, setModalDatetime] = useState<string | null>(null)
 
-    const range = useMemo(() => {
-        switch (view) {
-            case 'day':
-                return { start: date, end: date }
-            case 'week':
-                return { start: getStartOfWeek({ date }), end: getEndOfWeek(date) as string }
-            case 'month':
-                return getMonthRange({ month: date, withOutsideDays: false, consistentWeeks: undefined, firstDayOfWeek: 1 })
-            case 'year':
-                return { start: `${dayjs(date).year()}-01-01`, end: `${dayjs(date).year()}-12-31` }
-        }
-    }, [date, view])
+    // const range = useMemo(() => {
+    //     switch (view) {
+    //         case 'day':
+    //             return { start: date, end: date }
+    //         case 'week':
+    //             return { start: getStartOfWeek({ date }), end: getEndOfWeek(date) as string }
+    //         case 'month':
+    //             return getMonthRange({ month: date, withOutsideDays: false, consistentWeeks: undefined, firstDayOfWeek: 1 })
+    //         case 'year':
+    //             return { start: `${dayjs(date).year()}-01-01`, end: `${dayjs(date).year()}-12-31` }
+    //     }
+    // }, [date, view])
 
     return (
         <>
