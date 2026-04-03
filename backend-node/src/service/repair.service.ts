@@ -242,7 +242,7 @@ export class RepairService {
             .select({ repair: repairs })
             .from(repairs)
             .innerJoin(repairDetails, eq(repairDetails.repairId, repairs.id))
-            .where(isNull(repairDetails.dataConsegna));
+            .where(and(isNull(repairDetails.dataConsegna), isNull(repairDetails.dataRiconsegnaEffettiva)));
         return Promise.all(rows.map(r => this.buildRepairResponse(r.repair)));
     }
 

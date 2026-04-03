@@ -98,7 +98,7 @@ export default function PatternLock({ value, onChange, disabled = false, size = 
                     opacity: disabled ? 0.5 : 1,
                     display: "block",
                     background: "var(--mantine-color-default)",
-                    borderRadius: "var(--mantine-radius-sm)",
+                    borderRadius: "var(--mantine-radius-md)",
                     border: "1px solid var(--mantine-color-default-border)",
                 }}
                 onMouseDown={handleStart}

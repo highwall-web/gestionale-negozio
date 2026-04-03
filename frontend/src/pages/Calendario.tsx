@@ -2,7 +2,7 @@ import { Paper } from '@mantine/core';
 import { Schedule, type ScheduleEventData, type ScheduleLabels, type ScheduleViewLevel } from '@mantine/schedule';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import CalendarioModal from '../components/calendario/CalendarioModal';
+import CalendarioModal from '../components/calendario/ModalCalendario';
 
 const labels: Partial<ScheduleLabels> = {
     allDay: "Tutto il giorno",

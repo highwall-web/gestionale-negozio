@@ -134,6 +134,7 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                         <Button variant="subtle" size="xs" leftSection={<IconRefresh size={14} />} onClick={() => handleCambiaStato(r)}>
                             Cambia stato
                         </Button>
+                        {/* TODO: aggiungi consegna */}
                     </Group>
                 </Stack>
             </Paper>
