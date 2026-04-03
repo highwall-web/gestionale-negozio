@@ -57,7 +57,7 @@ export default function CalendarioModal({ opened, onClose, datetime }: Props) {
                 isPreventivo: selectedRepair.details.isPreventivo,
                 interventi: selectedRepair.details.interventi.map(i => ({ interventionId: i.interventionId, quantita: i.quantita })),
                 acconto: selectedRepair.details.acconto,
-                dataConsegna: dataRiconsegna ?? undefined,
+                dataConsegna: dataRiconsegna ? dayjs(dataRiconsegna).toISOString() : undefined,
             }
         })
     }
