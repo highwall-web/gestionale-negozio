@@ -165,7 +165,7 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                                 variant="light"
                                 size="xs"
                                 leftSection={<IconSend2 size={14} />}
-                                onClick={() => handleCambiaStato(r)}
+                                onClick={() => handleConsegna(r)}
                                 loading={isPending}
                             >
                                 Consegna
