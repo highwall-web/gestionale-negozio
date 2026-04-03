@@ -97,7 +97,7 @@ export default function CreaUtente() {
                         )}
                     />
                     <Group mt="xs" justify="space-between">
-                        <Button variant="default" onClick={() => reset()}>Reset</Button>
+                        <Button variant="light" color="red" onClick={() => reset()}>Reset</Button>
                         <Button type="submit" loading={isPending}>Crea utente</Button>
                     </Group>
                 </Stack>

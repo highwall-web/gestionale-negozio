@@ -1,8 +1,10 @@
 import { Accordion, Badge, Button, Divider, Group, Loader, Paper, Stack, Text, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconRefresh } from '@tabler/icons-react'
+import { IconRefresh, IconSend2 } from '@tabler/icons-react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
-import type { RepairResponse } from '../../api'
+import toast from 'react-hot-toast'
+import { getGetRepairsAttiveQueryKey, StatoRepair, useUpdateStatoRepair, type RepairResponse } from '../../api'
 import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
 import PatternLock from '../PatternLock'
 import CambiaStatoModal from './ModalCambiaStato'
@@ -22,12 +24,30 @@ interface Props {
 }
 
 export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }: Props) {
+    const queryClient = useQueryClient()
     const [selectedRepair, setSelectedRepair] = useState<RepairResponse | null>(null)
     const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
+    const { mutate: updateStato, isPending } = useUpdateStatoRepair({
+        mutation: {
+            onSuccess: (res) => {
+                toast.success(`Dispositivo riconsegnato il: ${res.details?.dataRiconsegnaEffettiva ? new Date(res.details.dataRiconsegnaEffettiva).toLocaleString('it-IT', { dateStyle: 'short', timeStyle: 'short' }) : '—'}`)
+                queryClient.invalidateQueries({ queryKey: getGetRepairsAttiveQueryKey() })
+            },
+        },
+    })
 
     const handleCambiaStato = (repair: RepairResponse) => {
         setSelectedRepair(repair)
         openModal()
+    }
+
+    function handleConsegna(repair: RepairResponse) {
+        updateStato({
+            id: repair.id,
+            data: {
+                stato: StatoRepair.CONSEGNATO
+            }
+        })
     }
 
     if (isLoading) return (
@@ -130,11 +150,27 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                         <Text size="sm">{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Text>
                     </RigaInfo>
                     <Divider />
-                    <Group justify="flex-end">
-                        <Button variant="subtle" size="xs" leftSection={<IconRefresh size={14} />} onClick={() => handleCambiaStato(r)}>
+                    <Group justify="flex-end" mt={7} gap={"xs"}>
+                        <Button
+                            variant="light"
+                            size="xs"
+                            leftSection={<IconRefresh size={14} />}
+                            onClick={() => handleCambiaStato(r)}
+                            loading={isPending}
+                        >
                             Cambia stato
                         </Button>
-                        {/* TODO: aggiungi consegna */}
+                        {r.stato === StatoRepair.PRONTO && (
+                            <Button
+                                variant="light"
+                                size="xs"
+                                leftSection={<IconSend2 size={14} />}
+                                onClick={() => handleCambiaStato(r)}
+                                loading={isPending}
+                            >
+                                Consegna
+                            </Button>
+                        )}
                     </Group>
                 </Stack>
             </Paper>

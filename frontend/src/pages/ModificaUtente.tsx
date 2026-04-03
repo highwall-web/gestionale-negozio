@@ -92,7 +92,7 @@ export default function ModificaUtente() {
                         error={errors.confermaPassword?.message}
                     />
                     <Group mt="xs" justify="space-between">
-                        <Button variant="default" onClick={() => reset()}>Reset</Button>
+                        <Button variant="light" color="red" onClick={() => reset()}>Reset</Button>
                         <Button type="submit" loading={isPending}>Modifica utente</Button>
                     </Group>
                 </Stack>

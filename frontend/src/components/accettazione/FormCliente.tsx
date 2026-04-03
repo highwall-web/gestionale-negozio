@@ -242,7 +242,7 @@ export default function FormCliente({ onSuccess }: Props) {
                 <Button.Group>
                     {active === 0 && (
                         <>
-                            <Button variant="default" type="button" onClick={handleReset}>
+                            <Button variant="light" color="red" type="button" onClick={handleReset}>
                                 Reset
                             </Button>
                             {

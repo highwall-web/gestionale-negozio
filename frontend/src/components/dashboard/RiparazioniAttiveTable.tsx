@@ -146,6 +146,7 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                         <Tooltip label="Cambia stato">
                             <ActionIcon
                                 variant="subtle"
+                                color="var(--mantine-primary-color-filled)"
                                 onClick={() => handleCambiaStato(r)}
                                 loading={isPending}
                             >
@@ -156,6 +157,7 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                             <Tooltip label="Consegna">
                                 <ActionIcon
                                     variant='subtle'
+                                    color="var(--mantine-primary-color-filled)"
                                     onClick={() => handleConsegna(r)}
                                     loading={isPending}
                                 >

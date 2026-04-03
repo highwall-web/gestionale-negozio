@@ -168,7 +168,7 @@ export default function FormDifetti({ onSuccess }: Props) {
                 <Button.Group>
                     {active === 3 && (
                         <>
-                            <Button variant="default" type="button" onClick={handleReset}>
+                            <Button variant="light" color="red" type="button" onClick={handleReset}>
                                 Reset
                             </Button>
                             {

@@ -321,7 +321,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
                     <Button.Group>
                         {active === 2 && (
                             <>
-                                <Button variant="default" type="button" onClick={handleReset}>
+                                <Button variant="light" color="red" type="button" onClick={handleReset}>
                                     Reset
                                 </Button>
                                 {

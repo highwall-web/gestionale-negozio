@@ -105,7 +105,7 @@ export default function CalendarioModal({ opened, onClose, datetime }: Props) {
                     clearable
                 />
                 <Group justify="space-between">
-                    <Button color="red" onClick={handleReset}>Reset</Button>
+                    <Button variant="light" color="red" onClick={handleReset}>Reset</Button>
                     <Button.Group>
                         <Button variant="default" onClick={onClose}>Annulla</Button>
                         <Button

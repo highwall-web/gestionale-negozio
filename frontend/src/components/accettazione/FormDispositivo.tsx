@@ -368,7 +368,7 @@ export default function FormDispositivo({ onSuccess }: Props) {
                 <Button.Group>
                     {active === 1 && (
                         <>
-                            <Button variant="default" type="button" onClick={handleReset}>
+                            <Button variant="light" color="red" type="button" onClick={handleReset}>
                                 Reset
                             </Button>
                             {

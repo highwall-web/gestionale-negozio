@@ -118,7 +118,7 @@ export default function ModalAggiungiIntervento({ opened, onClose, onSuccess, mo
                         )}
                     />
                     <Group justify="space-between" mt="sm">
-                        <Button variant="default" type="button" onClick={() => reset()} radius={"sm"}>
+                        <Button variant="light" color="red" type="button" onClick={() => reset()} radius={"sm"}>
                             Reset
                         </Button>
                         <Button.Group>
