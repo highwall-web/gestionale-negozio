@@ -5,7 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { getGetRepairsSenzaDataRiconsegnaStiamataQueryKey, useGetRepairsSenzaDataRiconsegnaStiamata, useUpdateRepairDetails } from '../../api'
+import { getGetRepairsByRangeDataConsegnaQueryKey, getGetRepairsSenzaDataRiconsegnaStiamataQueryKey, useGetRepairsSenzaDataRiconsegnaStiamata, useUpdateRepairDetails } from '../../api'
 
 interface Props {
     opened: boolean
@@ -24,6 +24,7 @@ export default function CalendarioModal({ opened, onClose, datetime }: Props) {
             onSuccess: () => {
                 toast.success('Data di riconsegna aggiornata')
                 queryClient.invalidateQueries({ queryKey: getGetRepairsSenzaDataRiconsegnaStiamataQueryKey() })
+                queryClient.invalidateQueries({ queryKey: getGetRepairsByRangeDataConsegnaQueryKey() })
                 onClose()
             },
             onError: () => toast.error('Errore durante il salvataggio')
