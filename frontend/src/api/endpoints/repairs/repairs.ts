@@ -26,7 +26,9 @@ import type {
 import type {
   CreateRepairRequest,
   GetAllRepairsParams,
+  GetRepairsByRangeDataConsegnaParams,
   PageResponseRepairResponse,
+  RepairRangeResponse,
   RepairResponse,
   SearchRepairsParams,
   UpdateRepairRequest,
@@ -424,6 +426,91 @@ export function useGetRepairsSenzaDataRiconsegnaStiamata<TData = Awaited<ReturnT
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetRepairsSenzaDataRiconsegnaStiamataQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getRepairsByRangeDataConsegna = (
+    params: GetRepairsByRangeDataConsegnaParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairRangeResponse[]>(
+      {url: `/repairs/range-data-consegna`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetRepairsByRangeDataConsegnaQueryKey = (params?: GetRepairsByRangeDataConsegnaParams,) => {
+    return [
+    `/repairs/range-data-consegna`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetRepairsByRangeDataConsegnaQueryOptions = <TData = Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError = unknown>(params: GetRepairsByRangeDataConsegnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetRepairsByRangeDataConsegnaQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>> = ({ signal }) => getRepairsByRangeDataConsegna(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetRepairsByRangeDataConsegnaQueryResult = NonNullable<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>>
+export type GetRepairsByRangeDataConsegnaQueryError = unknown
+
+
+export function useGetRepairsByRangeDataConsegna<TData = Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError = unknown>(
+ params: GetRepairsByRangeDataConsegnaParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>,
+          TError,
+          Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRepairsByRangeDataConsegna<TData = Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError = unknown>(
+ params: GetRepairsByRangeDataConsegnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>,
+          TError,
+          Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetRepairsByRangeDataConsegna<TData = Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError = unknown>(
+ params: GetRepairsByRangeDataConsegnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetRepairsByRangeDataConsegna<TData = Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError = unknown>(
+ params: GetRepairsByRangeDataConsegnaParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairsByRangeDataConsegna>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetRepairsByRangeDataConsegnaQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

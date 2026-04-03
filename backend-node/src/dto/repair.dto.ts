@@ -43,6 +43,16 @@ export interface UpdateStatoRepairRequest {
   statoRiparazione?: StatoRiparazione;
 }
 
+export interface RepairRangeResponse {
+  id: number;
+  nomeCliente: string;
+  cognomeCliente: string;
+  brand: string;
+  modello: string;
+  colore: string;
+  dataConsegna: string;
+}
+
 export interface PageResponse<T> {
   content: T[];
   totalElements: number;

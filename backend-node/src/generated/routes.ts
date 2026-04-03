@@ -327,6 +327,20 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RepairRangeResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "nomeCliente": {"dataType":"string","required":true},
+            "cognomeCliente": {"dataType":"string","required":true},
+            "brand": {"dataType":"string","required":true},
+            "modello": {"dataType":"string","required":true},
+            "colore": {"dataType":"string","required":true},
+            "dataConsegna": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateRepairRequest": {
         "dataType": "refObject",
         "properties": {
@@ -888,6 +902,38 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getRepairsSenzaDataRiconsegnaStiamata',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsRepairController_getRepairsByRangeDataConsegna: Record<string, TsoaRoute.ParameterSchema> = {
+                from: {"in":"query","name":"from","required":true,"dataType":"string"},
+                to: {"in":"query","name":"to","required":true,"dataType":"string"},
+        };
+        app.get('/repairs/range-data-consegna',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(RepairController)),
+            ...(fetchMiddlewares<RequestHandler>(RepairController.prototype.getRepairsByRangeDataConsegna)),
+
+            async function RepairController_getRepairsByRangeDataConsegna(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsRepairController_getRepairsByRangeDataConsegna, request, response });
+
+                const controller = new RepairController();
+
+              await templateService.apiHandler({
+                methodName: 'getRepairsByRangeDataConsegna',
                 controller,
                 response,
                 next,

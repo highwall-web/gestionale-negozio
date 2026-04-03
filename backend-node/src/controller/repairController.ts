@@ -16,6 +16,7 @@ import {
 } from "tsoa";
 import {
     RepairResponse,
+    RepairRangeResponse,
     CreateRepairRequest,
     UpdateRepairRequest,
     UpdateStatoRepairRequest,
@@ -73,6 +74,15 @@ export class RepairController extends Controller {
     @OperationId("getRepairsSenzaDataRiconsegnaStiamata")
     public async getRepairsSenzaDataRiconsegnaStiamata(): Promise<RepairResponse[]> {
         return repairService.getSenzaDataRiconsegnaStiamata();
+    }
+
+    @Get("/range-data-consegna")
+    @OperationId("getRepairsByRangeDataConsegna")
+    public async getRepairsByRangeDataConsegna(
+        @Query() from: string,
+        @Query() to: string
+    ): Promise<RepairRangeResponse[]> {
+        return repairService.getByRangeDataConsegna(new Date(from), new Date(to));
     }
 
     @Get("/{id}")

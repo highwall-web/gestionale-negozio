@@ -1,8 +1,9 @@
-import { and, count, eq, ilike, inArray, isNull, ne, SQL } from "drizzle-orm";
+import { and, between, count, eq, ilike, inArray, isNull, ne, SQL } from "drizzle-orm";
 import { db } from "../config/db";
 import {
     CreateRepairRequest,
     PageResponse,
+    RepairRangeResponse,
     RepairResponse,
     StatoRepair,
     StatoRiparazione,
@@ -235,6 +236,39 @@ export class RepairService {
     async getAttive(): Promise<RepairResponse[]> {
         const rows = await db.select().from(repairs).where(ne(repairs.stato, 'CONSEGNATO'));
         return Promise.all(rows.map(r => this.buildRepairResponse(r)));
+    }
+
+    async getByRangeDataConsegna(from: Date, to: Date): Promise<RepairRangeResponse[]> {
+        from.setHours(0, 0, 0, 0);
+        to.setHours(23, 59, 59, 999);
+        const rows = await db
+            .select({
+                id: repairs.id,
+                nomeCliente: customers.nome,
+                cognomeCliente: customers.cognome,
+                brand: brands.nome,
+                modello: models.nome,
+                colore: colors.nome,
+                dataConsegna: repairDetails.dataConsegna,
+            })
+            .from(repairs)
+            .innerJoin(customers, eq(customers.id, repairs.customerId))
+            .innerJoin(repairDetails, eq(repairDetails.repairId, repairs.id))
+            .innerJoin(products, eq(products.repairId, repairs.id))
+            .innerJoin(models, eq(models.id, products.modelId))
+            .innerJoin(brands, eq(brands.id, models.brandId))
+            .innerJoin(colors, eq(colors.id, products.colorId))
+            .where(and(between(repairDetails.dataConsegna, from, to), isNull(repairDetails.dataRiconsegnaEffettiva)));
+
+        return rows.map(r => ({
+            id: r.id,
+            nomeCliente: r.nomeCliente,
+            cognomeCliente: r.cognomeCliente,
+            brand: r.brand,
+            modello: r.modello,
+            colore: r.colore,
+            dataConsegna: r.dataConsegna!.toISOString(),
+        }));
     }
 
     async getSenzaDataRiconsegnaStiamata(): Promise<RepairResponse[]> {
