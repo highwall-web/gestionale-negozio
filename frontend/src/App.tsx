@@ -11,6 +11,7 @@ import './App.css'
 import AdminRoute from './components/AdminRoute'
 import AppLayout from './components/AppLayout'
 import ProtectedRoute from './components/ProtectedRoute'
+import RouteError from './components/RouteError'
 import { AccettazioneProvider } from './context/AccettazioneContext'
 import { AuthProvider } from './context/AuthContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -40,6 +41,7 @@ const router = createBrowserRouter([
         children: [
             {
                 element: <AppLayout />,
+                errorElement: <RouteError />,
                 children: [
                     {
                         path: ROUTES.HOME,
