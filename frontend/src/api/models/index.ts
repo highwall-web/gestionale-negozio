@@ -52,6 +52,7 @@ export * from './tipoDispositivo';
 export * from './updateBrandRequest';
 export * from './updateColorRequest';
 export * from './updateCustomerRequest';
+export * from './updateDataConsegnaRequest';
 export * from './updateInterventionRequest';
 export * from './updateModelRequest';
 export * from './updateProductRequest';

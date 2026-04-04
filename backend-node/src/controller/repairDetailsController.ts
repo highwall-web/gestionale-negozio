@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     OperationId,
+    Patch,
     Path,
     Post,
     Put,
@@ -15,6 +16,7 @@ import {
 import {
     RepairDetailsResponse,
     UpdateRepairDetailsRequest,
+    UpdateDataConsegnaRequest,
     AddMessageRequest,
     RepairMessageResponse,
 } from "../dto/repairDetails.dto";
@@ -41,6 +43,15 @@ export class RepairDetailsController extends Controller {
         @Body() body: UpdateRepairDetailsRequest
     ): Promise<RepairDetailsResponse> {
         return repairDetailsService.update(repairId, body);
+    }
+
+    @Patch("/data-consegna")
+    @OperationId("updateDataConsegna")
+    public async updateDataConsegna(
+        @Path() repairId: number,
+        @Body() body: UpdateDataConsegnaRequest
+    ): Promise<RepairDetailsResponse> {
+        return repairDetailsService.updateDataConsegna(repairId, body);
     }
 
     @Delete("/")

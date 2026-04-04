@@ -134,6 +134,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateDataConsegnaRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "dataConsegna": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "AddMessageRequest": {
         "dataType": "refObject",
         "properties": {
@@ -648,6 +656,38 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'updateRepairDetails',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsRepairDetailsController_updateDataConsegna: Record<string, TsoaRoute.ParameterSchema> = {
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                body: {"in":"body","name":"body","required":true,"ref":"UpdateDataConsegnaRequest"},
+        };
+        app.patch('/repairs/:repairId/details/data-consegna',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(RepairDetailsController)),
+            ...(fetchMiddlewares<RequestHandler>(RepairDetailsController.prototype.updateDataConsegna)),
+
+            async function RepairDetailsController_updateDataConsegna(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsRepairDetailsController_updateDataConsegna, request, response });
+
+                const controller = new RepairDetailsController();
+
+              await templateService.apiHandler({
+                methodName: 'updateDataConsegna',
                 controller,
                 response,
                 next,

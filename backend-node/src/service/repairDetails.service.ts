@@ -3,6 +3,7 @@ import { db } from "../config/db";
 import {
     RepairDetailsResponse,
     UpdateRepairDetailsRequest,
+    UpdateDataConsegnaRequest,
     AddMessageRequest,
     RepairMessageResponse,
 } from "../dto/repairDetails.dto";
@@ -64,6 +65,16 @@ export class RepairDetailsService {
                 quantita: i.quantita,
             });
         }
+
+        return this.buildResponse(updated);
+    }
+
+    async updateDataConsegna(repairId: number, request: UpdateDataConsegnaRequest): Promise<RepairDetailsResponse> {
+        const details = await this.findByRepairId(repairId);
+
+        const [updated] = await db.update(repairDetails).set({
+            dataConsegna: request.dataConsegna ? new Date(request.dataConsegna) : null,
+        }).where(eq(repairDetails.id, details.id)).returning();
 
         return this.buildResponse(updated);
     }

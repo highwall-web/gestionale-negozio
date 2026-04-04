@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Alert, Button, Checkbox, Group, NumberInput, ScrollArea, SimpleGrid, Stack, Switch, Text, TextInput, Title } from "@mantine/core"
 import { DateTimePicker } from "@mantine/dates"
+import dayjs from "dayjs"
 import { useDisclosure } from "@mantine/hooks"
 import { IconInfoCircle, IconPlus, IconSearch, IconShoppingCart } from "@tabler/icons-react"
 import { useMemo, useState } from "react"
@@ -116,7 +117,7 @@ export default function FormRiparazione({ onSuccess }: Props) {
             isPreventivo: data.isPreventivo ?? false,
             interventi: data.interventi ?? [],
             messaggi: data.messaggio ? [{ testo: data.messaggio }] : [],
-            dataConsegna: data.dataConsegna ? new Date(data.dataConsegna).toISOString() : undefined,
+            dataConsegna: data.dataConsegna ? dayjs(data.dataConsegna).toISOString() : undefined,
             acconto: data.acconto
         }
         toast.success("Dettagli inseriti")

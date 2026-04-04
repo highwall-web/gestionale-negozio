@@ -40,6 +40,10 @@ export interface CreateRepairDetailsRequest {
   messaggi?: AddMessageRequest[];
 }
 
+export interface UpdateDataConsegnaRequest {
+  dataConsegna: string | null;
+}
+
 export interface UpdateRepairDetailsRequest {
   isPreventivo: boolean;
   interventi: InterventionQuantitaRequest[];
