@@ -24,11 +24,21 @@ export default function Calendario() {
     const [selectedRepair, setSelectedRepair] = useState<RepairRangeResponse | null>(null)
     const { mutate: updateDetailsDate } = useUpdateDataConsegna({
         mutation: {
-            onSuccess: () => {
-                toast.success('Data di riconsegna aggiornata')
-                queryClient.invalidateQueries({ queryKey: getGetRepairsByRangeDataConsegnaQueryKey() })
+            onMutate: async ({ repairId, data }) => {
+                await queryClient.cancelQueries({ queryKey: getGetRepairsByRangeDataConsegnaQueryKey() })
+                const previousData = queryClient.getQueriesData<RepairRangeResponse[]>({ queryKey: getGetRepairsByRangeDataConsegnaQueryKey() })
+                queryClient.setQueriesData<RepairRangeResponse[]>(
+                    { queryKey: getGetRepairsByRangeDataConsegnaQueryKey() },
+                    old => old?.map(r => r.id === repairId ? { ...r, dataConsegna: data.dataConsegna ?? r.dataConsegna } : r)
+                )
+                return { previousData }
             },
-            onError: () => toast.error('Errore durante il salvataggio')
+            onError: (_err, _vars, context) => {
+                context?.previousData.forEach(([key, data]) => queryClient.setQueryData(key, data))
+                toast.error('Errore durante il salvataggio')
+            },
+            onSuccess: () => toast.success('Data di riconsegna aggiornata'),
+            onSettled: () => queryClient.invalidateQueries({ queryKey: getGetRepairsByRangeDataConsegnaQueryKey() }),
         }
     })
 
@@ -82,6 +92,8 @@ export default function Calendario() {
                     labels={labels}
                     onDateChange={setSelectedDate}
                     layout='responsive'
+                    dayViewProps={{ businessHours: ['09:00:00', '20:00:00'], startTime: "09:00:00", endTime: "20:00:00" }}
+                    weekViewProps={{ businessHours: ['09:00:00', '20:00:00'], startTime: "09:00:00", endTime: "20:00:00" }}
                     monthViewProps={{ withOutsideDays: false }}
                     yearViewProps={{ withOutsideDays: false }}
                     withEventsDragAndDrop
