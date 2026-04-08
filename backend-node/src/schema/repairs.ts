@@ -1,4 +1,11 @@
-import { pgTable, bigserial, bigint, varchar, numeric, timestamp } from 'drizzle-orm/pg-core'
+import { pgTable, bigint, varchar, numeric, timestamp } from 'drizzle-orm/pg-core'
+import { randomBytes } from 'crypto'
+
+function generateRepairId(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    const bytes = randomBytes(6)
+    return Array.from(bytes).map(b => chars[b % chars.length]).join('')
+}
 import { customers } from './customers'
 
 export type StatoRepair = 'NUOVO' | 'IN_CORSO' | 'PRONTO' | 'CONSEGNATO'
@@ -14,7 +21,7 @@ export type StatoRiparazione =
     | 'DISPOSITIVO_NON_RIPARABILE'
 
 export const repairs = pgTable('repairs', {
-    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    id: varchar('id', { length: 6 }).primaryKey().$defaultFn(generateRepairId),
     customerId: bigint('customer_id', { mode: 'number' }).notNull().references(() => customers.id),
     stato: varchar('stato', { length: 50 }).$type<StatoRepair>(),
     statoRiparazione: varchar('stato_riparazione', { length: 100 }).$type<StatoRiparazione>(),

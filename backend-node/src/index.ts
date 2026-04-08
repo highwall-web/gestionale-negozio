@@ -8,41 +8,51 @@ import { RegisterRoutes } from "./generated/routes";
 import { errorHandler } from "./middleware/errorHandler";
 import { scheduleTokenCleanup } from "./jobs/cleanupTokens";
 import { seedAdmin } from "./jobs/seedAdmin";
-import { client } from "./config/db";
+import { client, db } from "./config/db";
+import { migrate } from "drizzle-orm/postgres-js/migrator";
+import path from "path";
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+async function bootstrap() {
+    await migrate(db, { migrationsFolder: path.join(__dirname, "../drizzle") });
+    console.log("Migrations applied");
 
-app.use(helmet());
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
-app.use(express.json());
-app.use(cookieParser());
+    const app = express();
+    const PORT = process.env.PORT || 3000;
 
-// Swagger UI
-const swaggerDocument = require("./generated/swagger.json");
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+    app.use(helmet());
+    app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+    app.use(express.json());
+    app.use(cookieParser());
 
-const apiRouter = express.Router();
-RegisterRoutes(apiRouter);
-app.use("/api", apiRouter);
-app.use(errorHandler);
+    // Swagger UI
+    const swaggerDocument = require("./generated/swagger.json");
+    app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const cronTask = scheduleTokenCleanup();
-seedAdmin();
+    const apiRouter = express.Router();
+    RegisterRoutes(apiRouter);
+    app.use("/api", apiRouter);
+    app.use(errorHandler);
 
-const server = app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Docs: http://localhost:${PORT}/docs`);
+    const cronTask = scheduleTokenCleanup();
+    seedAdmin();
+
+    const server = app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        console.log(`Docs: http://localhost:${PORT}/docs`);
+    });
+
+    const shutdown = async () => {
+        cronTask.stop();
+        server.close();
+        await client.end();
+        process.exit(0);
+    };
+
+    process.on("SIGTERM", shutdown);
+    process.on("SIGINT", shutdown);
+}
+
+bootstrap().catch((err) => {
+    console.error("Failed to start server:", err);
+    process.exit(1);
 });
-
-const shutdown = async () => {
-    cronTask.stop();
-    server.close();
-    await client.end();
-    process.exit(0);
-};
-
-process.on("SIGTERM", shutdown);
-process.on("SIGINT", shutdown);
-
-export default app;

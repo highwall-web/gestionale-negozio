@@ -17,7 +17,7 @@ import { HttpStatus } from "../common/httpStatus";
 
 export class RepairDetailsService {
 
-    private async findByRepairId(repairId: number) {
+    private async findByRepairId(repairId: string) {
         const result = await db.select().from(repairDetails).where(eq(repairDetails.repairId, repairId));
         const details = result.at(0);
         if (!details) throw new HttpError(HttpStatus.NOT_FOUND, "Dettagli riparazione non trovati");
@@ -41,12 +41,12 @@ export class RepairDetailsService {
         return RepairDetailsMapper.toResponse(details, interventi, messaggi);
     }
 
-    async get(repairId: number): Promise<RepairDetailsResponse> {
+    async get(repairId: string): Promise<RepairDetailsResponse> {
         const details = await this.findByRepairId(repairId);
         return this.buildResponse(details);
     }
 
-    async update(repairId: number, request: UpdateRepairDetailsRequest): Promise<RepairDetailsResponse> {
+    async update(repairId: string, request: UpdateRepairDetailsRequest): Promise<RepairDetailsResponse> {
         const details = await this.findByRepairId(repairId);
 
         const [updated] = await db.update(repairDetails).set({
@@ -69,7 +69,7 @@ export class RepairDetailsService {
         return this.buildResponse(updated);
     }
 
-    async updateDataConsegna(repairId: number, request: UpdateDataConsegnaRequest): Promise<RepairDetailsResponse> {
+    async updateDataConsegna(repairId: string, request: UpdateDataConsegnaRequest): Promise<RepairDetailsResponse> {
         const details = await this.findByRepairId(repairId);
 
         const [updated] = await db.update(repairDetails).set({
@@ -79,7 +79,7 @@ export class RepairDetailsService {
         return this.buildResponse(updated);
     }
 
-    async delete(repairId: number): Promise<void> {
+    async delete(repairId: string): Promise<void> {
         const details = await this.findByRepairId(repairId);
 
         await db.delete(repairMessages).where(eq(repairMessages.repairDetailsId, details.id));
@@ -87,7 +87,7 @@ export class RepairDetailsService {
         await db.delete(repairDetails).where(eq(repairDetails.id, details.id));
     }
 
-    async addMessage(repairId: number, request: AddMessageRequest, autore: string): Promise<RepairMessageResponse> {
+    async addMessage(repairId: string, request: AddMessageRequest, autore: string): Promise<RepairMessageResponse> {
         const details = await this.findByRepairId(repairId);
 
         const [saved] = await db.insert(repairMessages).values({
@@ -100,7 +100,7 @@ export class RepairDetailsService {
         return RepairDetailsMapper.toMessage(saved);
     }
 
-    async deleteMessage(repairId: number, messageId: number): Promise<void> {
+    async deleteMessage(repairId: string, messageId: number): Promise<void> {
         const details = await this.findByRepairId(repairId);
 
         const result = await db.select().from(repairMessages)

@@ -32,14 +32,14 @@ const repairDetailsService = new RepairDetailsService();
 export class RepairDetailsController extends Controller {
     @Get("/")
     @OperationId("getRepairDetails")
-    public async getRepairDetails(@Path() repairId: number): Promise<RepairDetailsResponse> {
+    public async getRepairDetails(@Path() repairId: string): Promise<RepairDetailsResponse> {
         return repairDetailsService.get(repairId);
     }
 
     @Put("/")
     @OperationId("updateRepairDetails")
     public async updateRepairDetails(
-        @Path() repairId: number,
+        @Path() repairId: string,
         @Body() body: UpdateRepairDetailsRequest
     ): Promise<RepairDetailsResponse> {
         return repairDetailsService.update(repairId, body);
@@ -48,7 +48,7 @@ export class RepairDetailsController extends Controller {
     @Patch("/data-consegna")
     @OperationId("updateDataConsegna")
     public async updateDataConsegna(
-        @Path() repairId: number,
+        @Path() repairId: string,
         @Body() body: UpdateDataConsegnaRequest
     ): Promise<RepairDetailsResponse> {
         return repairDetailsService.updateDataConsegna(repairId, body);
@@ -56,14 +56,14 @@ export class RepairDetailsController extends Controller {
 
     @Delete("/")
     @OperationId("deleteRepairDetails")
-    public async deleteRepairDetails(@Path() repairId: number): Promise<void> {
+    public async deleteRepairDetails(@Path() repairId: string): Promise<void> {
         return repairDetailsService.delete(repairId);
     }
 
     @Post("/messages")
     @OperationId("addRepairMessage")
     public async addRepairMessage(
-        @Path() repairId: number,
+        @Path() repairId: string,
         @Body() body: AddMessageRequest,
         @Request() request: express.Request
     ): Promise<RepairMessageResponse> {
@@ -74,7 +74,7 @@ export class RepairDetailsController extends Controller {
     @Delete("/messages/{messageId}")
     @OperationId("deleteRepairMessage")
     public async deleteRepairMessage(
-        @Path() repairId: number,
+        @Path() repairId: string,
         @Path() messageId: number
     ): Promise<void> {
         return repairDetailsService.deleteMessage(repairId, messageId);

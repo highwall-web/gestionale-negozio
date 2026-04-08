@@ -15,7 +15,7 @@ export type StatoRiparazione =
   | "DISPOSITIVO_NON_RIPARABILE";
 
 export interface RepairResponse {
-  id: number;
+  id: string;
   customer: CustomerResponse;
   product: ProductResponse;
   details?: RepairDetailsResponse;
@@ -44,7 +44,7 @@ export interface UpdateStatoRepairRequest {
 }
 
 export interface RepairRangeResponse {
-  id: number;
+  id: string;
   nomeCliente: string;
   cognomeCliente: string;
   brand: string;

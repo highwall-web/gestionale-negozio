@@ -59,7 +59,7 @@ export class RepairService {
         );
     }
 
-    private async findRepairById(id: number) {
+    private async findRepairById(id: string) {
         const result = await db.select().from(repairs).where(eq(repairs.id, id));
         const repair = result.at(0);
         if (!repair) throw new HttpError(HttpStatus.NOT_FOUND, "Riparazione non trovata");
@@ -280,12 +280,12 @@ export class RepairService {
         return Promise.all(rows.map(r => this.buildRepairResponse(r.repair)));
     }
 
-    async getById(id: number): Promise<RepairResponse> {
+    async getById(id: string): Promise<RepairResponse> {
         const repair = await this.findRepairById(id);
         return this.buildRepairResponse(repair);
     }
 
-    async update(id: number, request: UpdateRepairRequest): Promise<RepairResponse> {
+    async update(id: string, request: UpdateRepairRequest): Promise<RepairResponse> {
         await this.findRepairById(id);
 
         const customerRows = await db.select().from(customers).where(eq(customers.id, request.customerId));
@@ -300,7 +300,7 @@ export class RepairService {
         return this.buildRepairResponse(updated);
     }
 
-    async updateStato(id: number, request: UpdateStatoRepairRequest): Promise<RepairResponse> {
+    async updateStato(id: string, request: UpdateStatoRepairRequest): Promise<RepairResponse> {
         await this.findRepairById(id);
 
         const updates: Partial<typeof repairs.$inferInsert> = {};
@@ -323,7 +323,7 @@ export class RepairService {
         return this.buildRepairResponse(updated);
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         const repair = await this.findRepairById(id);
 
         const detailsRows = await db.select().from(repairDetails).where(eq(repairDetails.repairId, repair.id));

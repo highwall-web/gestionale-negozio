@@ -87,14 +87,14 @@ export class RepairController extends Controller {
 
     @Get("/{id}")
     @OperationId("getRepairById")
-    public async getRepairById(@Path() id: number): Promise<RepairResponse> {
+    public async getRepairById(@Path() id: string): Promise<RepairResponse> {
         return repairService.getById(id);
     }
 
     @Put("/{id}")
     @OperationId("updateRepair")
     public async updateRepair(
-        @Path() id: number,
+        @Path() id: string,
         @Body() body: UpdateRepairRequest
     ): Promise<RepairResponse> {
         return repairService.update(id, body);
@@ -103,7 +103,7 @@ export class RepairController extends Controller {
     @Patch("/{id}/stato")
     @OperationId("updateStatoRepair")
     public async updateStatoRepair(
-        @Path() id: number,
+        @Path() id: string,
         @Body() body: UpdateStatoRepairRequest
     ): Promise<RepairResponse> {
         return repairService.updateStato(id, body);
@@ -111,7 +111,7 @@ export class RepairController extends Controller {
 
     @Delete("/{id}")
     @OperationId("deleteRepair")
-    public async deleteRepair(@Path() id: number): Promise<void> {
+    public async deleteRepair(@Path() id: string): Promise<void> {
         return repairService.delete(id);
     }
 }

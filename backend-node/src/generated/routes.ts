@@ -20,6 +20,8 @@ import { InterventionController } from './../controller/interventionController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { HealthController } from './../controller/healthController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+import { EventController } from './../controller/eventController';
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { CustomerController } from './../controller/customerController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 import { ColorController } from './../controller/colorController';
@@ -103,7 +105,7 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "id": {"dataType":"double","required":true},
-            "repairId": {"dataType":"double","required":true},
+            "repairId": {"dataType":"string","required":true},
             "isPreventivo": {"dataType":"boolean","required":true},
             "interventi": {"dataType":"array","array":{"dataType":"refObject","ref":"InterventionQuantitaResponse"},"required":true},
             "dataConsegna": {"dataType":"string"},
@@ -233,7 +235,7 @@ const models: TsoaRoute.Models = {
     "RepairResponse": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double","required":true},
+            "id": {"dataType":"string","required":true},
             "customer": {"ref":"CustomerResponse","required":true},
             "product": {"ref":"ProductResponse","required":true},
             "details": {"ref":"RepairDetailsResponse"},
@@ -338,7 +340,7 @@ const models: TsoaRoute.Models = {
     "RepairRangeResponse": {
         "dataType": "refObject",
         "properties": {
-            "id": {"dataType":"double","required":true},
+            "id": {"dataType":"string","required":true},
             "nomeCliente": {"dataType":"string","required":true},
             "cognomeCliente": {"dataType":"string","required":true},
             "brand": {"dataType":"string","required":true},
@@ -424,6 +426,40 @@ const models: TsoaRoute.Models = {
             "status": {"dataType":"enum","enums":["ok"],"required":true},
             "timestamp": {"dataType":"string","required":true},
             "uptime": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "EventResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "id": {"dataType":"double","required":true},
+            "descrizione": {"dataType":"string","required":true},
+            "dataEvento": {"dataType":"string","required":true},
+            "oraInizio": {"dataType":"string","required":true},
+            "oraFine": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CreateEventRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "descrizione": {"dataType":"string","required":true},
+            "dataEvento": {"dataType":"string","required":true},
+            "oraInizio": {"dataType":"string","required":true},
+            "oraFine": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateEventRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "descrizione": {"dataType":"string","required":true},
+            "dataEvento": {"dataType":"string","required":true},
+            "oraInizio": {"dataType":"string","required":true},
+            "oraFine": {"dataType":"string","required":true},
         },
         "additionalProperties": false,
     },
@@ -605,7 +641,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_getRepairDetails: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
         };
         app.get('/repairs/:repairId/details',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -636,7 +672,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_updateRepairDetails: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateRepairDetailsRequest"},
         };
         app.put('/repairs/:repairId/details',
@@ -668,7 +704,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_updateDataConsegna: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateDataConsegnaRequest"},
         };
         app.patch('/repairs/:repairId/details/data-consegna',
@@ -700,7 +736,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_deleteRepairDetails: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
         };
         app.delete('/repairs/:repairId/details',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -731,7 +767,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_addRepairMessage: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"AddMessageRequest"},
                 request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
@@ -764,7 +800,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_deleteRepairMessage: Record<string, TsoaRoute.ParameterSchema> = {
-                repairId: {"in":"path","name":"repairId","required":true,"dataType":"double"},
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
                 messageId: {"in":"path","name":"messageId","required":true,"dataType":"double"},
         };
         app.delete('/repairs/:repairId/details/messages/:messageId',
@@ -986,7 +1022,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairController_getRepairById: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.get('/repairs/:id',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -1017,7 +1053,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairController_updateRepair: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateRepairRequest"},
         };
         app.put('/repairs/:id',
@@ -1049,7 +1085,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairController_updateStatoRepair: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
                 body: {"in":"body","name":"body","required":true,"ref":"UpdateStatoRepairRequest"},
         };
         app.patch('/repairs/:id/stato',
@@ -1081,7 +1117,7 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairController_deleteRepair: Record<string, TsoaRoute.ParameterSchema> = {
-                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                id: {"in":"path","name":"id","required":true,"dataType":"string"},
         };
         app.delete('/repairs/:id',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -1968,6 +2004,193 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'healthCheck',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_getAllEvents: Record<string, TsoaRoute.ParameterSchema> = {
+        };
+        app.get('/events',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.getAllEvents)),
+
+            async function EventController_getAllEvents(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_getAllEvents, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllEvents',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_getEventsByRangeData: Record<string, TsoaRoute.ParameterSchema> = {
+                from: {"in":"query","name":"from","required":true,"dataType":"string"},
+                to: {"in":"query","name":"to","required":true,"dataType":"string"},
+        };
+        app.get('/events/range-data',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.getEventsByRangeData)),
+
+            async function EventController_getEventsByRangeData(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_getEventsByRangeData, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'getEventsByRangeData',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_getEventById: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.get('/events/:id',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.getEventById)),
+
+            async function EventController_getEventById(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_getEventById, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'getEventById',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_createEvent: Record<string, TsoaRoute.ParameterSchema> = {
+                body: {"in":"body","name":"body","required":true,"ref":"CreateEventRequest"},
+        };
+        app.post('/events',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.createEvent)),
+
+            async function EventController_createEvent(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_createEvent, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'createEvent',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_updateEvent: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                body: {"in":"body","name":"body","required":true,"ref":"UpdateEventRequest"},
+        };
+        app.put('/events/:id',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.updateEvent)),
+
+            async function EventController_updateEvent(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_updateEvent, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'updateEvent',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEventController_deleteEvent: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.delete('/events/:id',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(EventController)),
+            ...(fetchMiddlewares<RequestHandler>(EventController.prototype.deleteEvent)),
+
+            async function EventController_deleteEvent(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEventController_deleteEvent, request, response });
+
+                const controller = new EventController();
+
+              await templateService.apiHandler({
+                methodName: 'deleteEvent',
                 controller,
                 response,
                 next,

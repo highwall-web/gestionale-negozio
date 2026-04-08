@@ -5,7 +5,7 @@ import { colors } from './colors'
 
 export const products = pgTable('products', {
     id: bigserial('id', { mode: 'number' }).primaryKey(),
-    repairId: bigint('repair_id', { mode: 'number' }).references(() => repairs.id),
+    repairId: varchar('repair_id', { length: 6 }).references(() => repairs.id),
     modelId: bigint('model_id', { mode: 'number' }).notNull().references(() => models.id),
     colorId: bigint('color_id', { mode: 'number' }).notNull().references(() => colors.id),
     capacita: varchar('capacita', { length: 255 }),
