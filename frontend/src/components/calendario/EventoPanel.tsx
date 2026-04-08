@@ -70,7 +70,7 @@ export default function EventoPanel({ datetime, onClose }: Props) {
             <DatePickerInput
                 label="Data"
                 value={dataEvento}
-                onChange={setDataEvento}
+                onChange={(data) => setDataEvento(data && dayjs(data).isValid() ? dayjs(data).toDate() : null)}
                 locale="it"
                 clearable
             />
