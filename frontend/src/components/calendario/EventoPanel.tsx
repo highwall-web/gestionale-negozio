@@ -4,7 +4,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { getGetAllEventsQueryKey, useCreateEvent } from '../../api'
+import { getGetEventsByRangeDataQueryKey, useCreateEvent } from '../../api'
 
 interface Props {
     datetime: string | null
@@ -32,7 +32,7 @@ export default function EventoPanel({ datetime, onClose }: Props) {
         mutation: {
             onSuccess: () => {
                 toast.success('Evento creato')
-                queryClient.invalidateQueries({ queryKey: getGetAllEventsQueryKey() })
+                queryClient.invalidateQueries({ queryKey: getGetEventsByRangeDataQueryKey() })
                 onClose()
             },
             onError: () => toast.error('Errore durante la creazione')
