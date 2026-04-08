@@ -6,7 +6,7 @@
  */
 
 export interface RepairRangeResponse {
-  id: number;
+  id: string;
   nomeCliente: string;
   cognomeCliente: string;
   brand: string;

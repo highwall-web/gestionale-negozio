@@ -9,4 +9,5 @@ export * from './endpoints/auth/auth';
 export * from './endpoints/users/users';
 export * from './endpoints/health/health';
 export * from './endpoints/repair-details/repair-details'
+export * from './endpoints/events/events'
 export * from './models';

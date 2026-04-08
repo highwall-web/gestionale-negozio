@@ -521,7 +521,7 @@ export function useGetRepairsByRangeDataConsegna<TData = Awaited<ReturnType<type
 
 
 export const getRepairById = (
-    id: number,
+    id: string,
  signal?: AbortSignal
 ) => {
       
@@ -535,14 +535,14 @@ export const getRepairById = (
 
 
 
-export const getGetRepairByIdQueryKey = (id: number,) => {
+export const getGetRepairByIdQueryKey = (id: string,) => {
     return [
     `/repairs/${id}`
     ] as const;
     }
 
     
-export const getGetRepairByIdQueryOptions = <TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
+export const getGetRepairByIdQueryOptions = <TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
@@ -565,7 +565,7 @@ export type GetRepairByIdQueryError = unknown
 
 
 export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(
- id: number, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>> & Pick<
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRepairById>>,
           TError,
@@ -575,7 +575,7 @@ export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>> & Pick<
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getRepairById>>,
           TError,
@@ -585,12 +585,12 @@ export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById>>, TError = unknown>(
- id: number, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getRepairById>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
@@ -605,7 +605,7 @@ export function useGetRepairById<TData = Awaited<ReturnType<typeof getRepairById
 
 
 export const updateRepair = (
-    id: number,
+    id: string,
     updateRepairRequest: UpdateRepairRequest,
  signal?: AbortSignal
 ) => {
@@ -622,8 +622,8 @@ export const updateRepair = (
 
 
 export const getUpdateRepairMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: number;data: UpdateRepairRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: number;data: UpdateRepairRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: string;data: UpdateRepairRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: string;data: UpdateRepairRequest}, TContext> => {
 
 const mutationKey = ['updateRepair'];
 const {mutation: mutationOptions} = options ?
@@ -635,7 +635,7 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRepair>>, {id: number;data: UpdateRepairRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateRepair>>, {id: string;data: UpdateRepairRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  updateRepair(id,data,)
@@ -653,17 +653,17 @@ const {mutation: mutationOptions} = options ?
     export type UpdateRepairMutationError = unknown
 
     export const useUpdateRepair = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: number;data: UpdateRepairRequest}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateRepair>>, TError,{id: string;data: UpdateRepairRequest}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateRepair>>,
         TError,
-        {id: number;data: UpdateRepairRequest},
+        {id: string;data: UpdateRepairRequest},
         TContext
       > => {
       return useMutation(getUpdateRepairMutationOptions(options), queryClient);
     }
     export const deleteRepair = (
-    id: number,
+    id: string,
  signal?: AbortSignal
 ) => {
       
@@ -677,8 +677,8 @@ const {mutation: mutationOptions} = options ?
 
 
 export const getDeleteRepairMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: number}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: number}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: string}, TContext> => {
 
 const mutationKey = ['deleteRepair'];
 const {mutation: mutationOptions} = options ?
@@ -690,7 +690,7 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteRepair>>, {id: number}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteRepair>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
           return  deleteRepair(id,)
@@ -708,17 +708,17 @@ const {mutation: mutationOptions} = options ?
     export type DeleteRepairMutationError = unknown
 
     export const useDeleteRepair = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: number}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteRepair>>, TError,{id: string}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteRepair>>,
         TError,
-        {id: number},
+        {id: string},
         TContext
       > => {
       return useMutation(getDeleteRepairMutationOptions(options), queryClient);
     }
     export const updateStatoRepair = (
-    id: number,
+    id: string,
     updateStatoRepairRequest: UpdateStatoRepairRequest,
  signal?: AbortSignal
 ) => {
@@ -735,8 +735,8 @@ const {mutation: mutationOptions} = options ?
 
 
 export const getUpdateStatoRepairMutationOptions = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext> => {
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: string;data: UpdateStatoRepairRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: string;data: UpdateStatoRepairRequest}, TContext> => {
 
 const mutationKey = ['updateStatoRepair'];
 const {mutation: mutationOptions} = options ?
@@ -748,7 +748,7 @@ const {mutation: mutationOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStatoRepair>>, {id: number;data: UpdateStatoRepairRequest}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateStatoRepair>>, {id: string;data: UpdateStatoRepairRequest}> = (props) => {
           const {id,data} = props ?? {};
 
           return  updateStatoRepair(id,data,)
@@ -766,11 +766,11 @@ const {mutation: mutationOptions} = options ?
     export type UpdateStatoRepairMutationError = unknown
 
     export const useUpdateStatoRepair = <TError = unknown,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: number;data: UpdateStatoRepairRequest}, TContext>, }
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateStatoRepair>>, TError,{id: string;data: UpdateStatoRepairRequest}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof updateStatoRepair>>,
         TError,
-        {id: number;data: UpdateStatoRepairRequest},
+        {id: string;data: UpdateStatoRepairRequest},
         TContext
       > => {
       return useMutation(getUpdateStatoRepairMutationOptions(options), queryClient);

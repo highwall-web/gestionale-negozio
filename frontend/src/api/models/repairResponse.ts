@@ -11,7 +11,7 @@ import type { StatoRepair } from './statoRepair';
 import type { StatoRiparazione } from './statoRiparazione';
 
 export interface RepairResponse {
-  id: number;
+  id: string;
   customer: CustomerResponse;
   product: ProductResponse;
   details?: RepairDetailsResponse;

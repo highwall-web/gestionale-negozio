@@ -9,7 +9,7 @@ import type { RepairMessageResponse } from './repairMessageResponse';
 
 export interface RepairDetailsResponse {
   id: number;
-  repairId: number;
+  repairId: string;
   isPreventivo: boolean;
   interventi: InterventionQuantitaResponse[];
   dataConsegna?: string;
