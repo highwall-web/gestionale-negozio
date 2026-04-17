@@ -26,6 +26,8 @@ import type {
 import type {
   ColorResponse,
   CreateColorRequest,
+  GetAllColorsPaginatedParams,
+  PaginatedResponseColorResponse,
   SearchColorsParams,
   UpdateColorRequest
 } from '../../models';
@@ -167,6 +169,91 @@ export function useGetAllColors<TData = Awaited<ReturnType<typeof getAllColors>>
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetAllColorsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getAllColorsPaginated = (
+    params?: GetAllColorsPaginatedParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<PaginatedResponseColorResponse>(
+      {url: `/colors/paginated`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetAllColorsPaginatedQueryKey = (params?: GetAllColorsPaginatedParams,) => {
+    return [
+    `/colors/paginated`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetAllColorsPaginatedQueryOptions = <TData = Awaited<ReturnType<typeof getAllColorsPaginated>>, TError = unknown>(params?: GetAllColorsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllColorsPaginatedQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllColorsPaginated>>> = ({ signal }) => getAllColorsPaginated(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAllColorsPaginatedQueryResult = NonNullable<Awaited<ReturnType<typeof getAllColorsPaginated>>>
+export type GetAllColorsPaginatedQueryError = unknown
+
+
+export function useGetAllColorsPaginated<TData = Awaited<ReturnType<typeof getAllColorsPaginated>>, TError = unknown>(
+ params: undefined |  GetAllColorsPaginatedParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllColorsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllColorsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllColorsPaginated<TData = Awaited<ReturnType<typeof getAllColorsPaginated>>, TError = unknown>(
+ params?: GetAllColorsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllColorsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllColorsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllColorsPaginated<TData = Awaited<ReturnType<typeof getAllColorsPaginated>>, TError = unknown>(
+ params?: GetAllColorsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAllColorsPaginated<TData = Awaited<ReturnType<typeof getAllColorsPaginated>>, TError = unknown>(
+ params?: GetAllColorsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllColorsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAllColorsPaginatedQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

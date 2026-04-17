@@ -23,6 +23,10 @@ const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Accettazione = lazy(() => import('./pages/Accettazione'))
 const CreaUtente = lazy(() => import('./pages/CreaUtente'))
 const ModificaUtente = lazy(() => import('./pages/ModificaUtente'))
+const GestioneRiparazioni = lazy(() => import('./pages/GestioneRiparazioni'))
+const GestioneClienti = lazy(() => import('./pages/GestioneClienti'))
+const GestioneDispositivi = lazy(() => import('./pages/GestioneDispositivi'))
+const GestioneInterventi = lazy(() => import('./pages/GestioneInterventi'))
 
 const theme = createTheme({
     cursorType: 'pointer',
@@ -63,15 +67,19 @@ const router = createBrowserRouter([
                     },
                     {
                         path: ROUTES.GESTIONE_RIPARAZIONI,
+                        element: <GestioneRiparazioni />,
                     },
                     {
                         path: ROUTES.GESTIONE_CLIENTI,
+                        element: <GestioneClienti />,
                     },
                     {
                         path: ROUTES.GESTIONE_DISPOSITIVI,
+                        element: <GestioneDispositivi />,
                     },
                     {
                         path: ROUTES.GESTIONE_INTERVENTI,
+                        element: <GestioneInterventi />,
                     },
                     {
                         element: <AdminRoute />,

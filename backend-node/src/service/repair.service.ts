@@ -1,10 +1,13 @@
-import { and, between, count, eq, ilike, inArray, isNull, ne, SQL } from "drizzle-orm";
+import { and, asc, between, count, desc, eq, ilike, inArray, isNull, ne, SQL } from "drizzle-orm";
+import { HttpError } from "../common/httpError";
+import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { db } from "../config/db";
 import {
     CreateRepairRequest,
-    PageResponse,
     RepairRangeResponse,
     RepairResponse,
+    RepairSortBy,
     StatoRepair,
     StatoRiparazione,
     UpdateRepairRequest,
@@ -12,18 +15,16 @@ import {
 } from "../dto/repair.dto";
 import { RepairMapper } from "../mapper/repair.mapper";
 import { RepairDetailsMapper } from "../mapper/repairDetails.mapper";
-import { repairs } from "../schema/repairs";
-import { customers } from "../schema/customers";
-import { products } from "../schema/products";
-import { models } from "../schema/models";
 import { brands } from "../schema/brands";
 import { colors } from "../schema/colors";
+import { customers } from "../schema/customers";
+import { interventions } from "../schema/interventions";
+import { models } from "../schema/models";
+import { products } from "../schema/products";
 import { repairDetails } from "../schema/repairDetails";
 import { repairDetailsInterventions } from "../schema/repairDetailsInterventions";
 import { repairMessages } from "../schema/repairMessages";
-import { interventions } from "../schema/interventions";
-import { HttpError } from "../common/httpError";
-import { HttpStatus } from "../common/httpStatus";
+import { repairs } from "../schema/repairs";
 
 export class RepairService {
 
@@ -66,24 +67,25 @@ export class RepairService {
         return repair;
     }
 
-    private async paginatedQuery(where: SQL | undefined, page: number, size: number): Promise<PageResponse<RepairResponse>> {
-        const offset = page * size;
+    private async paginatedQuery(where: SQL | undefined, page: number, size: number, orderBy?: SQL): Promise<PaginatedResponse<RepairResponse>> {
+        const offset = (page - 1) * size;
 
         const [{ total }] = await db.select({ total: count() }).from(repairs).where(where);
 
         const rows = await db.select().from(repairs)
             .where(where)
+            .orderBy(orderBy ?? desc(repairs.createdAt))
             .limit(size)
             .offset(offset);
 
-        const content = await Promise.all(rows.map(r => this.buildRepairResponse(r)));
+        const data = await Promise.all(rows.map(r => this.buildRepairResponse(r)));
 
         return {
-            content,
-            totalElements: total,
+            data,
+            total,
             totalPages: Math.ceil(total / size),
-            size,
-            number: page,
+            pageSize: size,
+            page,
         };
     }
 
@@ -222,15 +224,62 @@ export class RepairService {
         });
     }
 
-    async getAll(page = 0, size = 20): Promise<PageResponse<RepairResponse>> {
-        return this.paginatedQuery(undefined, page, size);
-    }
+    async getAll(
+        page = 1,
+        size = 20,
+        sortBy: RepairSortBy = "createdAt",
+        sortOrder: SortOrder = "desc",
+        stato?: StatoRepair,
+        statoRiparazione?: StatoRiparazione,
+        id?: string,
+        nomeCliente?: string,
+        cognomeCliente?: string,
+        telefono?: string,
+        imei?: string,
+        seriale?: string
+    ): Promise<PaginatedResponse<RepairResponse>> {
+        const colMap = { createdAt: repairs.createdAt, costoTotale: repairs.costoTotale, stato: repairs.stato };
+        const orderExpr = sortOrder === "asc" ? asc(colMap[sortBy]) : desc(colMap[sortBy]);
+        const offset = (page - 1) * size;
 
-    async search(stato?: StatoRepair, statoRiparazione?: StatoRiparazione, page = 0, size = 20): Promise<PageResponse<RepairResponse>> {
         const filters: SQL[] = [];
         if (stato) filters.push(eq(repairs.stato, stato));
         if (statoRiparazione) filters.push(eq(repairs.statoRiparazione, statoRiparazione));
-        return this.paginatedQuery(filters.length > 0 ? and(...filters) : undefined, page, size);
+        if (id) filters.push(ilike(repairs.id, `%${id}%`));
+        if (nomeCliente) filters.push(ilike(customers.nome, `%${nomeCliente}%`));
+        if (cognomeCliente) filters.push(ilike(customers.cognome, `%${cognomeCliente}%`));
+        if (telefono) filters.push(ilike(customers.telefono, `%${telefono}%`));
+        if (imei) filters.push(ilike(products.imei, `%${imei}%`));
+        if (seriale) filters.push(ilike(products.seriale, `%${seriale}%`));
+        const where = filters.length > 0 ? and(...filters) : undefined;
+
+        const needsJoins = !!(nomeCliente || cognomeCliente || telefono || imei || seriale);
+
+        if (needsJoins) {
+            const [{ total }] = await db.select({ total: count() })
+                .from(repairs)
+                .innerJoin(customers, eq(customers.id, repairs.customerId))
+                .innerJoin(products, eq(products.repairId, repairs.id))
+                .where(where);
+
+            const rows = await db.select({ repair: repairs })
+                .from(repairs)
+                .innerJoin(customers, eq(customers.id, repairs.customerId))
+                .innerJoin(products, eq(products.repairId, repairs.id))
+                .where(where)
+                .orderBy(orderExpr)
+                .limit(size)
+                .offset(offset);
+
+            const data = await Promise.all(rows.map(r => this.buildRepairResponse(r.repair)));
+            return { data, total: total, totalPages: Math.ceil(total / size), pageSize: size, page };
+        }
+
+        return this.paginatedQuery(where, page, size, orderExpr);
+    }
+
+    async search(stato?: StatoRepair, statoRiparazione?: StatoRiparazione, page = 1, size = 20): Promise<PaginatedResponse<RepairResponse>> {
+        return this.getAll(page, size, "createdAt", "desc", stato, statoRiparazione);
     }
 
     async getAttive(): Promise<RepairResponse[]> {

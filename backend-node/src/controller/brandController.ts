@@ -14,6 +14,7 @@ import {
 } from "tsoa";
 import { BrandResponse, CreateBrandRequest, UpdateBrandRequest } from "../dto/brand.dto";
 import { BrandService } from "../service/brand.service";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 const brandService = new BrandService();
 
@@ -32,6 +33,17 @@ export class BrandController extends Controller {
     @OperationId("getAllBrands")
     public async getAllBrands(): Promise<BrandResponse[]> {
         return brandService.getAll();
+    }
+
+    @Get("/paginated")
+    @OperationId("getAllBrandsPaginated")
+    public async getAllBrandsPaginated(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortOrder?: SortOrder,
+        @Query() nome?: string
+    ): Promise<PaginatedResponse<BrandResponse>> {
+        return brandService.getAllPaginated(page, pageSize, sortOrder, nome);
     }
 
     @Get("/search")

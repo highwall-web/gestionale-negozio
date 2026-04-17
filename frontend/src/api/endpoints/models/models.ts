@@ -25,7 +25,9 @@ import type {
 
 import type {
   CreateModelRequest,
+  GetAllModelsPaginatedParams,
   ModelResponse,
+  PaginatedResponseModelResponse,
   SearchModelsByBrandNameParams,
   SearchModelsByBrandParams,
   SearchModelsParams,
@@ -169,6 +171,91 @@ export function useGetAllModels<TData = Awaited<ReturnType<typeof getAllModels>>
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetAllModelsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getAllModelsPaginated = (
+    params?: GetAllModelsPaginatedParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<PaginatedResponseModelResponse>(
+      {url: `/models/paginated`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetAllModelsPaginatedQueryKey = (params?: GetAllModelsPaginatedParams,) => {
+    return [
+    `/models/paginated`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetAllModelsPaginatedQueryOptions = <TData = Awaited<ReturnType<typeof getAllModelsPaginated>>, TError = unknown>(params?: GetAllModelsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllModelsPaginatedQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllModelsPaginated>>> = ({ signal }) => getAllModelsPaginated(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAllModelsPaginatedQueryResult = NonNullable<Awaited<ReturnType<typeof getAllModelsPaginated>>>
+export type GetAllModelsPaginatedQueryError = unknown
+
+
+export function useGetAllModelsPaginated<TData = Awaited<ReturnType<typeof getAllModelsPaginated>>, TError = unknown>(
+ params: undefined |  GetAllModelsPaginatedParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllModelsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllModelsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllModelsPaginated<TData = Awaited<ReturnType<typeof getAllModelsPaginated>>, TError = unknown>(
+ params?: GetAllModelsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllModelsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllModelsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllModelsPaginated<TData = Awaited<ReturnType<typeof getAllModelsPaginated>>, TError = unknown>(
+ params?: GetAllModelsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAllModelsPaginated<TData = Awaited<ReturnType<typeof getAllModelsPaginated>>, TError = unknown>(
+ params?: GetAllModelsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllModelsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAllModelsPaginatedQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -16,7 +16,9 @@ import {
     InterventionResponse,
     CreateInterventionRequest,
     UpdateInterventionRequest,
+    InterventionSortBy,
 } from "../dto/intervention.dto";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { InterventionService } from "../service/intervention.service";
 
 const interventionService = new InterventionService();
@@ -35,8 +37,15 @@ export class InterventionController extends Controller {
 
     @Get("/")
     @OperationId("getAllInterventions")
-    public async getAllInterventions(): Promise<InterventionResponse[]> {
-        return interventionService.getAll();
+    public async getAllInterventions(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortBy?: InterventionSortBy,
+        @Query() sortOrder?: SortOrder,
+        @Query() nome?: string,
+        @Query() modelId?: number
+    ): Promise<PaginatedResponse<InterventionResponse>> {
+        return interventionService.getAll(page, pageSize, sortBy, sortOrder, nome, modelId);
     }
 
     @Get("/generali")

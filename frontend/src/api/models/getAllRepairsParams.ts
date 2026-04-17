@@ -4,8 +4,22 @@
  * backend-node
  * OpenAPI spec version: 1.0.0
  */
+import type { RepairSortBy } from './repairSortBy';
+import type { SortOrder } from './sortOrder';
+import type { StatoRepair } from './statoRepair';
+import type { StatoRiparazione } from './statoRiparazione';
 
 export type GetAllRepairsParams = {
 page?: number;
 size?: number;
+sortBy?: RepairSortBy;
+sortOrder?: SortOrder;
+stato?: StatoRepair;
+statoRiparazione?: StatoRiparazione;
+id?: string;
+nomeCliente?: string;
+cognomeCliente?: string;
+telefono?: string;
+imei?: string;
+seriale?: string;
 };

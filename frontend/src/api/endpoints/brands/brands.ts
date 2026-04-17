@@ -26,6 +26,8 @@ import type {
 import type {
   BrandResponse,
   CreateBrandRequest,
+  GetAllBrandsPaginatedParams,
+  PaginatedResponseBrandResponse,
   SearchBrandsParams,
   UpdateBrandRequest
 } from '../../models';
@@ -167,6 +169,91 @@ export function useGetAllBrands<TData = Awaited<ReturnType<typeof getAllBrands>>
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetAllBrandsQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+
+
+
+export const getAllBrandsPaginated = (
+    params?: GetAllBrandsPaginatedParams,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<PaginatedResponseBrandResponse>(
+      {url: `/brands/paginated`, method: 'GET',
+        params, signal
+    },
+      );
+    }
+  
+
+
+
+export const getGetAllBrandsPaginatedQueryKey = (params?: GetAllBrandsPaginatedParams,) => {
+    return [
+    `/brands/paginated`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+    
+export const getGetAllBrandsPaginatedQueryOptions = <TData = Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError = unknown>(params?: GetAllBrandsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetAllBrandsPaginatedQueryKey(params);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllBrandsPaginated>>> = ({ signal }) => getAllBrandsPaginated(params, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetAllBrandsPaginatedQueryResult = NonNullable<Awaited<ReturnType<typeof getAllBrandsPaginated>>>
+export type GetAllBrandsPaginatedQueryError = unknown
+
+
+export function useGetAllBrandsPaginated<TData = Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError = unknown>(
+ params: undefined |  GetAllBrandsPaginatedParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllBrandsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllBrandsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllBrandsPaginated<TData = Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError = unknown>(
+ params?: GetAllBrandsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getAllBrandsPaginated>>,
+          TError,
+          Awaited<ReturnType<typeof getAllBrandsPaginated>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetAllBrandsPaginated<TData = Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError = unknown>(
+ params?: GetAllBrandsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetAllBrandsPaginated<TData = Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError = unknown>(
+ params?: GetAllBrandsPaginatedParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllBrandsPaginated>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetAllBrandsPaginatedQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

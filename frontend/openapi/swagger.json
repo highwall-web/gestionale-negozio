@@ -669,40 +669,55 @@
                 "type": "object",
                 "additionalProperties": false
             },
-            "PageResponse_RepairResponse_": {
+            "PaginatedResponse_RepairResponse_": {
                 "properties": {
-                    "content": {
+                    "data": {
                         "items": {
                             "$ref": "#/components/schemas/RepairResponse"
                         },
                         "type": "array"
                     },
-                    "totalElements": {
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
                         "type": "number",
                         "format": "double"
                     },
                     "totalPages": {
                         "type": "number",
                         "format": "double"
-                    },
-                    "size": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "number": {
-                        "type": "number",
-                        "format": "double"
                     }
                 },
                 "required": [
-                    "content",
-                    "totalElements",
-                    "totalPages",
-                    "size",
-                    "number"
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
                 ],
                 "type": "object",
                 "additionalProperties": false
+            },
+            "RepairSortBy": {
+                "type": "string",
+                "enum": [
+                    "createdAt",
+                    "costoTotale",
+                    "stato"
+                ]
+            },
+            "SortOrder": {
+                "type": "string",
+                "enum": [
+                    "asc",
+                    "desc"
+                ]
             },
             "RepairRangeResponse": {
                 "properties": {
@@ -771,8 +786,92 @@
                 "type": "object",
                 "additionalProperties": false
             },
+            "PaginatedResponse_ProductResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/ProductResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ProductSortBy": {
+                "type": "string",
+                "enum": [
+                    "modello",
+                    "brand"
+                ]
+            },
             "UpdateProductRequest": {
                 "$ref": "#/components/schemas/CreateProductRequest"
+            },
+            "PaginatedResponse_ModelResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/ModelResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "ModelSortBy": {
+                "type": "string",
+                "enum": [
+                    "nome",
+                    "brand"
+                ]
             },
             "UpdateModelRequest": {
                 "properties": {
@@ -852,6 +951,48 @@
                 ],
                 "type": "object",
                 "additionalProperties": false
+            },
+            "PaginatedResponse_InterventionResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/InterventionResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "InterventionSortBy": {
+                "type": "string",
+                "enum": [
+                    "nome",
+                    "prezzo"
+                ]
             },
             "UpdateInterventionRequest": {
                 "properties": {
@@ -980,6 +1121,49 @@
                 "type": "object",
                 "additionalProperties": false
             },
+            "PaginatedResponse_CustomerResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/CustomerResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "CustomerSortBy": {
+                "type": "string",
+                "enum": [
+                    "nome",
+                    "cognome",
+                    "email"
+                ]
+            },
             "UpdateCustomerRequest": {
                 "properties": {
                     "nome": {
@@ -1012,6 +1196,41 @@
                     "cognome",
                     "email",
                     "telefono"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "PaginatedResponse_ColorResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/ColorResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -1053,6 +1272,41 @@
                 },
                 "required": [
                     "nome"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "PaginatedResponse_BrandResponse_": {
+                "properties": {
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/BrandResponse"
+                        },
+                        "type": "array"
+                    },
+                    "total": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "page": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "pageSize": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "totalPages": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "required": [
+                    "data",
+                    "total",
+                    "page",
+                    "pageSize",
+                    "totalPages"
                 ],
                 "type": "object",
                 "additionalProperties": false
@@ -1485,7 +1739,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PageResponse_RepairResponse_"
+                                    "$ref": "#/components/schemas/PaginatedResponse_RepairResponse_"
                                 }
                             }
                         }
@@ -1517,6 +1771,86 @@
                             "format": "double",
                             "type": "number"
                         }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/RepairSortBy"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "stato",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/StatoRepair"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "statoRiparazione",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/StatoRiparazione"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nomeCliente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "cognomeCliente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "telefono",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "imei",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "seriale",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 ]
             }
@@ -1530,7 +1864,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PageResponse_RepairResponse_"
+                                    "$ref": "#/components/schemas/PaginatedResponse_RepairResponse_"
                                 }
                             }
                         }
@@ -1844,10 +2178,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "items": {
-                                        "$ref": "#/components/schemas/ProductResponse"
-                                    },
-                                    "type": "array"
+                                    "$ref": "#/components/schemas/PaginatedResponse_ProductResponse_"
                                 }
                             }
                         }
@@ -1861,7 +2192,58 @@
                         "bearerAuth": []
                     }
                 ],
-                "parameters": []
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/ProductSortBy"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "modello",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "brand",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/products/search": {
@@ -2140,6 +2522,91 @@
                     }
                 ],
                 "parameters": []
+            }
+        },
+        "/models/paginated": {
+            "get": {
+                "operationId": "getAllModelsPaginated",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_ModelResponse_"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Models"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/ModelSortBy"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "brandNome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "tipoDispositivo",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/models/search": {
@@ -2497,10 +2964,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "items": {
-                                        "$ref": "#/components/schemas/InterventionResponse"
-                                    },
-                                    "type": "array"
+                                    "$ref": "#/components/schemas/PaginatedResponse_InterventionResponse_"
                                 }
                             }
                         }
@@ -2514,7 +2978,59 @@
                         "bearerAuth": []
                     }
                 ],
-                "parameters": []
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/InterventionSortBy"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "modelId",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
             }
         },
         "/interventions/generali": {
@@ -3093,10 +3609,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "items": {
-                                        "$ref": "#/components/schemas/CustomerResponse"
-                                    },
-                                    "type": "array"
+                                    "$ref": "#/components/schemas/PaginatedResponse_CustomerResponse_"
                                 }
                             }
                         }
@@ -3110,7 +3623,74 @@
                         "bearerAuth": []
                     }
                 ],
-                "parameters": []
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortBy",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/CustomerSortBy"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "cognome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "telefono",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "email",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/customers/search": {
@@ -3343,6 +3923,67 @@
                     }
                 ],
                 "parameters": []
+            }
+        },
+        "/colors/paginated": {
+            "get": {
+                "operationId": "getAllColorsPaginated",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_ColorResponse_"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Colors"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/colors/search": {
@@ -3586,6 +4227,67 @@
                     }
                 ],
                 "parameters": []
+            }
+        },
+        "/brands/paginated": {
+            "get": {
+                "operationId": "getAllBrandsPaginated",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedResponse_BrandResponse_"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Brands"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "pageSize",
+                        "required": false,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortOrder",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortOrder"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "nome",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
             }
         },
         "/brands/search": {

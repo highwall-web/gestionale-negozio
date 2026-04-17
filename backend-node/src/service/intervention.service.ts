@@ -1,11 +1,12 @@
-import { and, eq, ilike, isNull } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, isNull, SQL } from "drizzle-orm";
 import { db } from "../config/db";
-import { InterventionResponse, CreateInterventionRequest, UpdateInterventionRequest } from "../dto/intervention.dto";
+import { InterventionResponse, CreateInterventionRequest, UpdateInterventionRequest, InterventionSortBy } from "../dto/intervention.dto";
 import { InterventionMapper } from "../mapper/intervention.mapper";
 import { interventions } from "../schema/interventions";
 import { models } from "../schema/models";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class InterventionService {
 
@@ -24,10 +25,36 @@ export class InterventionService {
         return InterventionMapper.toResponse(saved, model);
     }
 
-    async getAll(): Promise<InterventionResponse[]> {
+    async getAll(
+        page: number = 1,
+        pageSize: number = 20,
+        sortBy: InterventionSortBy = "nome",
+        sortOrder: SortOrder = "asc",
+        nome?: string,
+        modelId?: number
+    ): Promise<PaginatedResponse<InterventionResponse>> {
+        const colMap = { nome: interventions.nome, prezzo: interventions.prezzo };
+        const orderExpr = sortOrder === "desc" ? desc(colMap[sortBy]) : asc(colMap[sortBy]);
+
+        const filters: SQL[] = [];
+        if (nome) filters.push(ilike(interventions.nome, `%${nome}%`));
+        if (modelId) filters.push(eq(interventions.modelId, modelId));
+        const where = filters.length > 0 ? and(...filters) : undefined;
+
+        const [{ total }] = await db.select({ total: count() }).from(interventions).where(where);
         const result = await db.select().from(interventions)
-            .leftJoin(models, eq(interventions.modelId, models.id));
-        return result.map(r => InterventionMapper.toResponse(r.interventions, r.models));
+            .leftJoin(models, eq(interventions.modelId, models.id))
+            .where(where)
+            .orderBy(orderExpr)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize);
+        return {
+            data: result.map(r => InterventionMapper.toResponse(r.interventions, r.models)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async getInterventiGenerali(): Promise<InterventionResponse[]> {

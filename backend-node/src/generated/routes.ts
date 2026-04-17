@@ -325,16 +325,26 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PageResponse_RepairResponse_": {
+    "PaginatedResponse_RepairResponse_": {
         "dataType": "refObject",
         "properties": {
-            "content": {"dataType":"array","array":{"dataType":"refObject","ref":"RepairResponse"},"required":true},
-            "totalElements": {"dataType":"double","required":true},
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"RepairResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
             "totalPages": {"dataType":"double","required":true},
-            "size": {"dataType":"double","required":true},
-            "number": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "RepairSortBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["createdAt"]},{"dataType":"enum","enums":["costoTotale"]},{"dataType":"enum","enums":["stato"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "SortOrder": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["asc"]},{"dataType":"enum","enums":["desc"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "RepairRangeResponse": {
@@ -370,9 +380,43 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_ProductResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"ProductResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ProductSortBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["modello"]},{"dataType":"enum","enums":["brand"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateProductRequest": {
         "dataType": "refAlias",
         "type": {"ref":"CreateProductRequest","validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_ModelResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"ModelResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ModelSortBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["nome"]},{"dataType":"enum","enums":["brand"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateModelRequest": {
@@ -407,6 +451,23 @@ const models: TsoaRoute.Models = {
             "periodoGaranzia": {"dataType":"double"},
         },
         "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_InterventionResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"InterventionResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "InterventionSortBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["nome"]},{"dataType":"enum","enums":["prezzo"]}],"validators":{}},
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateInterventionRequest": {
@@ -464,6 +525,23 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_CustomerResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"CustomerResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "CustomerSortBy": {
+        "dataType": "refAlias",
+        "type": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["nome"]},{"dataType":"enum","enums":["cognome"]},{"dataType":"enum","enums":["email"]}],"validators":{}},
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "UpdateCustomerRequest": {
         "dataType": "refObject",
         "properties": {
@@ -475,6 +553,18 @@ const models: TsoaRoute.Models = {
             "cap": {"dataType":"string"},
             "telefono": {"dataType":"string","required":true},
             "telefonoSecondario": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_ColorResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"ColorResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -500,6 +590,18 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "nome": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "PaginatedResponse_BrandResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"BrandResponse"},"required":true},
+            "total": {"dataType":"double","required":true},
+            "page": {"dataType":"double","required":true},
+            "pageSize": {"dataType":"double","required":true},
+            "totalPages": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -866,6 +968,16 @@ export function RegisterRoutes(app: Router) {
         const argsRepairController_getAllRepairs: Record<string, TsoaRoute.ParameterSchema> = {
                 page: {"in":"query","name":"page","dataType":"double"},
                 size: {"in":"query","name":"size","dataType":"double"},
+                sortBy: {"in":"query","name":"sortBy","ref":"RepairSortBy"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                stato: {"in":"query","name":"stato","ref":"StatoRepair"},
+                statoRiparazione: {"in":"query","name":"statoRiparazione","ref":"StatoRiparazione"},
+                id: {"in":"query","name":"id","dataType":"string"},
+                nomeCliente: {"in":"query","name":"nomeCliente","dataType":"string"},
+                cognomeCliente: {"in":"query","name":"cognomeCliente","dataType":"string"},
+                telefono: {"in":"query","name":"telefono","dataType":"string"},
+                imei: {"in":"query","name":"imei","dataType":"string"},
+                seriale: {"in":"query","name":"seriale","dataType":"string"},
         };
         app.get('/repairs',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -1148,6 +1260,12 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsProductController_getAllProducts: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortBy: {"in":"query","name":"sortBy","ref":"ProductSortBy"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                modello: {"in":"query","name":"modello","dataType":"string"},
+                brand: {"in":"query","name":"brand","dataType":"string"},
         };
         app.get('/products',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -1414,6 +1532,43 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getAllModels',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsModelController_getAllModelsPaginated: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortBy: {"in":"query","name":"sortBy","ref":"ModelSortBy"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                nome: {"in":"query","name":"nome","dataType":"string"},
+                brandNome: {"in":"query","name":"brandNome","dataType":"string"},
+                tipoDispositivo: {"in":"query","name":"tipoDispositivo","dataType":"string"},
+        };
+        app.get('/models/paginated',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ModelController)),
+            ...(fetchMiddlewares<RequestHandler>(ModelController.prototype.getAllModelsPaginated)),
+
+            async function ModelController_getAllModelsPaginated(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsModelController_getAllModelsPaginated, request, response });
+
+                const controller = new ModelController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllModelsPaginated',
                 controller,
                 response,
                 next,
@@ -1708,6 +1863,12 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsInterventionController_getAllInterventions: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortBy: {"in":"query","name":"sortBy","ref":"InterventionSortBy"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                nome: {"in":"query","name":"nome","dataType":"string"},
+                modelId: {"in":"query","name":"modelId","dataType":"double"},
         };
         app.get('/interventions',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -2234,6 +2395,14 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsCustomerController_getAllCustomers: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortBy: {"in":"query","name":"sortBy","ref":"CustomerSortBy"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                nome: {"in":"query","name":"nome","dataType":"string"},
+                cognome: {"in":"query","name":"cognome","dataType":"string"},
+                telefono: {"in":"query","name":"telefono","dataType":"string"},
+                email: {"in":"query","name":"email","dataType":"string"},
         };
         app.get('/customers',
             authenticateMiddleware([{"bearerAuth":[]}]),
@@ -2452,6 +2621,40 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsColorController_getAllColorsPaginated: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                nome: {"in":"query","name":"nome","dataType":"string"},
+        };
+        app.get('/colors/paginated',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(ColorController)),
+            ...(fetchMiddlewares<RequestHandler>(ColorController.prototype.getAllColorsPaginated)),
+
+            async function ColorController_getAllColorsPaginated(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsColorController_getAllColorsPaginated, request, response });
+
+                const controller = new ColorController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllColorsPaginated',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsColorController_searchColors: Record<string, TsoaRoute.ParameterSchema> = {
                 nome: {"in":"query","name":"nome","required":true,"dataType":"string"},
         };
@@ -2658,6 +2861,40 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'getAllBrands',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsBrandController_getAllBrandsPaginated: Record<string, TsoaRoute.ParameterSchema> = {
+                page: {"in":"query","name":"page","dataType":"double"},
+                pageSize: {"in":"query","name":"pageSize","dataType":"double"},
+                sortOrder: {"in":"query","name":"sortOrder","ref":"SortOrder"},
+                nome: {"in":"query","name":"nome","dataType":"string"},
+        };
+        app.get('/brands/paginated',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(BrandController)),
+            ...(fetchMiddlewares<RequestHandler>(BrandController.prototype.getAllBrandsPaginated)),
+
+            async function BrandController_getAllBrandsPaginated(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsBrandController_getAllBrandsPaginated, request, response });
+
+                const controller = new BrandController();
+
+              await templateService.apiHandler({
+                methodName: 'getAllBrandsPaginated',
                 controller,
                 response,
                 next,

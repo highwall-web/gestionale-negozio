@@ -1,3 +1,5 @@
+export type InterventionSortBy = "nome" | "prezzo";
+
 export interface InterventionResponse {
   id: number;
   modelId?: number;

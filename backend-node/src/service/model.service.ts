@@ -1,11 +1,12 @@
-import { and, eq, ilike } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, SQL } from "drizzle-orm";
 import { db } from "../config/db";
-import { ModelResponse, CreateModelRequest, UpdateModelRequest } from "../dto/model.dto";
+import { ModelResponse, CreateModelRequest, UpdateModelRequest, ModelSortBy } from "../dto/model.dto";
 import { ModelMapper } from "../mapper/model.mapper";
 import { models } from "../schema/models";
 import { brands } from "../schema/brands";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class ModelService {
 
@@ -21,6 +22,44 @@ export class ModelService {
         }).returning();
 
         return ModelMapper.toResponse(saved, brand);
+    }
+
+    async getAllPaginated(
+        page: number = 1,
+        pageSize: number = 20,
+        sortBy: ModelSortBy = "nome",
+        sortOrder: SortOrder = "asc",
+        nome?: string,
+        brandNome?: string,
+        tipoDispositivo?: string
+    ): Promise<PaginatedResponse<ModelResponse>> {
+        const colMap = { nome: models.nome, brand: brands.nome };
+        const orderExpr = sortOrder === "desc" ? desc(colMap[sortBy]) : asc(colMap[sortBy]);
+
+        const filters: SQL[] = [];
+        if (nome) filters.push(ilike(models.nome, `%${nome}%`));
+        if (brandNome) filters.push(ilike(brands.nome, `%${brandNome}%`));
+        if (tipoDispositivo) filters.push(ilike(models.tipoDispositivo, tipoDispositivo));
+        const where = filters.length > 0 ? and(...filters) : undefined;
+
+        const [{ total }] = await db.select({ total: count() })
+            .from(models)
+            .innerJoin(brands, eq(models.brandId, brands.id))
+            .where(where);
+
+        const result = await db.select().from(models)
+            .innerJoin(brands, eq(models.brandId, brands.id))
+            .where(where)
+            .orderBy(orderExpr)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize);
+        return {
+            data: result.map(r => ModelMapper.toResponse(r.models, r.brands)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async getAll(): Promise<ModelResponse[]> {

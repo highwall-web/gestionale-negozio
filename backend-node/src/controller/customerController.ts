@@ -16,7 +16,9 @@ import {
     CustomerResponse,
     CreateCustomerRequest,
     UpdateCustomerRequest,
+    CustomerSortBy,
 } from "../dto/customer.dto";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { CustomerService } from "../service/customer.service";
 
 const customerService = new CustomerService();
@@ -33,8 +35,17 @@ export class CustomerController extends Controller {
 
     @Get("/")
     @OperationId("getAllCustomers")
-    public async getAllCustomers(): Promise<CustomerResponse[]> {
-        return customerService.getAll();
+    public async getAllCustomers(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortBy?: CustomerSortBy,
+        @Query() sortOrder?: SortOrder,
+        @Query() nome?: string,
+        @Query() cognome?: string,
+        @Query() telefono?: string,
+        @Query() email?: string
+    ): Promise<PaginatedResponse<CustomerResponse>> {
+        return customerService.getAll(page, pageSize, sortBy, sortOrder, nome, cognome, telefono, email);
     }
 
     @Get("/search")

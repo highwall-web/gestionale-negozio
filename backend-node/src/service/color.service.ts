@@ -1,10 +1,11 @@
-import { eq, ilike } from "drizzle-orm";
+import { asc, count, desc, eq, ilike } from "drizzle-orm";
 import { db } from "../config/db";
 import { ColorResponse, CreateColorRequest, UpdateColorRequest } from "../dto/color.dto";
 import { ColorMapper } from "../mapper/color.mapper";
 import { colors } from "../schema/colors";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class ColorService {
 
@@ -14,6 +15,30 @@ export class ColorService {
         }).returning();
 
         return ColorMapper.toResponse(saved);
+    }
+
+    async getAllPaginated(
+        page: number = 1,
+        pageSize: number = 20,
+        sortOrder: SortOrder = "asc",
+        nome?: string
+    ): Promise<PaginatedResponse<ColorResponse>> {
+        const orderExpr = sortOrder === "desc" ? desc(colors.nome) : asc(colors.nome);
+        const where = nome ? ilike(colors.nome, `%${nome}%`) : undefined;
+
+        const [{ total }] = await db.select({ total: count() }).from(colors).where(where);
+        const result = await db.select().from(colors)
+            .where(where)
+            .orderBy(orderExpr)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize);
+        return {
+            data: result.map(r => ColorMapper.toResponse(r)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async getAll(): Promise<ColorResponse[]> {

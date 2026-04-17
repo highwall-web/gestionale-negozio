@@ -1,3 +1,5 @@
+export type CustomerSortBy = "nome" | "cognome" | "email";
+
 export interface CustomerResponse {
   id: number;
   nome: string;

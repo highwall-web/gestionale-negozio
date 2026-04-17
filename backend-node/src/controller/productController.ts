@@ -11,7 +11,8 @@ import {
     Security,
     Tags,
 } from "tsoa";
-import { ProductResponse, UpdateProductRequest } from "../dto/product.dto";
+import { ProductResponse, UpdateProductRequest, ProductSortBy } from "../dto/product.dto";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { ProductService } from "../service/product.service";
 
 const productService = new ProductService();
@@ -22,8 +23,15 @@ const productService = new ProductService();
 export class ProductController extends Controller {
     @Get("/")
     @OperationId("getAllProducts")
-    public async getAllProducts(): Promise<ProductResponse[]> {
-        return productService.getAll();
+    public async getAllProducts(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortBy?: ProductSortBy,
+        @Query() sortOrder?: SortOrder,
+        @Query() modello?: string,
+        @Query() brand?: string
+    ): Promise<PaginatedResponse<ProductResponse>> {
+        return productService.getAll(page, pageSize, sortBy, sortOrder, modello, brand);
     }
 
     @Get("/search")

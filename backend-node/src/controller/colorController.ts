@@ -14,6 +14,7 @@ import {
 } from "tsoa";
 import { ColorResponse, CreateColorRequest, UpdateColorRequest } from "../dto/color.dto";
 import { ColorService } from "../service/color.service";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 const colorService = new ColorService();
 
@@ -31,6 +32,17 @@ export class ColorController extends Controller {
     @OperationId("getAllColors")
     public async getAllColors(): Promise<ColorResponse[]> {
         return colorService.getAll();
+    }
+
+    @Get("/paginated")
+    @OperationId("getAllColorsPaginated")
+    public async getAllColorsPaginated(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortOrder?: SortOrder,
+        @Query() nome?: string
+    ): Promise<PaginatedResponse<ColorResponse>> {
+        return colorService.getAllPaginated(page, pageSize, sortOrder, nome);
     }
 
     @Get("/search")

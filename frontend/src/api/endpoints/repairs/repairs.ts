@@ -27,7 +27,7 @@ import type {
   CreateRepairRequest,
   GetAllRepairsParams,
   GetRepairsByRangeDataConsegnaParams,
-  PageResponseRepairResponse,
+  PaginatedResponseRepairResponse,
   RepairRangeResponse,
   RepairResponse,
   SearchRepairsParams,
@@ -103,7 +103,7 @@ const {mutation: mutationOptions} = options ?
 ) => {
       
       
-      return axiosInstance<PageResponseRepairResponse>(
+      return axiosInstance<PaginatedResponseRepairResponse>(
       {url: `/repairs`, method: 'GET',
         params, signal
     },
@@ -188,7 +188,7 @@ export const searchRepairs = (
 ) => {
       
       
-      return axiosInstance<PageResponseRepairResponse>(
+      return axiosInstance<PaginatedResponseRepairResponse>(
       {url: `/repairs/search`, method: 'GET',
         params, signal
     },

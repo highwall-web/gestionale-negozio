@@ -22,8 +22,9 @@ import {
     UpdateStatoRepairRequest,
     StatoRepair,
     StatoRiparazione,
-    PageResponse,
+    RepairSortBy
 } from "../dto/repair.dto";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { RepairService } from "../service/repair.service";
 import { AccessTokenPayload } from "../common/token";
 import express from "express";
@@ -48,9 +49,19 @@ export class RepairController extends Controller {
     @OperationId("getAllRepairs")
     public async getAllRepairs(
         @Query() page?: number,
-        @Query() size?: number
-    ): Promise<PageResponse<RepairResponse>> {
-        return repairService.getAll(page, size);
+        @Query() size?: number,
+        @Query() sortBy?: RepairSortBy,
+        @Query() sortOrder?: SortOrder,
+        @Query() stato?: StatoRepair,
+        @Query() statoRiparazione?: StatoRiparazione,
+        @Query() id?: string,
+        @Query() nomeCliente?: string,
+        @Query() cognomeCliente?: string,
+        @Query() telefono?: string,
+        @Query() imei?: string,
+        @Query() seriale?: string
+    ): Promise<PaginatedResponse<RepairResponse>> {
+        return repairService.getAll(page, size, sortBy, sortOrder, stato, statoRiparazione, id, nomeCliente, cognomeCliente, telefono, imei, seriale);
     }
 
     @Get("/search")
@@ -60,7 +71,7 @@ export class RepairController extends Controller {
         @Query() statoRiparazione?: StatoRiparazione,
         @Query() page?: number,
         @Query() size?: number
-    ): Promise<PageResponse<RepairResponse>> {
+    ): Promise<PaginatedResponse<RepairResponse>> {
         return repairService.search(stato, statoRiparazione, page, size);
     }
 

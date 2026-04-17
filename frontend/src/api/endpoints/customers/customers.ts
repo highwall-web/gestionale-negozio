@@ -26,6 +26,8 @@ import type {
 import type {
   CreateCustomerRequest,
   CustomerResponse,
+  GetAllCustomersParams,
+  PaginatedResponseCustomerResponse,
   SearchCustomersParams,
   UpdateCustomerRequest
 } from '../../models';
@@ -93,13 +95,14 @@ const {mutation: mutationOptions} = options ?
       return useMutation(getCreateCustomerMutationOptions(options), queryClient);
     }
     export const getAllCustomers = (
-    
+    params?: GetAllCustomersParams,
  signal?: AbortSignal
 ) => {
       
       
-      return axiosInstance<CustomerResponse[]>(
-      {url: `/customers`, method: 'GET', signal
+      return axiosInstance<PaginatedResponseCustomerResponse>(
+      {url: `/customers`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -107,23 +110,23 @@ const {mutation: mutationOptions} = options ?
 
 
 
-export const getGetAllCustomersQueryKey = () => {
+export const getGetAllCustomersQueryKey = (params?: GetAllCustomersParams,) => {
     return [
-    `/customers`
+    `/customers`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getGetAllCustomersQueryOptions = <TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
+export const getGetAllCustomersQueryOptions = <TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>(params?: GetAllCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllCustomersQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetAllCustomersQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCustomers>>> = ({ signal }) => getAllCustomers(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllCustomers>>> = ({ signal }) => getAllCustomers(params, signal);
 
       
 
@@ -137,7 +140,7 @@ export type GetAllCustomersQueryError = unknown
 
 
 export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>> & Pick<
+ params: undefined |  GetAllCustomersParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllCustomers>>,
           TError,
@@ -147,7 +150,7 @@ export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCusto
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>> & Pick<
+ params?: GetAllCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllCustomers>>,
           TError,
@@ -157,16 +160,16 @@ export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCusto
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
+ params?: GetAllCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetAllCustomers<TData = Awaited<ReturnType<typeof getAllCustomers>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
+ params?: GetAllCustomersParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllCustomers>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetAllCustomersQueryOptions(options)
+  const queryOptions = getGetAllCustomersQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

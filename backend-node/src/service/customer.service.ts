@@ -1,11 +1,11 @@
-import { and, eq, ilike, or } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, SQL } from "drizzle-orm";
 import { db } from "../config/db";
-import { CustomerResponse, CreateCustomerRequest, UpdateCustomerRequest } from "../dto/customer.dto";
+import { CustomerResponse, CreateCustomerRequest, UpdateCustomerRequest, CustomerSortBy } from "../dto/customer.dto";
 import { CustomerMapper } from "../mapper/customer.mapper";
 import { customers } from "../schema/customers";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
-import { SQL } from "drizzle-orm";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class CustomerService {
 
@@ -24,9 +24,39 @@ export class CustomerService {
         return CustomerMapper.toResponse(saved);
     }
 
-    async getAll(): Promise<CustomerResponse[]> {
-        const result = await db.select().from(customers);
-        return result.map(r => CustomerMapper.toResponse(r));
+    async getAll(
+        page: number = 1,
+        pageSize: number = 20,
+        sortBy: CustomerSortBy = "cognome",
+        sortOrder: SortOrder = "asc",
+        nome?: string,
+        cognome?: string,
+        telefono?: string,
+        email?: string
+    ): Promise<PaginatedResponse<CustomerResponse>> {
+        const colMap = { nome: customers.nome, cognome: customers.cognome, email: customers.email };
+        const orderExpr = sortOrder === "desc" ? desc(colMap[sortBy]) : asc(colMap[sortBy]);
+
+        const filters: SQL[] = [];
+        if (nome) filters.push(ilike(customers.nome, `%${nome}%`));
+        if (cognome) filters.push(ilike(customers.cognome, `%${cognome}%`));
+        if (telefono) filters.push(ilike(customers.telefono, `%${telefono}%`));
+        if (email) filters.push(ilike(customers.email, `%${email}%`));
+        const where = filters.length > 0 ? and(...filters) : undefined;
+
+        const [{ total }] = await db.select({ total: count() }).from(customers).where(where);
+        const result = await db.select().from(customers)
+            .where(where)
+            .orderBy(orderExpr)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize);
+        return {
+            data: result.map(r => CustomerMapper.toResponse(r)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async search(nome?: string, cognome?: string, telefono?: string, email?: string): Promise<CustomerResponse[]> {

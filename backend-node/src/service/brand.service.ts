@@ -1,10 +1,11 @@
-import { eq, ilike } from "drizzle-orm";
+import { asc, count, desc, eq, ilike } from "drizzle-orm";
 import { db } from "../config/db";
 import { BrandResponse, CreateBrandRequest, UpdateBrandRequest } from "../dto/brand.dto";
 import { BrandMapper } from "../mapper/brand.mapper";
 import { brands } from "../schema";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class BrandService {
 
@@ -14,6 +15,30 @@ export class BrandService {
         }).returning();
 
         return BrandMapper.toResponse(saved);
+    }
+
+    async getAllPaginated(
+        page: number = 1,
+        pageSize: number = 20,
+        sortOrder: SortOrder = "asc",
+        nome?: string
+    ): Promise<PaginatedResponse<BrandResponse>> {
+        const orderExpr = sortOrder === "desc" ? desc(brands.nome) : asc(brands.nome);
+        const where = nome ? ilike(brands.nome, `%${nome}%`) : undefined;
+
+        const [{ total }] = await db.select({ total: count() }).from(brands).where(where);
+        const result = await db.select().from(brands)
+            .where(where)
+            .orderBy(orderExpr)
+            .limit(pageSize)
+            .offset((page - 1) * pageSize);
+        return {
+            data: result.map(r => BrandMapper.toResponse(r)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async getAll(): Promise<BrandResponse[]> {

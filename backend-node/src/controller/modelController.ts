@@ -12,8 +12,9 @@ import {
     Security,
     Tags,
 } from "tsoa";
-import { ModelResponse, CreateModelRequest, UpdateModelRequest } from "../dto/model.dto";
+import { ModelResponse, CreateModelRequest, UpdateModelRequest, ModelSortBy } from "../dto/model.dto";
 import { ModelService } from "../service/model.service";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 const modelService = new ModelService();
 
@@ -31,6 +32,20 @@ export class ModelController extends Controller {
     @OperationId("getAllModels")
     public async getAllModels(): Promise<ModelResponse[]> {
         return modelService.getAll();
+    }
+
+    @Get("/paginated")
+    @OperationId("getAllModelsPaginated")
+    public async getAllModelsPaginated(
+        @Query() page?: number,
+        @Query() pageSize?: number,
+        @Query() sortBy?: ModelSortBy,
+        @Query() sortOrder?: SortOrder,
+        @Query() nome?: string,
+        @Query() brandNome?: string,
+        @Query() tipoDispositivo?: string
+    ): Promise<PaginatedResponse<ModelResponse>> {
+        return modelService.getAllPaginated(page, pageSize, sortBy, sortOrder, nome, brandNome, tipoDispositivo);
     }
 
     @Get("/search")

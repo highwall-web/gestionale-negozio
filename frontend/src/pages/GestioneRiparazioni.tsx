@@ -1,0 +1,246 @@
+import { Badge, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title } from '@mantine/core'
+import { useDebouncedValue } from '@mantine/hooks'
+import { IconSearch, IconX } from '@tabler/icons-react'
+import { useState } from 'react'
+import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs } from '../api'
+import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
+
+const PAGE_SIZE = 20
+
+const STATO_OPTIONS = [
+    { value: StatoRepair.NUOVO, label: 'Nuovo' },
+    { value: StatoRepair.IN_CORSO, label: 'In corso' },
+    { value: StatoRepair.PRONTO, label: 'Pronto' },
+    { value: StatoRepair.CONSEGNATO, label: 'Consegnato' },
+]
+
+const STATO_RIPARAZIONE_OPTIONS = [
+    { value: StatoRiparazione.ACCETTATO, label: 'Accettato' },
+    { value: StatoRiparazione.ANALISI_IN_CORSO, label: 'Analisi in corso' },
+    { value: StatoRiparazione.RIPARAZIONE_IN_CORSO, label: 'Riparazione in corso' },
+    { value: StatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO, label: 'Attesa pezzi di ricambio' },
+    { value: StatoRiparazione.IN_ATTESA_DI_PREVENTIVO, label: 'In attesa di preventivo' },
+    { value: StatoRiparazione.PREVENTIVO_NON_ACCETTATO, label: 'Preventivo non accettato' },
+    { value: StatoRiparazione.RIPARAZIONE_CONCLUSA, label: 'Riparazione conclusa' },
+    { value: StatoRiparazione.DISPOSITIVO_NON_RIPARABILE, label: 'Dispositivo non riparabile' },
+]
+
+const SORT_BY_OPTIONS = [
+    { value: RepairSortBy.createdAt, label: 'Data creazione' },
+    { value: RepairSortBy.costoTotale, label: 'Costo totale' },
+    { value: RepairSortBy.stato, label: 'Stato' },
+]
+
+const SORT_ORDER_OPTIONS = [
+    { value: SortOrder.desc, label: 'Decrescente' },
+    { value: SortOrder.asc, label: 'Crescente' },
+]
+
+interface TextFilters {
+    id: string
+    nomeCliente: string
+    cognomeCliente: string
+    telefono: string
+    imei: string
+    seriale: string
+}
+
+const EMPTY_TEXT_FILTERS: TextFilters = {
+    id: '', nomeCliente: '', cognomeCliente: '', telefono: '', imei: '', seriale: '',
+}
+
+export default function GestioneRiparazioni() {
+    const [page, setPage] = useState(1)
+    const [textFilters, setTextFilters] = useState<TextFilters>(EMPTY_TEXT_FILTERS)
+    const [debouncedText] = useDebouncedValue(textFilters, 400)
+    const [stato, setStato] = useState<StatoRepair | null>(null)
+    const [statoRiparazione, setStatoRiparazione] = useState<StatoRiparazione | null>(null)
+    const [sortBy, setSortBy] = useState<RepairSortBy>(RepairSortBy.createdAt)
+    const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.desc)
+
+    const params = {
+        page,
+        size: PAGE_SIZE,
+        sortBy,
+        sortOrder,
+        ...(stato ? { stato } : {}),
+        ...(statoRiparazione ? { statoRiparazione } : {}),
+        ...(debouncedText.id ? { id: debouncedText.id } : {}),
+        ...(debouncedText.nomeCliente ? { nomeCliente: debouncedText.nomeCliente } : {}),
+        ...(debouncedText.cognomeCliente ? { cognomeCliente: debouncedText.cognomeCliente } : {}),
+        ...(debouncedText.telefono ? { telefono: debouncedText.telefono } : {}),
+        ...(debouncedText.imei ? { imei: debouncedText.imei } : {}),
+        ...(debouncedText.seriale ? { seriale: debouncedText.seriale } : {}),
+    }
+
+    const { data, isLoading } = useGetAllRepairs(params)
+    const riparazioni = data?.data ?? []
+    const total = data?.total ?? 0
+    const totalPages = Math.ceil(total / PAGE_SIZE)
+
+    function setTextField(field: keyof TextFilters, value: string) {
+        setPage(1)
+        setTextFilters(prev => ({ ...prev, [field]: value }))
+    }
+
+    function handleReset() {
+        setTextFilters(EMPTY_TEXT_FILTERS)
+        setStato(null)
+        setStatoRiparazione(null)
+        setSortBy(RepairSortBy.createdAt)
+        setSortOrder(SortOrder.desc)
+        setPage(1)
+    }
+
+    const hasActiveFilters = stato || statoRiparazione || Object.values(textFilters).some(v => v !== '')
+
+    return (
+        <Stack gap="md">
+            <Paper radius={12} p="md">
+                <Group justify="space-between" mb="sm">
+                    <Title order={5}>Filtri</Title>
+                    {hasActiveFilters && (
+                        <Button variant="subtle" color="red" size="xs" leftSection={<IconX size={14} />} onClick={handleReset}>
+                            Reimposta
+                        </Button>
+                    )}
+                </Group>
+                <SimpleGrid cols={{ base: 2, sm: 3, lg: 6 }} spacing="xs">
+                    <TextInput
+                        label="ID"
+                        placeholder="ID"
+                        value={textFilters.id}
+                        onChange={e => setTextField('id', e.currentTarget.value)}
+                        leftSection={<IconSearch size={14} />}
+                    />
+                    <TextInput
+                        label="Nome"
+                        placeholder="Nome"
+                        value={textFilters.nomeCliente}
+                        onChange={e => setTextField('nomeCliente', e.currentTarget.value)}
+                    />
+                    <TextInput
+                        label="Cognome"
+                        placeholder="Cognome"
+                        value={textFilters.cognomeCliente}
+                        onChange={e => setTextField('cognomeCliente', e.currentTarget.value)}
+                    />
+                    <TextInput
+                        label="Telefono"
+                        placeholder="Telefono"
+                        value={textFilters.telefono}
+                        onChange={e => setTextField('telefono', e.currentTarget.value)}
+                    />
+                    <TextInput
+                        label="IMEI"
+                        placeholder="IMEI"
+                        value={textFilters.imei}
+                        onChange={e => setTextField('imei', e.currentTarget.value)}
+                    />
+                    <TextInput
+                        label="Seriale"
+                        placeholder="Seriale"
+                        value={textFilters.seriale}
+                        onChange={e => setTextField('seriale', e.currentTarget.value)}
+                    />
+                </SimpleGrid>
+                <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mt="xs">
+                    <Select
+                        label="Stato"
+                        placeholder="Tutti"
+                        data={STATO_OPTIONS}
+                        value={stato}
+                        onChange={v => { setStato(v as StatoRepair | null); setPage(1) }}
+                        clearable
+                    />
+                    <Select
+                        label="Stato riparazione"
+                        placeholder="Tutti"
+                        data={STATO_RIPARAZIONE_OPTIONS}
+                        value={statoRiparazione}
+                        onChange={v => { setStatoRiparazione(v as StatoRiparazione | null); setPage(1) }}
+                        clearable
+                    />
+                    <Select
+                        label="Ordina per"
+                        data={SORT_BY_OPTIONS}
+                        value={sortBy}
+                        onChange={v => { if (v) setSortBy(v as RepairSortBy); setPage(1) }}
+                    />
+                    <Select
+                        label="Ordinamento"
+                        data={SORT_ORDER_OPTIONS}
+                        value={sortOrder}
+                        onChange={v => { if (v) setSortOrder(v as SortOrder); setPage(1) }}
+                    />
+                </SimpleGrid>
+            </Paper>
+
+            <Paper radius={12} p="md">
+                <Title order={5} mb="sm">
+                    Riparazioni
+                    {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
+                </Title>
+
+                {isLoading ? (
+                    <Stack align="center" py="xl"><Loader /></Stack>
+                ) : riparazioni.length === 0 ? (
+                    <Text c="dimmed" ta="center" py="xl">Nessuna riparazione trovata</Text>
+                ) : (
+                    <ScrollArea>
+                        <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                            <Table.Thead>
+                                <Table.Tr>
+                                    <Table.Th>ID</Table.Th>
+                                    <Table.Th>Creata il</Table.Th>
+                                    <Table.Th>Consegna stimata</Table.Th>
+                                    <Table.Th>Cliente</Table.Th>
+                                    <Table.Th>Dispositivo</Table.Th>
+                                    <Table.Th>Stato</Table.Th>
+                                    <Table.Th>Stato riparazione</Table.Th>
+                                    <Table.Th>Acconto</Table.Th>
+                                    <Table.Th>Totale</Table.Th>
+                                </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>
+                                {riparazioni.map(r => (
+                                    <Table.Tr key={r.id}>
+                                        <Table.Td>
+                                            <Text size="xs" c="dimmed" ff="monospace">{r.id}</Text>
+                                        </Table.Td>
+                                        <Table.Td style={{ whiteSpace: 'nowrap' }}>
+                                            {r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}
+                                        </Table.Td>
+                                        <Table.Td style={{ whiteSpace: 'nowrap' }}>
+                                            {r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataConsegna)) : '—'}
+                                        </Table.Td>
+                                        <Table.Td style={{ whiteSpace: 'nowrap' }}>
+                                            {r.customer.nome} {r.customer.cognome}
+                                        </Table.Td>
+                                        <Table.Td style={{ whiteSpace: 'nowrap' }}>
+                                            {r.product.model.brandNome} {r.product.model.nome}, {r.product.color.nome}
+                                        </Table.Td>
+                                        <Table.Td>
+                                            {r.stato ? <Badge radius="sm" color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace(/_/g, ' ')}</Badge> : '—'}
+                                        </Table.Td>
+                                        <Table.Td>
+                                            {r.statoRiparazione ? <Badge radius="sm" color={statoRiparazioneColors[r.statoRiparazione] ?? 'gray'}>{r.statoRiparazione.replace(/_/g, ' ')}</Badge> : '—'}
+                                        </Table.Td>
+                                        <Table.Td>{r.details?.acconto != null ? `€ ${r.details.acconto.toFixed(2)}` : '—'}</Table.Td>
+                                        <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
+                                    </Table.Tr>
+                                ))}
+                            </Table.Tbody>
+                        </Table>
+                    </ScrollArea>
+                )}
+
+                {totalPages > 1 && (
+                    <Group justify="center" mt="md">
+                        <Pagination total={totalPages} value={page} onChange={setPage} />
+                    </Group>
+                )}
+            </Paper>
+        </Stack>
+    )
+}

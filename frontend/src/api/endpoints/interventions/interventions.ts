@@ -25,7 +25,9 @@ import type {
 
 import type {
   CreateInterventionRequest,
+  GetAllInterventionsParams,
   InterventionResponse,
+  PaginatedResponseInterventionResponse,
   SearchInterventionsByModelParams,
   SearchInterventionsParams,
   UpdateInterventionRequest
@@ -94,13 +96,14 @@ const {mutation: mutationOptions} = options ?
       return useMutation(getCreateInterventionMutationOptions(options), queryClient);
     }
     export const getAllInterventions = (
-    
+    params?: GetAllInterventionsParams,
  signal?: AbortSignal
 ) => {
       
       
-      return axiosInstance<InterventionResponse[]>(
-      {url: `/interventions`, method: 'GET', signal
+      return axiosInstance<PaginatedResponseInterventionResponse>(
+      {url: `/interventions`, method: 'GET',
+        params, signal
     },
       );
     }
@@ -108,23 +111,23 @@ const {mutation: mutationOptions} = options ?
 
 
 
-export const getGetAllInterventionsQueryKey = () => {
+export const getGetAllInterventionsQueryKey = (params?: GetAllInterventionsParams,) => {
     return [
-    `/interventions`
+    `/interventions`, ...(params ? [params] : [])
     ] as const;
     }
 
     
-export const getGetAllInterventionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
+export const getGetAllInterventionsQueryOptions = <TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>(params?: GetAllInterventionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
 ) => {
 
 const {query: queryOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAllInterventionsQueryKey();
+  const queryKey =  queryOptions?.queryKey ?? getGetAllInterventionsQueryKey(params);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllInterventions>>> = ({ signal }) => getAllInterventions(signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAllInterventions>>> = ({ signal }) => getAllInterventions(params, signal);
 
       
 
@@ -138,7 +141,7 @@ export type GetAllInterventionsQueryError = unknown
 
 
 export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>> & Pick<
+ params: undefined |  GetAllInterventionsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllInterventions>>,
           TError,
@@ -148,7 +151,7 @@ export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllI
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>> & Pick<
+ params?: GetAllInterventionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof getAllInterventions>>,
           TError,
@@ -158,16 +161,16 @@ export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllI
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
+ params?: GetAllInterventionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
 export function useGetAllInterventions<TData = Awaited<ReturnType<typeof getAllInterventions>>, TError = unknown>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
+ params?: GetAllInterventionsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAllInterventions>>, TError, TData>>, }
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGetAllInterventionsQueryOptions(options)
+  const queryOptions = getGetAllInterventionsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 

@@ -1,6 +1,6 @@
-import { eq, ilike, SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, SQL } from "drizzle-orm";
 import { db } from "../config/db";
-import { ProductResponse, UpdateProductRequest } from "../dto/product.dto";
+import { ProductResponse, UpdateProductRequest, ProductSortBy } from "../dto/product.dto";
 import { ProductMapper } from "../mapper/product.mapper";
 import { products } from "../schema/products";
 import { models } from "../schema/models";
@@ -8,23 +8,54 @@ import { colors } from "../schema/colors";
 import { brands } from "../schema/brands";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
+import { PaginatedResponse, SortOrder } from "../common/pagination";
 
 export class ProductService {
 
-    private async fetchJoined(where?: SQL, limit?: number) {
+    private async fetchJoined(where?: SQL, limit?: number, offset?: number, orderBy?: SQL) {
         let query = db.select().from(products)
             .innerJoin(models, eq(products.modelId, models.id))
             .innerJoin(brands, eq(models.brandId, brands.id))
             .innerJoin(colors, eq(products.colorId, colors.id))
             .$dynamic();
         if (where) query = query.where(where);
+        if (orderBy) query = query.orderBy(orderBy);
         if (limit) query = query.limit(limit);
+        if (offset) query = query.offset(offset);
         return query;
     }
 
-    async getAll(): Promise<ProductResponse[]> {
-        const result = await this.fetchJoined();
-        return result.map(r => ProductMapper.toResponse(r.products, r.models, r.brands, r.colors));
+    async getAll(
+        page: number = 1,
+        pageSize: number = 20,
+        sortBy: ProductSortBy = "modello",
+        sortOrder: SortOrder = "asc",
+        modello?: string,
+        brand?: string
+    ): Promise<PaginatedResponse<ProductResponse>> {
+        const colMap = { modello: models.nome, brand: brands.nome };
+        const orderExpr = sortOrder === "desc" ? desc(colMap[sortBy]) : asc(colMap[sortBy]);
+
+        const filters: SQL[] = [];
+        if (modello) filters.push(ilike(models.nome, `%${modello}%`));
+        if (brand) filters.push(ilike(brands.nome, `%${brand}%`));
+        const where = filters.length > 0 ? and(...filters) : undefined;
+
+        const [{ total }] = filters.length > 0
+            ? await db.select({ total: count() }).from(products)
+                .innerJoin(models, eq(products.modelId, models.id))
+                .innerJoin(brands, eq(models.brandId, brands.id))
+                .where(where)
+            : await db.select({ total: count() }).from(products);
+
+        const result = await this.fetchJoined(where, pageSize, (page - 1) * pageSize, orderExpr);
+        return {
+            data: result.map(r => ProductMapper.toResponse(r.products, r.models, r.brands, r.colors)),
+            total,
+            page,
+            pageSize,
+            totalPages: Math.ceil(total / pageSize),
+        };
     }
 
     async search(modelNome: string): Promise<ProductResponse[]> {
