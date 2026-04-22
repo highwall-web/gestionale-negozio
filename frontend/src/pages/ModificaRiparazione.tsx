@@ -1,9 +1,10 @@
-import { ActionIcon, Box, Center, Drawer, Group, Loader, Paper, Stack, Text, Title } from '@mantine/core'
+import { ActionIcon, Badge, Box, Center, Drawer, Group, Loader, Paper, Stack, Text, Title } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconMessageCircle } from '@tabler/icons-react'
 import { useParams } from 'react-router-dom'
 import { useGetRepairById } from '../api'
 import MessaggiRiparazione from '../components/riparazioni/MessaggiRiparazione'
+import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
 
 export default function ModificaRiparazione() {
     const { id } = useParams<{ id: string }>()
@@ -19,7 +20,25 @@ export default function ModificaRiparazione() {
             <Paper radius={12} p="md">
                 <Group justify="space-between" align="center">
                     <Title order={4}>Modifica riparazione</Title>
-                    <Text c="dimmed" ff="monospace" size="sm">ID: {repair.id}</Text>
+                    <Group gap="md" align="center">
+                        <Text c="dimmed" ff="monospace" size="sm">ID: {repair.id}</Text>
+                        {repair.stato && (
+                            <Group gap={4} align="center">
+                                <Text size="xs" c="dimmed">Stato:</Text>
+                                <Badge radius="sm" color={statoColors[repair.stato] ?? 'gray'}>
+                                    {repair.stato.replace('_', ' ')}
+                                </Badge>
+                            </Group>
+                        )}
+                        {repair.statoRiparazione && (
+                            <Group gap={4} align="center">
+                                <Text size="xs" c="dimmed">Stato riparazione:</Text>
+                                <Badge radius="sm" color={statoRiparazioneColors[repair.statoRiparazione] ?? 'gray'}>
+                                    {repair.statoRiparazione.replaceAll('_', ' ')}
+                                </Badge>
+                            </Group>
+                        )}
+                    </Group>
                 </Group>
             </Paper>
 

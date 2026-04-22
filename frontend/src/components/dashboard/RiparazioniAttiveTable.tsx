@@ -1,6 +1,6 @@
 import { ActionIcon, Badge, Divider, Group, Loader, Paper, Popover, ScrollArea, Stack, Table, Text, Title, Tooltip, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconRefresh, IconSend2 } from '@tabler/icons-react'
+import { IconPencil, IconRefresh, IconSend2 } from '@tabler/icons-react'
 import { useState } from 'react'
 import { getGetRepairsAttiveQueryKey, StatoRepair, useUpdateStatoRepair, type CustomerResponse, type ProductResponse, type RepairResponse } from '../../api'
 import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
@@ -9,6 +9,8 @@ import PatternLock from '../PatternLock'
 import { useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 function CustomerCell({ customer }: { customer: CustomerResponse }) {
     const [opened, { open, close }] = useDisclosure(false)
@@ -93,6 +95,7 @@ interface Props {
 
 export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props) {
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const [selectedRepair, setSelectedRepair] = useState<RepairResponse | null>(null)
     const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
     const { mutate: updateStato, isPending } = useUpdateStatoRepair({
@@ -144,16 +147,6 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                 <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
                 <Table.Td style={{ textAlign: 'right' }}>
                     <Group gap={0} justify="flex-end">
-                        <Tooltip label="Cambia stato">
-                            <ActionIcon
-                                variant="subtle"
-                                color="var(--mantine-primary-color-filled)"
-                                onClick={() => handleCambiaStato(r)}
-                                loading={isPending}
-                            >
-                                <IconRefresh size={16} />
-                            </ActionIcon>
-                        </Tooltip>
                         {r.stato === StatoRepair.PRONTO && (
                             <Tooltip label="Consegna">
                                 <ActionIcon
@@ -167,6 +160,21 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                                 </ActionIcon>
                             </Tooltip>
                         )}
+                        <Tooltip label="Modifica">
+                            <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)" onClick={() => navigate(ROUTES.MODIFICA_RIPARAZIONE.replace(':id', r.id))}>
+                                <IconPencil size={16} />
+                            </ActionIcon>
+                        </Tooltip>
+                        <Tooltip label="Cambia stato">
+                            <ActionIcon
+                                variant="subtle"
+                                color="var(--mantine-primary-color-filled)"
+                                onClick={() => handleCambiaStato(r)}
+                                loading={isPending}
+                            >
+                                <IconRefresh size={16} />
+                            </ActionIcon>
+                        </Tooltip>
                     </Group>
                 </Table.Td>
             </Table.Tr>
