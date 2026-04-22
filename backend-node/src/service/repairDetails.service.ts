@@ -5,6 +5,7 @@ import {
     UpdateRepairDetailsRequest,
     UpdateDataConsegnaRequest,
     AddMessageRequest,
+    UpdateMessageRequest,
     RepairMessageResponse,
 } from "../dto/repairDetails.dto";
 import { RepairDetailsMapper } from "../mapper/repairDetails.mapper";
@@ -100,18 +101,35 @@ export class RepairDetailsService {
         return RepairDetailsMapper.toMessage(saved);
     }
 
-    async deleteMessage(repairId: string, messageId: number): Promise<void> {
+    private async findMessage(repairId: string, messageId: number, autore: string) {
         const details = await this.findByRepairId(repairId);
 
-        const result = await db.select().from(repairMessages)
-            .where(eq(repairMessages.id, messageId));
+        const result = await db.select().from(repairMessages).where(eq(repairMessages.id, messageId));
         const message = result.at(0);
 
-        if (!message || message.repairDetailsId !== details.id) {
+        if (!message || message.repairDetailsId !== details.id)
             throw new HttpError(HttpStatus.NOT_FOUND, "Messaggio non trovato");
-        }
 
+        if (message.autore !== autore)
+            throw new HttpError(HttpStatus.FORBIDDEN, "Non sei l'autore di questo messaggio");
+
+        return message;
+    }
+
+    async deleteMessage(repairId: string, messageId: number, autore: string): Promise<void> {
+        await this.findMessage(repairId, messageId, autore);
         await db.delete(repairMessages).where(eq(repairMessages.id, messageId));
+    }
+
+    async updateMessage(repairId: string, messageId: number, request: UpdateMessageRequest, autore: string): Promise<RepairMessageResponse> {
+        await this.findMessage(repairId, messageId, autore);
+
+        const [updated] = await db.update(repairMessages)
+            .set({ testo: request.testo })
+            .where(eq(repairMessages.id, messageId))
+            .returning();
+
+        return RepairDetailsMapper.toMessage(updated);
     }
 
 }

@@ -8,6 +8,7 @@ import CambiaStatoModal from './ModalCambiaStato'
 import PatternLock from '../PatternLock'
 import { useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
+import dayjs from 'dayjs'
 
 function CustomerCell({ customer }: { customer: CustomerResponse }) {
     const [opened, { open, close }] = useDisclosure(false)
@@ -121,8 +122,8 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
 
         return (
             <Table.Tr key={r.id}>
-                <Table.Td>{r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}</Table.Td>
-                <Table.Td>{r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details?.dataConsegna)) : '—'}</Table.Td>
+                <Table.Td>{r.createdAt ? dayjs(r.createdAt).format('DD/MM/YYYY, HH:mm') : '—'}</Table.Td>
+                <Table.Td>{r.details?.dataConsegna ? dayjs(r.details?.dataConsegna).format('DD/MM/YYYY, HH:mm') : '—'}</Table.Td>
                 <Table.Td><CustomerCell customer={r.customer} /></Table.Td>
                 <Table.Td><ProductCell product={r.product} /></Table.Td>
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>

@@ -8,5 +8,6 @@ export const ROUTES = {
     GESTIONE_CLIENTI: '/gestione/clienti',
     GESTIONE_DISPOSITIVI: '/gestione/dispositivi',
     GESTIONE_INTERVENTI: '/gestione/interventi',
+    MODIFICA_RIPARAZIONE: '/gestione/riparazioni/:id',
     HOME: '/',
 } as const

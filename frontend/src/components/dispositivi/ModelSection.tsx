@@ -1,9 +1,13 @@
-import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import { ModelSortBy, SortOrder, useGetAllModelsPaginated, type ModelResponse } from '../../api'
+import toast from 'react-hot-toast'
+import { getGetAllModelsPaginatedQueryKey, ModelSortBy, SortOrder, useDeleteModel, useGetAllModelsPaginated, type ModelResponse } from '../../api'
+import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaModello from './ModalModificaModello'
+import type { AxiosError } from 'axios'
+import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
 const PAGE_SIZE = 20
 
@@ -21,7 +25,20 @@ export default function ModelSection() {
     const [page, setPage] = useState(1)
     const [nome, setNome] = useState('')
     const [selectedModello, setSelectedModello] = useState<ModelResponse | null>(null)
+    const [modelloToDelete, setModelloToDelete] = useState<ModelResponse | null>(null)
     const [brandNome, setBrandNome] = useState('')
+
+    const queryClient = useQueryClient()
+    const { mutate: deleteModello, isPending: isDeleting } = useDeleteModel({
+        mutation: {
+            onSuccess: () => {
+                toast.success('Modello eliminato')
+                queryClient.invalidateQueries({ queryKey: getGetAllModelsPaginatedQueryKey() })
+                setModelloToDelete(null)
+            },
+            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
+        }
+    })
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [debouncedBrand] = useDebouncedValue(brandNome, 400)
     const [sortBy, setSortBy] = useState<ModelSortBy>(ModelSortBy.nome)
@@ -47,6 +64,20 @@ export default function ModelSection() {
 
     return (
         <>
+            <Modal
+                opened={modelloToDelete !== null}
+                onClose={() => setModelloToDelete(null)}
+                title="Conferma eliminazione"
+                size="sm"
+            >
+                <Text mb="lg">
+                    Sei sicuro di voler eliminare <strong>{modelloToDelete?.nome}</strong>? L'operazione non è reversibile.
+                </Text>
+                <Group justify="flex-end">
+                    <Button variant="default" onClick={() => setModelloToDelete(null)}>Annulla</Button>
+                    <Button color="red" loading={isDeleting} onClick={() => modelloToDelete && deleteModello({ id: modelloToDelete.id })}>Elimina</Button>
+                </Group>
+            </Modal>
             {selectedModello && (
                 <ModalModificaModello
                     key={selectedModello.id}
@@ -123,7 +154,7 @@ export default function ModelSection() {
                                                     </ActionIcon>
                                                 </Tooltip>
                                                 <Tooltip label="Elimina">
-                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }} onClick={() => setModelloToDelete(m)}>
                                                         <IconTrash size={16} />
                                                     </ActionIcon>
                                                 </Tooltip>

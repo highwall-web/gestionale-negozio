@@ -152,6 +152,14 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateMessageRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "testo": {"dataType":"string","required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "CustomerResponse": {
         "dataType": "refObject",
         "properties": {
@@ -901,9 +909,44 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsRepairDetailsController_updateRepairMessage: Record<string, TsoaRoute.ParameterSchema> = {
+                repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
+                messageId: {"in":"path","name":"messageId","required":true,"dataType":"double"},
+                body: {"in":"body","name":"body","required":true,"ref":"UpdateMessageRequest"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
+        };
+        app.put('/repairs/:repairId/details/messages/:messageId',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(RepairDetailsController)),
+            ...(fetchMiddlewares<RequestHandler>(RepairDetailsController.prototype.updateRepairMessage)),
+
+            async function RepairDetailsController_updateRepairMessage(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsRepairDetailsController_updateRepairMessage, request, response });
+
+                const controller = new RepairDetailsController();
+
+              await templateService.apiHandler({
+                methodName: 'updateRepairMessage',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsRepairDetailsController_deleteRepairMessage: Record<string, TsoaRoute.ParameterSchema> = {
                 repairId: {"in":"path","name":"repairId","required":true,"dataType":"string"},
                 messageId: {"in":"path","name":"messageId","required":true,"dataType":"double"},
+                request: {"in":"request","name":"request","required":true,"dataType":"object"},
         };
         app.delete('/repairs/:repairId/details/messages/:messageId',
             authenticateMiddleware([{"bearerAuth":[]}]),

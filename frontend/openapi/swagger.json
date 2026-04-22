@@ -256,6 +256,18 @@
                 "type": "object",
                 "additionalProperties": false
             },
+            "UpdateMessageRequest": {
+                "properties": {
+                    "testo": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "testo"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
             "CustomerResponse": {
                 "properties": {
                     "id": {
@@ -1662,6 +1674,58 @@
             }
         },
         "/repairs/{repairId}/details/messages/{messageId}": {
+            "put": {
+                "operationId": "updateRepairMessage",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RepairMessageResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "RepairDetails"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "repairId",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "path",
+                        "name": "messageId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMessageRequest"
+                            }
+                        }
+                    }
+                }
+            },
             "delete": {
                 "operationId": "deleteRepairMessage",
                 "responses": {

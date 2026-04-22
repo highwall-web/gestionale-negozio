@@ -143,7 +143,7 @@ export default function GestioneInterventi() {
                                         <Table.Th>Tipo</Table.Th>
                                         <Table.Th>Modello</Table.Th>
                                         <Table.Th>Prezzo</Table.Th>
-                                        <Table.Th>Garanzia (giorni)</Table.Th>
+                                        <Table.Th>Garanzia (mesi)</Table.Th>
                                         <Table.Th style={{ textAlign: 'right' }}>Azioni</Table.Th>
                                     </Table.Tr>
                                 </Table.Thead>

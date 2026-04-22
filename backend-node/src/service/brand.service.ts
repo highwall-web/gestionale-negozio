@@ -3,7 +3,7 @@ import { models } from "../schema/models";
 import { db } from "../config/db";
 import { BrandResponse, CreateBrandRequest, UpdateBrandRequest } from "../dto/brand.dto";
 import { BrandMapper } from "../mapper/brand.mapper";
-import { brands } from "../schema";
+import { brands } from "../schema/brands";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
 import { PaginatedResponse, SortOrder } from "../common/pagination";

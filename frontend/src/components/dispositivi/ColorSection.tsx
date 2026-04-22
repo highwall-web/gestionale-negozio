@@ -1,9 +1,13 @@
-import { ActionIcon, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import { SortOrder, useGetAllColorsPaginated, type ColorResponse } from '../../api'
+import toast from 'react-hot-toast'
+import { getGetAllColorsPaginatedQueryKey, SortOrder, useDeleteColor, useGetAllColorsPaginated, type ColorResponse } from '../../api'
+import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaColore from './ModalModificaColore'
+import type { AxiosError } from 'axios'
+import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
 const PAGE_SIZE = 20
 
@@ -16,8 +20,21 @@ export default function ColorSection() {
     const [page, setPage] = useState(1)
     const [nome, setNome] = useState('')
     const [selectedColore, setSelectedColore] = useState<ColorResponse | null>(null)
+    const [coloreToDelete, setColoreToDelete] = useState<ColorResponse | null>(null)
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
+
+    const queryClient = useQueryClient()
+    const { mutate: deleteColore, isPending: isDeleting } = useDeleteColor({
+        mutation: {
+            onSuccess: () => {
+                toast.success('Colore eliminato')
+                queryClient.invalidateQueries({ queryKey: getGetAllColorsPaginatedQueryKey() })
+                setColoreToDelete(null)
+            },
+            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
+        }
+    })
 
     const { data, isLoading } = useGetAllColorsPaginated({
         page, pageSize: PAGE_SIZE, sortOrder,
@@ -28,6 +45,20 @@ export default function ColorSection() {
 
     return (
         <>
+            <Modal
+                opened={coloreToDelete !== null}
+                onClose={() => setColoreToDelete(null)}
+                title="Conferma eliminazione"
+                size="sm"
+            >
+                <Text mb="lg">
+                    Sei sicuro di voler eliminare <strong>{coloreToDelete?.nome}</strong>? L'operazione non è reversibile.
+                </Text>
+                <Group justify="flex-end">
+                    <Button variant="default" onClick={() => setColoreToDelete(null)}>Annulla</Button>
+                    <Button color="red" loading={isDeleting} onClick={() => coloreToDelete && deleteColore({ id: coloreToDelete.id })}>Elimina</Button>
+                </Group>
+            </Modal>
             {selectedColore && (
                 <ModalModificaColore
                     key={selectedColore.id}
@@ -86,7 +117,7 @@ export default function ColorSection() {
                                                     </ActionIcon>
                                                 </Tooltip>
                                                 <Tooltip label="Elimina">
-                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }} onClick={() => setColoreToDelete(c)}>
                                                         <IconTrash size={16} />
                                                     </ActionIcon>
                                                 </Tooltip>

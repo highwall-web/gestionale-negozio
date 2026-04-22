@@ -2,8 +2,11 @@ import { ActionIcon, Badge, Button, Group, Loader, Pagination, Paper, ScrollArea
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs } from '../api'
+import { ROUTES } from '../routes'
 import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
+import dayjs from 'dayjs'
 
 const PAGE_SIZE = 20
 
@@ -50,6 +53,7 @@ const EMPTY_TEXT_FILTERS: TextFilters = {
 }
 
 export default function GestioneRiparazioni() {
+    const navigate = useNavigate()
     const [page, setPage] = useState(1)
     const [textFilters, setTextFilters] = useState<TextFilters>(EMPTY_TEXT_FILTERS)
     const [debouncedText] = useDebouncedValue(textFilters, 400)
@@ -211,13 +215,13 @@ export default function GestioneRiparazioni() {
                                             <Text size="xs" c="dimmed" ff="monospace">{r.id}</Text>
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
-                                            {r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}
+                                            {r.createdAt ? dayjs(r.createdAt).format('DD/MM/YYYY, HH:mm') : '—'}
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
-                                            {r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataConsegna)) : '—'}
+                                            {r.details?.dataConsegna ? dayjs(r.details.dataConsegna).format('DD/MM/YYYY, HH:mm') : '—'}
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
-                                            {r.details?.dataRiconsegnaEffettiva ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataRiconsegnaEffettiva)) : '—'}
+                                            {r.details?.dataRiconsegnaEffettiva ? dayjs(r.details.dataRiconsegnaEffettiva).format('DD/MM/YYYY, HH:mm') : '—'}
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
                                             {r.customer.nome} {r.customer.cognome}
@@ -236,7 +240,7 @@ export default function GestioneRiparazioni() {
                                         <Table.Td style={{ textAlign: 'right' }}>
                                             <Group gap={0} justify="flex-end">
                                                 <Tooltip label="Modifica">
-                                                    <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)">
+                                                    <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)" onClick={() => navigate(ROUTES.MODIFICA_RIPARAZIONE.replace(':id', r.id))}>
                                                         <IconPencil size={16} />
                                                     </ActionIcon>
                                                 </Tooltip>

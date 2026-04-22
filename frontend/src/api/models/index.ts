@@ -77,6 +77,7 @@ export * from './updateCustomerRequest';
 export * from './updateDataConsegnaRequest';
 export * from './updateEventRequest';
 export * from './updateInterventionRequest';
+export * from './updateMessageRequest';
 export * from './updateModelRequest';
 export * from './updateProductRequest';
 export * from './updateRepairDetailsRequest';

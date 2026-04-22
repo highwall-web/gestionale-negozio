@@ -18,6 +18,7 @@ import {
     UpdateRepairDetailsRequest,
     UpdateDataConsegnaRequest,
     AddMessageRequest,
+    UpdateMessageRequest,
     RepairMessageResponse,
 } from "../dto/repairDetails.dto";
 import { RepairDetailsService } from "../service/repairDetails.service";
@@ -71,12 +72,26 @@ export class RepairDetailsController extends Controller {
         return repairDetailsService.addMessage(repairId, body, autore);
     }
 
+    @Put("/messages/{messageId}")
+    @OperationId("updateRepairMessage")
+    public async updateRepairMessage(
+        @Path() repairId: string,
+        @Path() messageId: number,
+        @Body() body: UpdateMessageRequest,
+        @Request() request: express.Request
+    ): Promise<RepairMessageResponse> {
+        const autore = ((request as unknown as { user: AccessTokenPayload }).user).sub!;
+        return repairDetailsService.updateMessage(repairId, messageId, body, autore);
+    }
+
     @Delete("/messages/{messageId}")
     @OperationId("deleteRepairMessage")
     public async deleteRepairMessage(
         @Path() repairId: string,
-        @Path() messageId: number
+        @Path() messageId: number,
+        @Request() request: express.Request
     ): Promise<void> {
-        return repairDetailsService.deleteMessage(repairId, messageId);
+        const autore = ((request as unknown as { user: AccessTokenPayload }).user).sub!;
+        return repairDetailsService.deleteMessage(repairId, messageId, autore);
     }
 }

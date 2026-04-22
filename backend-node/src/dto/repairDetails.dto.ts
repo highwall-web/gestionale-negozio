@@ -14,6 +14,10 @@ export interface AddMessageRequest {
   testo: string;
 }
 
+export interface UpdateMessageRequest {
+  testo: string;
+}
+
 export interface RepairMessageResponse {
   id: number;
   testo: string;

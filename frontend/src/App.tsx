@@ -27,6 +27,7 @@ const GestioneRiparazioni = lazy(() => import('./pages/GestioneRiparazioni'))
 const GestioneClienti = lazy(() => import('./pages/GestioneClienti'))
 const GestioneDispositivi = lazy(() => import('./pages/GestioneDispositivi'))
 const GestioneInterventi = lazy(() => import('./pages/GestioneInterventi'))
+const ModificaRiparazione = lazy(() => import('./pages/ModificaRiparazione'))
 
 const theme = createTheme({
     cursorType: 'pointer',
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
                     {
                         path: ROUTES.GESTIONE_INTERVENTI,
                         element: <GestioneInterventi />,
+                    },
+                    {
+                        path: ROUTES.MODIFICA_RIPARAZIONE,
+                        element: <ModificaRiparazione />,
                     },
                     {
                         element: <AdminRoute />,

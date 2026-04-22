@@ -1,9 +1,13 @@
-import { ActionIcon, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import { SortOrder, useGetAllBrandsPaginated, type BrandResponse } from '../../api'
+import toast from 'react-hot-toast'
+import { getGetAllBrandsPaginatedQueryKey, SortOrder, useDeleteBrand, useGetAllBrandsPaginated, type BrandResponse } from '../../api'
+import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaBrand from './ModalModificaBrand'
+import type { AxiosError } from 'axios'
+import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
 const PAGE_SIZE = 20
 
@@ -16,8 +20,21 @@ export default function BrandSection() {
     const [page, setPage] = useState(1)
     const [nome, setNome] = useState('')
     const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null)
+    const [brandToDelete, setBrandToDelete] = useState<BrandResponse | null>(null)
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
+
+    const queryClient = useQueryClient()
+    const { mutate: deleteBrand, isPending: isDeleting } = useDeleteBrand({
+        mutation: {
+            onSuccess: () => {
+                toast.success('Brand eliminato')
+                queryClient.invalidateQueries({ queryKey: getGetAllBrandsPaginatedQueryKey() })
+                setBrandToDelete(null)
+            },
+            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
+        }
+    })
 
     const { data, isLoading } = useGetAllBrandsPaginated({
         page, pageSize: PAGE_SIZE, sortOrder,
@@ -28,6 +45,20 @@ export default function BrandSection() {
 
     return (
         <>
+            <Modal
+                opened={brandToDelete !== null}
+                onClose={() => setBrandToDelete(null)}
+                title="Conferma eliminazione"
+                size="sm"
+            >
+                <Text mb="lg">
+                    Sei sicuro di voler eliminare <strong>{brandToDelete?.nome}</strong>? L'operazione non è reversibile.
+                </Text>
+                <Group justify="flex-end">
+                    <Button variant="default" onClick={() => setBrandToDelete(null)}>Annulla</Button>
+                    <Button color="red" loading={isDeleting} onClick={() => brandToDelete && deleteBrand({ id: brandToDelete.id })}>Elimina</Button>
+                </Group>
+            </Modal>
             {selectedBrand && (
                 <ModalModificaBrand
                     key={selectedBrand.id}
@@ -86,7 +117,7 @@ export default function BrandSection() {
                                                     </ActionIcon>
                                                 </Tooltip>
                                                 <Tooltip label="Elimina">
-                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }} onClick={() => setBrandToDelete(b)}>
                                                         <IconTrash size={16} />
                                                     </ActionIcon>
                                                 </Tooltip>

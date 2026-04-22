@@ -8,6 +8,7 @@ import { getGetRepairsAttiveQueryKey, StatoRepair, useUpdateStatoRepair, type Re
 import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtils'
 import PatternLock from '../PatternLock'
 import CambiaStatoModal from './ModalCambiaStato'
+import dayjs from 'dayjs'
 
 function RigaInfo({ label, children }: { label: string; children: React.ReactNode }) {
     return (
@@ -69,10 +70,10 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
             <Paper key={r.id} withBorder p="sm">
                 <Stack gap={6}>
                     <RigaInfo label="Creata il">
-                        <Text size="sm">{r.createdAt ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.createdAt)) : '—'}</Text>
+                        <Text size="sm">{r.createdAt ? dayjs(r.createdAt).format('DD/MM/YYYY, HH:mm') : '—'}</Text>
                     </RigaInfo>
                     <RigaInfo label="Data di consegna stimata">
-                        <Text size="sm">{r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataConsegna)) : '—'}</Text>
+                        <Text size="sm">{r.details?.dataConsegna ? dayjs(r.details.dataConsegna).format('DD/MM/YYYY, HH:mm') : '—'}</Text>
                     </RigaInfo>
                     <Divider />
                     <Accordion variant="default" styles={{ control: { padding: '6px 0', color: 'var(--mantine-color-text)' }, label: { padding: 0 }, panel: { padding: 0 }, content: { padding: '4px 0 8px 0' }, chevron: { marginLeft: 'auto' }, item: { border: 'none' } }}>

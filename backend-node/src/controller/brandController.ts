@@ -76,6 +76,6 @@ export class BrandController extends Controller {
     @Delete("/{id}")
     @OperationId("deleteBrand")
     public async deleteBrand(@Path() id: number): Promise<void> {
-        brandService.delete(id);
+        return brandService.delete(id);
     }
 }
