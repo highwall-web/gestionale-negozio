@@ -1,4 +1,4 @@
-import { Button, Group, Modal, NumberInput, Select, Stack, TextInput } from '@mantine/core'
+import { Button, Group, Modal, NumberInput, Select, Stack, Switch, TextInput } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
@@ -15,6 +15,7 @@ export default function ModalModificaIntervento({ opened, onClose, intervento }:
     const [nome, setNome] = useState(intervento.nome)
     const [prezzo, setPrezzo] = useState<number>(intervento.prezzo)
     const [periodoGaranzia, setPeriodoGaranzia] = useState<number | ''>(intervento.periodoGaranzia ?? '')
+    const [isGenerale, setIsGenerale] = useState(intervento.modelId == null)
     const [modelId, setModelId] = useState<string | null>(intervento.modelId != null ? String(intervento.modelId) : null)
 
     const [modelSearch, setModelSearch] = useState(intervento.modelNome ?? '')
@@ -41,12 +42,14 @@ export default function ModalModificaIntervento({ opened, onClose, intervento }:
         setNome(intervento.nome)
         setPrezzo(intervento.prezzo)
         setPeriodoGaranzia(intervento.periodoGaranzia ?? '')
+        setIsGenerale(intervento.modelId == null)
         setModelId(intervento.modelId != null ? String(intervento.modelId) : null)
         setModelSearch(intervento.modelNome ?? '')
     }
 
     const handleSalva = () => {
         if (!nome || prezzo == null) return
+        if (!isGenerale && !modelId) return
         updateIntervento({
             id: intervento.id,
             data: {
@@ -66,18 +69,33 @@ export default function ModalModificaIntervento({ opened, onClose, intervento }:
                     value={nome}
                     onChange={e => setNome(e.currentTarget.value)}
                 />
-                <Select
-                    label="Modello"
-                    placeholder="Generale (nessun modello)"
-                    data={modelOptions}
-                    value={modelId}
-                    onChange={setModelId}
-                    onSearchChange={setModelSearch}
-                    searchValue={modelSearch}
-                    searchable
-                    clearable
-                    nothingFoundMessage={debouncedModelSearch.length < 2 ? 'Digita almeno 2 caratteri' : 'Nessun modello trovato'}
+                <Switch
+                    label="Intervento generale (nessun modello specifico)"
+                    checked={isGenerale}
+                    onChange={e => {
+                        const checked = e.currentTarget.checked
+                        setIsGenerale(checked)
+                        if (checked) {
+                            setModelId(null)
+                            setModelSearch('')
+                        }
+                    }}
                 />
+                {!isGenerale && (
+                    <Select
+                        label="Modello"
+                        placeholder="Cerca modello..."
+                        data={modelOptions}
+                        value={modelId}
+                        onChange={setModelId}
+                        onSearchChange={setModelSearch}
+                        searchValue={modelSearch}
+                        searchable
+                        clearable
+                        withAsterisk
+                        nothingFoundMessage={debouncedModelSearch.length < 2 ? 'Digita almeno 2 caratteri' : 'Nessun modello trovato'}
+                    />
+                )}
                 <NumberInput
                     label="Prezzo (€)"
                     value={prezzo}
@@ -88,7 +106,7 @@ export default function ModalModificaIntervento({ opened, onClose, intervento }:
                     prefix="€ "
                 />
                 <NumberInput
-                    label="Garanzia (giorni)"
+                    label="Garanzia (mesi)"
                     value={periodoGaranzia}
                     onChange={v => setPeriodoGaranzia(v === '' ? '' : Number(v))}
                     min={0}
@@ -100,7 +118,7 @@ export default function ModalModificaIntervento({ opened, onClose, intervento }:
                         <Button variant="default" onClick={onClose}>Annulla</Button>
                         <Button
                             loading={isPending}
-                            disabled={!nome}
+                            disabled={!nome || (!isGenerale && !modelId)}
                             onClick={handleSalva}
                         >
                             Salva

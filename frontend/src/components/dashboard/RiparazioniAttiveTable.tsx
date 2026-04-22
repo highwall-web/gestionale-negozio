@@ -141,8 +141,8 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                 </Table.Td>
                 <Table.Td>{r.costoTotale != null ? `€ ${r.details?.acconto?.toFixed(2)}` : '—'}</Table.Td>
                 <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
-                <Table.Td>
-                    <Group gap={0}>
+                <Table.Td style={{ textAlign: 'right' }}>
+                    <Group gap={0} justify="flex-end">
                         <Tooltip label="Cambia stato">
                             <ActionIcon
                                 variant="subtle"
@@ -157,7 +157,8 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                             <Tooltip label="Consegna">
                                 <ActionIcon
                                     variant='subtle'
-                                    color="var(--mantine-primary-color-filled)"
+                                    color="green"
+                                    style={{ color: 'var(--mantine-color-green-6)' }}
                                     onClick={() => handleConsegna(r)}
                                     loading={isPending}
                                 >
@@ -188,7 +189,7 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                     <Text c="dimmed" ta="center" py="xl">Nessuna riparazione attiva</Text>
                 ) : (
                     <ScrollArea>
-                        <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                        <Table highlightOnHover style={{ minWidth: 'max-content' }}>
                             <Table.Thead>
                                 <Table.Tr>
                                     <Table.Th>Creata il</Table.Th>
@@ -199,7 +200,7 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                                     <Table.Th>Stato riparazione</Table.Th>
                                     <Table.Th>Acconto</Table.Th>
                                     <Table.Th>Totale</Table.Th>
-                                    <Table.Th>Azioni</Table.Th>
+                                    <Table.Th style={{ textAlign: 'right' }}>Azioni</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>{rows}</Table.Tbody>

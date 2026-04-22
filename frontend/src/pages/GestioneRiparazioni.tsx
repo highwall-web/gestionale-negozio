@@ -1,6 +1,6 @@
-import { Badge, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title } from '@mantine/core'
+import { ActionIcon, Badge, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconSearch, IconX } from '@tabler/icons-react'
+import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs } from '../api'
 import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
@@ -188,7 +188,7 @@ export default function GestioneRiparazioni() {
                     <Text c="dimmed" ta="center" py="xl">Nessuna riparazione trovata</Text>
                 ) : (
                     <ScrollArea>
-                        <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                        <Table highlightOnHover style={{ minWidth: 'max-content' }}>
                             <Table.Thead>
                                 <Table.Tr>
                                     <Table.Th>ID</Table.Th>
@@ -201,6 +201,7 @@ export default function GestioneRiparazioni() {
                                     <Table.Th>Stato riparazione</Table.Th>
                                     <Table.Th>Acconto</Table.Th>
                                     <Table.Th>Totale</Table.Th>
+                                    <Table.Th style={{ textAlign: 'right' }}>Azioni</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -232,6 +233,20 @@ export default function GestioneRiparazioni() {
                                         </Table.Td>
                                         <Table.Td>{r.details?.acconto != null ? `€ ${r.details.acconto.toFixed(2)}` : '—'}</Table.Td>
                                         <Table.Td>{r.costoTotale != null ? `€ ${r.costoTotale.toFixed(2)}` : '—'}</Table.Td>
+                                        <Table.Td style={{ textAlign: 'right' }}>
+                                            <Group gap={0} justify="flex-end">
+                                                <Tooltip label="Modifica">
+                                                    <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)">
+                                                        <IconPencil size={16} />
+                                                    </ActionIcon>
+                                                </Tooltip>
+                                                <Tooltip label="Elimina">
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                        <IconTrash size={16} />
+                                                    </ActionIcon>
+                                                </Tooltip>
+                                            </Group>
+                                        </Table.Td>
                                     </Table.Tr>
                                 ))}
                             </Table.Tbody>

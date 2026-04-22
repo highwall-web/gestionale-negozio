@@ -1,6 +1,6 @@
-import { Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconSearch, IconX } from '@tabler/icons-react'
+import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import { CustomerSortBy, SortOrder, useGetAllCustomers } from '../api'
 
@@ -131,7 +131,7 @@ export default function GestioneClienti() {
                     <Text c="dimmed" ta="center" py="xl">Nessun cliente trovato</Text>
                 ) : (
                     <ScrollArea>
-                        <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                        <Table highlightOnHover style={{ minWidth: 'max-content' }}>
                             <Table.Thead>
                                 <Table.Tr>
                                     <Table.Th>Nome</Table.Th>
@@ -140,6 +140,7 @@ export default function GestioneClienti() {
                                     <Table.Th>Telefono</Table.Th>
                                     <Table.Th>Tel. secondario</Table.Th>
                                     <Table.Th>Indirizzo</Table.Th>
+                                    <Table.Th style={{ textAlign: 'right' }}>Azioni</Table.Th>
                                 </Table.Tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -152,6 +153,20 @@ export default function GestioneClienti() {
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>{c.telefonoSecondario ?? '—'}</Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
                                             {[c.indirizzo, c.citta, c.cap].filter(Boolean).join(', ') || '—'}
+                                        </Table.Td>
+                                        <Table.Td style={{ textAlign: 'right' }}>
+                                            <Group gap={0} justify="flex-end">
+                                                <Tooltip label="Modifica">
+                                                    <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)">
+                                                        <IconPencil size={16} />
+                                                    </ActionIcon>
+                                                </Tooltip>
+                                                <Tooltip label="Elimina">
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                        <IconTrash size={16} />
+                                                    </ActionIcon>
+                                                </Tooltip>
+                                            </Group>
                                         </Table.Td>
                                     </Table.Tr>
                                 ))}

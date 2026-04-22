@@ -136,7 +136,7 @@ export default function GestioneInterventi() {
                         <Text c="dimmed" ta="center" py="xl">Nessun intervento trovato</Text>
                     ) : (
                         <ScrollArea>
-                            <Table striped highlightOnHover withTableBorder style={{ minWidth: 'max-content' }}>
+                            <Table highlightOnHover style={{ minWidth: 'max-content' }}>
                                 <Table.Thead>
                                     <Table.Tr>
                                         <Table.Th>Nome</Table.Th>
@@ -144,7 +144,7 @@ export default function GestioneInterventi() {
                                         <Table.Th>Modello</Table.Th>
                                         <Table.Th>Prezzo</Table.Th>
                                         <Table.Th>Garanzia (giorni)</Table.Th>
-                                        <Table.Th>Azioni</Table.Th>
+                                        <Table.Th style={{ textAlign: 'right' }}>Azioni</Table.Th>
                                     </Table.Tr>
                                 </Table.Thead>
                                 <Table.Tbody>
@@ -159,8 +159,8 @@ export default function GestioneInterventi() {
                                             <Table.Td>{i.modelNome ?? '—'}</Table.Td>
                                             <Table.Td style={{ whiteSpace: 'nowrap' }}>€ {i.prezzo.toFixed(2)}</Table.Td>
                                             <Table.Td>{i.periodoGaranzia ?? '—'}</Table.Td>
-                                            <Table.Td>
-                                                <Group gap={0}>
+                                            <Table.Td style={{ textAlign: 'right' }}>
+                                                <Group gap={0} justify="flex-end">
                                                     <Tooltip label="Modifica">
                                                         <ActionIcon variant="subtle" color="var(--mantine-primary-color-filled)" onClick={() => setSelectedIntervento(i)}>
                                                             <IconPencil size={16} />
