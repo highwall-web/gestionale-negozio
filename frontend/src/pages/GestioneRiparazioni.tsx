@@ -194,6 +194,7 @@ export default function GestioneRiparazioni() {
                                     <Table.Th>ID</Table.Th>
                                     <Table.Th>Creata il</Table.Th>
                                     <Table.Th>Consegna stimata</Table.Th>
+                                    <Table.Th>Consegna effettiva</Table.Th>
                                     <Table.Th>Cliente</Table.Th>
                                     <Table.Th>Dispositivo</Table.Th>
                                     <Table.Th>Stato</Table.Th>
@@ -213,6 +214,9 @@ export default function GestioneRiparazioni() {
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
                                             {r.details?.dataConsegna ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataConsegna)) : '—'}
+                                        </Table.Td>
+                                        <Table.Td style={{ whiteSpace: 'nowrap' }}>
+                                            {r.details?.dataRiconsegnaEffettiva ? new Intl.DateTimeFormat('it-IT', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(r.details.dataRiconsegnaEffettiva)) : '—'}
                                         </Table.Td>
                                         <Table.Td style={{ whiteSpace: 'nowrap' }}>
                                             {r.customer.nome} {r.customer.cognome}

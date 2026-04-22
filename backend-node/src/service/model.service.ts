@@ -4,6 +4,8 @@ import { ModelResponse, CreateModelRequest, UpdateModelRequest, ModelSortBy } fr
 import { ModelMapper } from "../mapper/model.mapper";
 import { models } from "../schema/models";
 import { brands } from "../schema/brands";
+import { products } from "../schema/products";
+import { interventions } from "../schema/interventions";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
 import { PaginatedResponse, SortOrder } from "../common/pagination";
@@ -136,6 +138,13 @@ export class ModelService {
     async delete(id: number): Promise<void> {
         const result = await db.select().from(models).where(eq(models.id, id));
         if (!result.at(0)) throw new HttpError(HttpStatus.NOT_FOUND, "Modello non trovato");
+
+        const [linkedProducts, linkedInterventions] = await Promise.all([
+            db.select().from(products).where(eq(products.modelId, id)),
+            db.select().from(interventions).where(eq(interventions.modelId, id)),
+        ]);
+        if (linkedProducts.length > 0 || linkedInterventions.length > 0)
+            throw new HttpError(HttpStatus.CONFLICT, "Impossibile eliminare: esistono prodotti o interventi collegati a questo modello");
 
         await db.delete(models).where(eq(models.id, id));
     }

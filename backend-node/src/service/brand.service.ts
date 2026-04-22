@@ -1,4 +1,5 @@
 import { asc, count, desc, eq, ilike } from "drizzle-orm";
+import { models } from "../schema/models";
 import { db } from "../config/db";
 import { BrandResponse, CreateBrandRequest, UpdateBrandRequest } from "../dto/brand.dto";
 import { BrandMapper } from "../mapper/brand.mapper";
@@ -78,6 +79,10 @@ export class BrandService {
         const result = await db.select().from(brands).where(eq(brands.id, id));
         const brand = result.at(0);
         if (!brand) throw new HttpError(HttpStatus.NOT_FOUND, "Brand non trovato");
+
+        const linked = await db.select().from(models).where(eq(models.brandId, id));
+        if (linked.length > 0)
+            throw new HttpError(HttpStatus.CONFLICT, "Impossibile eliminare: esistono modelli collegati a questo brand");
 
         await db.delete(brands).where(eq(brands.id, id));
     }

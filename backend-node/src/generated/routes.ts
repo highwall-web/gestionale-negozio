@@ -473,10 +473,10 @@ const models: TsoaRoute.Models = {
     "UpdateInterventionRequest": {
         "dataType": "refObject",
         "properties": {
-            "modelId": {"dataType":"double"},
+            "modelId": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
             "nome": {"dataType":"string","required":true},
             "prezzo": {"dataType":"double","required":true},
-            "periodoGaranzia": {"dataType":"double"},
+            "periodoGaranzia": {"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}]},
         },
         "additionalProperties": false,
     },

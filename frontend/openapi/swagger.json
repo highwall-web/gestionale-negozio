@@ -998,7 +998,8 @@
                 "properties": {
                     "modelId": {
                         "type": "number",
-                        "format": "double"
+                        "format": "double",
+                        "nullable": true
                     },
                     "nome": {
                         "type": "string"
@@ -1009,7 +1010,8 @@
                     },
                     "periodoGaranzia": {
                         "type": "number",
-                        "format": "double"
+                        "format": "double",
+                        "nullable": true
                     }
                 },
                 "required": [

@@ -3,6 +3,7 @@ import { db } from "../config/db";
 import { CustomerResponse, CreateCustomerRequest, UpdateCustomerRequest, CustomerSortBy } from "../dto/customer.dto";
 import { CustomerMapper } from "../mapper/customer.mapper";
 import { customers } from "../schema/customers";
+import { repairs } from "../schema/repairs";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
 import { PaginatedResponse, SortOrder } from "../common/pagination";
@@ -101,6 +102,10 @@ export class CustomerService {
     async delete(id: number): Promise<void> {
         const result = await db.select().from(customers).where(eq(customers.id, id));
         if (!result.at(0)) throw new HttpError(HttpStatus.NOT_FOUND, "Cliente non trovato");
+
+        const linked = await db.select().from(repairs).where(eq(repairs.customerId, id));
+        if (linked.length > 0)
+            throw new HttpError(HttpStatus.CONFLICT, "Impossibile eliminare: esistono riparazioni collegate a questo cliente");
 
         await db.delete(customers).where(eq(customers.id, id));
     }

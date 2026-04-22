@@ -6,6 +6,7 @@ import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./generated/routes";
 import { errorHandler } from "./middleware/errorHandler";
+import { authLimiter } from "./middleware/rateLimiter";
 import { scheduleTokenCleanup } from "./jobs/cleanupTokens";
 import { seedAdmin } from "./jobs/seedAdmin";
 import { client, db } from "./config/db";
@@ -29,6 +30,8 @@ async function bootstrap() {
     app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     const apiRouter = express.Router();
+    apiRouter.use("/auth/login", authLimiter);
+    apiRouter.use("/auth/refresh", authLimiter);
     RegisterRoutes(apiRouter);
     app.use("/api", apiRouter);
     app.use(errorHandler);

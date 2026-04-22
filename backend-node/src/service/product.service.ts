@@ -3,6 +3,7 @@ import { db } from "../config/db";
 import { ProductResponse, UpdateProductRequest, ProductSortBy } from "../dto/product.dto";
 import { ProductMapper } from "../mapper/product.mapper";
 import { products } from "../schema/products";
+import { repairs } from "../schema/repairs";
 import { models } from "../schema/models";
 import { colors } from "../schema/colors";
 import { brands } from "../schema/brands";
@@ -121,7 +122,11 @@ export class ProductService {
 
     async delete(id: number): Promise<void> {
         const result = await db.select().from(products).where(eq(products.id, id));
-        if (!result.at(0)) throw new HttpError(HttpStatus.NOT_FOUND, "Prodotto non trovato");
+        const product = result.at(0);
+        if (!product) throw new HttpError(HttpStatus.NOT_FOUND, "Prodotto non trovato");
+
+        if (product.repairId != null)
+            throw new HttpError(HttpStatus.CONFLICT, "Impossibile eliminare: il prodotto è collegato a una riparazione");
 
         await db.delete(products).where(eq(products.id, id));
     }

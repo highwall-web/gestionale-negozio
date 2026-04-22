@@ -17,8 +17,8 @@ export interface CreateInterventionRequest {
 }
 
 export interface UpdateInterventionRequest {
-  modelId?: number;
+  modelId?: number | null;
   nome: string;
   prezzo: number;
-  periodoGaranzia?: number;
+  periodoGaranzia?: number | null;
 }

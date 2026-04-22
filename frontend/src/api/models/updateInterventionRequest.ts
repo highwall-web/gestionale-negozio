@@ -6,8 +6,10 @@
  */
 
 export interface UpdateInterventionRequest {
-  modelId?: number;
+  /** @nullable */
+  modelId?: number | null;
   nome: string;
   prezzo: number;
-  periodoGaranzia?: number;
+  /** @nullable */
+  periodoGaranzia?: number | null;
 }

@@ -1,4 +1,5 @@
 import { asc, count, desc, eq, ilike } from "drizzle-orm";
+import { products } from "../schema/products";
 import { db } from "../config/db";
 import { ColorResponse, CreateColorRequest, UpdateColorRequest } from "../dto/color.dto";
 import { ColorMapper } from "../mapper/color.mapper";
@@ -78,6 +79,10 @@ export class ColorService {
         const result = await db.select().from(colors).where(eq(colors.id, id));
         const color = result.at(0);
         if (!color) throw new HttpError(HttpStatus.NOT_FOUND, "Colore non trovato");
+
+        const linked = await db.select().from(products).where(eq(products.colorId, id));
+        if (linked.length > 0)
+            throw new HttpError(HttpStatus.CONFLICT, "Impossibile eliminare: esistono prodotti collegati a questo colore");
 
         await db.delete(colors).where(eq(colors.id, id));
     }
