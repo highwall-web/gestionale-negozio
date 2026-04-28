@@ -48,7 +48,7 @@ export default function Login() {
                 Effettua il login al gestionale
             </Title>
 
-            <Paper withBorder shadow="md" p={30} radius="12">
+            <Paper withBorder p={30} radius="12">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <TextInput
                         label="Username"
