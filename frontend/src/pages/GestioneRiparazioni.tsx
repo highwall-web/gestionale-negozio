@@ -1,32 +1,14 @@
 import { ActionIcon, Badge, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
+import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs } from '../api'
 import { ROUTES } from '../routes'
-import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
+import { statoColors, statoOptions, statoRiparazioneColors, statoRiparazioneOptions } from '../utils/riparazioniUtils'
 import dayjs from 'dayjs'
 
 const PAGE_SIZE = 20
-
-const STATO_OPTIONS = [
-    { value: StatoRepair.NUOVO, label: 'Nuovo' },
-    { value: StatoRepair.IN_CORSO, label: 'In corso' },
-    { value: StatoRepair.PRONTO, label: 'Pronto' },
-    { value: StatoRepair.CONSEGNATO, label: 'Consegnato' },
-]
-
-const STATO_RIPARAZIONE_OPTIONS = [
-    { value: StatoRiparazione.ACCETTATO, label: 'Accettato' },
-    { value: StatoRiparazione.ANALISI_IN_CORSO, label: 'Analisi in corso' },
-    { value: StatoRiparazione.RIPARAZIONE_IN_CORSO, label: 'Riparazione in corso' },
-    { value: StatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO, label: 'Attesa pezzi di ricambio' },
-    { value: StatoRiparazione.IN_ATTESA_DI_PREVENTIVO, label: 'In attesa di preventivo' },
-    { value: StatoRiparazione.PREVENTIVO_NON_ACCETTATO, label: 'Preventivo non accettato' },
-    { value: StatoRiparazione.RIPARAZIONE_CONCLUSA, label: 'Riparazione conclusa' },
-    { value: StatoRiparazione.DISPOSITIVO_NON_RIPARABILE, label: 'Dispositivo non riparabile' },
-]
 
 const SORT_BY_OPTIONS = [
     { value: RepairSortBy.createdAt, label: 'Data creazione' },
@@ -152,7 +134,7 @@ export default function GestioneRiparazioni() {
                     <Select
                         label="Stato"
                         placeholder="Tutti"
-                        data={STATO_OPTIONS}
+                        data={statoOptions}
                         value={stato}
                         onChange={v => { setStato(v as StatoRepair | null); setPage(1) }}
                         clearable
@@ -160,7 +142,7 @@ export default function GestioneRiparazioni() {
                     <Select
                         label="Stato riparazione"
                         placeholder="Tutti"
-                        data={STATO_RIPARAZIONE_OPTIONS}
+                        data={statoRiparazioneOptions}
                         value={statoRiparazione}
                         onChange={v => { setStatoRiparazione(v as StatoRiparazione | null); setPage(1) }}
                         clearable
@@ -181,10 +163,13 @@ export default function GestioneRiparazioni() {
             </Paper>
 
             <Paper radius={12} p="md">
-                <Title order={5} mb="sm">
-                    Riparazioni
-                    {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
-                </Title>
+                <Group justify="space-between" mb="sm">
+                    <Title order={5}>
+                        Riparazioni
+                        {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
+                    </Title>
+                    <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => navigate(ROUTES.ACCETTAZIONE)}>Nuova riparazione</Button>
+                </Group>
 
                 {isLoading ? (
                     <Stack align="center" py="xl"><Loader /></Stack>

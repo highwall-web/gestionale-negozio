@@ -1,11 +1,12 @@
 import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
+import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { CustomerSortBy, getGetAllCustomersQueryKey, SortOrder, useDeleteCustomer, useGetAllCustomers, type CustomerResponse } from '../api'
 import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaCliente from '../components/clienti/ModalModificaCliente'
+import ModalCreaCliente from '../components/clienti/ModalCreaCliente'
 import { getAxiosErrorMessage } from '../utils/errorUtils'
 
 const PAGE_SIZE = 20
@@ -34,6 +35,7 @@ const EMPTY_TEXT_FILTERS: TextFilters = {
 
 export default function GestioneClienti() {
     const [page, setPage] = useState(1)
+    const [createOpen, setCreateOpen] = useState(false)
     const [selectedCliente, setSelectedCliente] = useState<CustomerResponse | null>(null)
     const [clienteToDelete, setClienteToDelete] = useState<CustomerResponse | null>(null)
     const [textFilters, setTextFilters] = useState<TextFilters>(EMPTY_TEXT_FILTERS)
@@ -85,6 +87,7 @@ export default function GestioneClienti() {
 
     return (
         <>
+            <ModalCreaCliente opened={createOpen} onClose={() => setCreateOpen(false)} />
             <Modal
                 opened={clienteToDelete !== null}
                 onClose={() => setClienteToDelete(null)}
@@ -161,10 +164,13 @@ export default function GestioneClienti() {
                 </Paper>
 
                 <Paper radius={12} p="md">
-                    <Title order={5} mb="sm">
-                        Clienti
-                        {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
-                    </Title>
+                    <Group justify="space-between" mb="sm">
+                        <Title order={5}>
+                            Clienti
+                            {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
+                        </Title>
+                        <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
+                    </Group>
 
                     {isLoading ? (
                         <Stack align="center" py="xl"><Loader /></Stack>

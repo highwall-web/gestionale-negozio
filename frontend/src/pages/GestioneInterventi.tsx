@@ -1,10 +1,11 @@
 import { ActionIcon, Badge, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
+import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { InterventionSortBy, SortOrder, useDeleteIntervention, useGetAllInterventions, type InterventionResponse } from '../api'
 import ModalModificaIntervento from '../components/interventi/ModalModificaIntervento'
+import ModalCreaIntervento from '../components/interventi/ModalCreaIntervento'
 import { useQueryClient } from '@tanstack/react-query'
 
 const PAGE_SIZE = 20
@@ -21,6 +22,7 @@ const SORT_ORDER_OPTIONS = [
 
 export default function GestioneInterventi() {
     const [page, setPage] = useState(1)
+    const [createOpen, setCreateOpen] = useState(false)
     const [selectedIntervento, setSelectedIntervento] = useState<InterventionResponse | null>(null)
     const [interventoToDelete, setInterventoToDelete] = useState<InterventionResponse | null>(null)
 
@@ -62,6 +64,7 @@ export default function GestioneInterventi() {
 
     return (
         <>
+            <ModalCreaIntervento opened={createOpen} onClose={() => setCreateOpen(false)} />
             <Modal
                 opened={interventoToDelete !== null}
                 onClose={() => setInterventoToDelete(null)}
@@ -125,10 +128,13 @@ export default function GestioneInterventi() {
                 </Paper>
 
                 <Paper radius={12} p="md">
-                    <Title order={5} mb="sm">
-                        Interventi
-                        {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
-                    </Title>
+                    <Group justify="space-between" mb="sm">
+                        <Title order={5}>
+                            Interventi
+                            {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({total})</Text>}
+                        </Title>
+                        <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
+                    </Group>
 
                     {isLoading ? (
                         <Stack align="center" py="xl"><Loader /></Stack>

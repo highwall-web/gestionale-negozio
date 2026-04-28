@@ -1,11 +1,12 @@
 import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
+import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { getGetAllBrandsPaginatedQueryKey, SortOrder, useDeleteBrand, useGetAllBrandsPaginated, type BrandResponse } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaBrand from './ModalModificaBrand'
+import ModalCreaBrand from './ModalCreaBrand'
 import type { AxiosError } from 'axios'
 import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
@@ -19,6 +20,7 @@ const SORT_ORDER_OPTIONS = [
 export default function BrandSection() {
     const [page, setPage] = useState(1)
     const [nome, setNome] = useState('')
+    const [createOpen, setCreateOpen] = useState(false)
     const [selectedBrand, setSelectedBrand] = useState<BrandResponse | null>(null)
     const [brandToDelete, setBrandToDelete] = useState<BrandResponse | null>(null)
     const [debouncedNome] = useDebouncedValue(nome, 400)
@@ -45,6 +47,7 @@ export default function BrandSection() {
 
     return (
         <>
+            <ModalCreaBrand opened={createOpen} onClose={() => setCreateOpen(false)} />
             <Modal
                 opened={brandToDelete !== null}
                 onClose={() => setBrandToDelete(null)}
@@ -73,6 +76,7 @@ export default function BrandSection() {
                         Brand
                         {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({data?.total ?? 0})</Text>}
                     </Title>
+                    <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
                 </Group>
                 <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mb="sm">
                     <TextInput

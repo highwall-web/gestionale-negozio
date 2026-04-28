@@ -1,7 +1,7 @@
 import { Box, Button, Group, Paper, ScrollArea, Stack, Text, Textarea, Title } from '@mantine/core'
 import { useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { getGetRepairByIdQueryKey, useAddRepairMessage, type RepairDetailsResponse } from '../../api'
 import { useAuth } from '../../context/AuthContext'
@@ -32,6 +32,12 @@ export default function MessaggiRiparazione({ repairId, details, scrollHeight = 
     })
 
     const messaggi = details?.messaggi ?? []
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+        }
+    }, [details?.messaggi])
 
     return (
         <Paper radius={12} p="md">

@@ -4,6 +4,9 @@ import { IconMessageCircle } from '@tabler/icons-react'
 import { useParams } from 'react-router-dom'
 import { useGetRepairById } from '../api'
 import MessaggiRiparazione from '../components/riparazioni/MessaggiRiparazione'
+import SezioneCliente from '../components/riparazioni/SezioneCliente'
+import SezioneDispositivo from '../components/riparazioni/SezioneDispositivo'
+import SezioneStato from '../components/riparazioni/SezioneStato'
 import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
 
 export default function ModificaRiparazione() {
@@ -44,11 +47,16 @@ export default function ModificaRiparazione() {
 
             <Group align="flex-start" gap="md" wrap="nowrap">
                 <Stack flex={1} gap="md">
-                    {/* spazio per altri paper */}
+                    {isMobile && <SezioneStato repair={repair} />}
+                    <SezioneCliente customer={repair.customer} repairId={repair.id} />
+                    <SezioneDispositivo product={repair.product} />
                 </Stack>
                 {!isMobile && (
                     <Box w={300} style={{ flexShrink: 0 }}>
-                        <MessaggiRiparazione repairId={repair.id} details={repair.details} />
+                        <Stack gap="md">
+                            <SezioneStato repair={repair} />
+                            <MessaggiRiparazione repairId={repair.id} details={repair.details} />
+                        </Stack>
                     </Box>
                 )}
             </Group>

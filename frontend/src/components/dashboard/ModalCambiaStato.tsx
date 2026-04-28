@@ -3,29 +3,13 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getGetRepairsAttiveQueryKey, StatoRepair, StatoRiparazione, useUpdateStatoRepair, type RepairResponse } from '../../api'
 import toast from 'react-hot-toast'
+import { statoOptions, statoRiparazioneOptions } from '../../utils/riparazioniUtils'
 
 interface Props {
     repair: RepairResponse | null
     opened: boolean
     onClose: () => void
 }
-
-const statoOptions = [
-    { value: StatoRepair.NUOVO, label: 'Nuovo' },
-    { value: StatoRepair.IN_CORSO, label: 'In corso' },
-    { value: StatoRepair.PRONTO, label: 'Pronto' }
-]
-
-const statoRiparazioneOptions = [
-    { value: StatoRiparazione.ACCETTATO, label: 'Accettato' },
-    { value: StatoRiparazione.ANALISI_IN_CORSO, label: 'Analisi in corso' },
-    { value: StatoRiparazione.RIPARAZIONE_IN_CORSO, label: 'Riparazione in corso' },
-    { value: StatoRiparazione.ATTESA_PEZZI_DI_RICAMBIO, label: 'Attesa pezzi di ricambio' },
-    { value: StatoRiparazione.IN_ATTESA_DI_PREVENTIVO, label: 'In attesa di preventivo' },
-    { value: StatoRiparazione.PREVENTIVO_NON_ACCETTATO, label: 'Preventivo non accettato' },
-    { value: StatoRiparazione.RIPARAZIONE_CONCLUSA, label: 'Riparazione conclusa' },
-    { value: StatoRiparazione.DISPOSITIVO_NON_RIPARABILE, label: 'Dispositivo non riparabile' },
-]
 
 export default function CambiaStatoModal({ repair, opened, onClose }: Props) {
     const queryClient = useQueryClient()

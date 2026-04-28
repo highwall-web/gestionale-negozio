@@ -1,11 +1,12 @@
 import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
-import { IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
+import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { getGetAllModelsPaginatedQueryKey, ModelSortBy, SortOrder, useDeleteModel, useGetAllModelsPaginated, type ModelResponse } from '../../api'
 import { useQueryClient } from '@tanstack/react-query'
 import ModalModificaModello from './ModalModificaModello'
+import ModalCreaModello from './ModalCreaModello'
 import type { AxiosError } from 'axios'
 import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
@@ -24,6 +25,7 @@ const SORT_ORDER_OPTIONS = [
 export default function ModelSection() {
     const [page, setPage] = useState(1)
     const [nome, setNome] = useState('')
+    const [createOpen, setCreateOpen] = useState(false)
     const [selectedModello, setSelectedModello] = useState<ModelResponse | null>(null)
     const [modelloToDelete, setModelloToDelete] = useState<ModelResponse | null>(null)
     const [brandNome, setBrandNome] = useState('')
@@ -64,6 +66,7 @@ export default function ModelSection() {
 
     return (
         <>
+            <ModalCreaModello opened={createOpen} onClose={() => setCreateOpen(false)} />
             <Modal
                 opened={modelloToDelete !== null}
                 onClose={() => setModelloToDelete(null)}
@@ -92,11 +95,14 @@ export default function ModelSection() {
                         Modelli
                         {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({data?.total ?? 0})</Text>}
                     </Title>
-                    {hasFilters && (
-                        <Button variant="subtle" color="red" size="xs" leftSection={<IconX size={14} />} onClick={handleReset}>
-                            Reimposta
-                        </Button>
-                    )}
+                    <Group gap="xs">
+                        {hasFilters && (
+                            <Button variant="subtle" color="red" size="xs" leftSection={<IconX size={14} />} onClick={handleReset}>
+                                Reimposta
+                            </Button>
+                        )}
+                        <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
+                    </Group>
                 </Group>
                 <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mb="sm">
                     <TextInput

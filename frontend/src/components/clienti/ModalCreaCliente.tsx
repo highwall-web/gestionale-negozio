@@ -2,54 +2,51 @@ import { Button, Group, Modal, SimpleGrid, Stack, TextInput } from '@mantine/cor
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-import { getGetAllCustomersQueryKey, useUpdateCustomer, type CustomerResponse } from '../../api'
+import { getGetAllCustomersQueryKey, useCreateCustomer } from '../../api'
 import { getAxiosErrorMessage } from '../../utils/errorUtils'
 
 interface Props {
     opened: boolean
     onClose: () => void
-    cliente: CustomerResponse
-    onSuccess?: () => void
 }
 
-export default function ModalModificaCliente({ opened, onClose, cliente, onSuccess }: Props) {
-    const [nome, setNome] = useState(cliente.nome)
-    const [cognome, setCognome] = useState(cliente.cognome)
-    const [email, setEmail] = useState(cliente.email)
-    const [telefono, setTelefono] = useState(cliente.telefono)
-    const [telefonoSecondario, setTelefonoSecondario] = useState(cliente.telefonoSecondario ?? '')
-    const [indirizzo, setIndirizzo] = useState(cliente.indirizzo ?? '')
-    const [citta, setCitta] = useState(cliente.citta ?? '')
-    const [cap, setCap] = useState(cliente.cap ?? '')
+export default function ModalCreaCliente({ opened, onClose }: Props) {
+    const [nome, setNome] = useState('')
+    const [cognome, setCognome] = useState('')
+    const [email, setEmail] = useState('')
+    const [telefono, setTelefono] = useState('')
+    const [telefonoSecondario, setTelefonoSecondario] = useState('')
+    const [indirizzo, setIndirizzo] = useState('')
+    const [citta, setCitta] = useState('')
+    const [cap, setCap] = useState('')
 
     const queryClient = useQueryClient()
-    const { mutate: updateCliente, isPending } = useUpdateCustomer({
+    const { mutate: createCliente, isPending } = useCreateCustomer({
         mutation: {
             onSuccess: () => {
-                toast.success('Cliente aggiornato')
+                toast.success('Cliente creato')
                 queryClient.invalidateQueries({ queryKey: getGetAllCustomersQueryKey() })
-                onSuccess?.()
-                onClose()
+                handleClose()
             },
             onError: (e) => toast.error(getAxiosErrorMessage(e)),
         }
     })
 
-    const handleReset = () => {
-        setNome(cliente.nome)
-        setCognome(cliente.cognome)
-        setEmail(cliente.email)
-        setTelefono(cliente.telefono)
-        setTelefonoSecondario(cliente.telefonoSecondario ?? '')
-        setIndirizzo(cliente.indirizzo ?? '')
-        setCitta(cliente.citta ?? '')
-        setCap(cliente.cap ?? '')
+    function handleClose() {
+        setNome('')
+        setCognome('')
+        setEmail('')
+        setTelefono('')
+        setTelefonoSecondario('')
+        setIndirizzo('')
+        setCitta('')
+        setCap('')
+        onClose()
     }
 
     const handleSalva = () => {
         if (!nome || !cognome || !email || !telefono) return
-        updateCliente({
-            id: cliente.id,
+        createCliente({
             data: {
                 nome,
                 cognome,
@@ -64,10 +61,10 @@ export default function ModalModificaCliente({ opened, onClose, cliente, onSucce
     }
 
     return (
-        <Modal opened={opened} onClose={onClose} title="Modifica cliente" size="lg">
+        <Modal opened={opened} onClose={handleClose} title="Nuovo cliente" size="lg">
             <Stack>
                 <SimpleGrid cols={2} spacing="xs">
-                    <TextInput label="Nome" value={nome} onChange={e => setNome(e.currentTarget.value)} withAsterisk />
+                    <TextInput label="Nome" value={nome} onChange={e => setNome(e.currentTarget.value)} withAsterisk data-autofocus />
                     <TextInput label="Cognome" value={cognome} onChange={e => setCognome(e.currentTarget.value)} withAsterisk />
                 </SimpleGrid>
                 <SimpleGrid cols={2} spacing="xs">
@@ -82,11 +79,10 @@ export default function ModalModificaCliente({ opened, onClose, cliente, onSucce
                     <TextInput label="Città" value={citta} onChange={e => setCitta(e.currentTarget.value)} />
                     <TextInput label="CAP" value={cap} onChange={e => setCap(e.currentTarget.value)} />
                 </SimpleGrid>
-                <Group justify="space-between">
-                    <Button variant="light" color="red" onClick={handleReset}>Reset</Button>
+                <Group justify="flex-end">
                     <Button.Group>
-                        <Button variant="default" onClick={onClose}>Annulla</Button>
-                        <Button loading={isPending} disabled={!nome || !cognome || !email || !telefono} onClick={handleSalva}>Salva</Button>
+                        <Button variant="default" onClick={handleClose}>Annulla</Button>
+                        <Button loading={isPending} disabled={!nome || !cognome || !email || !telefono} onClick={handleSalva}>Crea</Button>
                     </Button.Group>
                 </Group>
             </Stack>
