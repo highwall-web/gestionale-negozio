@@ -56,7 +56,12 @@ function CustomerCell({ customer }: { customer: CustomerResponse }) {
 function ProductCell({ product }: { product: ProductResponse }) {
     const [opened, { open, close }] = useDisclosure(false)
     return (
-        <Popover position="bottom-start" withArrow shadow="md" opened={opened}>
+        <Popover
+            position="bottom-start"
+            withArrow
+            shadow="md"
+            opened={opened}
+        >
             <Popover.Target>
                 <UnstyledButton
                     onMouseEnter={open}
@@ -70,18 +75,13 @@ function ProductCell({ product }: { product: ProductResponse }) {
                 <Stack gap={4}>
                     <Text fw={600} size="sm">{product.model.brandNome} {product.model.nome}, {product.color.nome}</Text>
                     <Divider />
-                    {product.capacita && <><Text size="xs" c="dimmed">Capacità</Text><Text size="sm">{product.capacita}</Text></>}
-                    {product.seriale && <><Text size="xs" c="dimmed">Seriale</Text><Text size="sm">{product.seriale}</Text></>}
-                    {product.imei && <><Text size="xs" c="dimmed">IMEI</Text><Text size="sm">{product.imei}</Text></>}
-                    {product.codiceModello && <><Text size="xs" c="dimmed">Codice modello</Text><Text size="sm">{product.codiceModello}</Text></>}
-                    {product.pin && <><Text size="xs" c="dimmed">PIN</Text><Text size="sm">{product.pin}</Text></>}
+                    {product.pin && <><Text size="xs" c="dimmed">Pin</Text><Text size="sm">{product.pin}</Text></>}
                     {product.codiceUnlock && <><Text size="xs" c="dimmed">Codice unlock</Text><Text size="sm">{product.codiceUnlock}</Text></>}
                     {(!!product.sequenzaUnlock && product.sequenzaUnlock.length > 0) && <><Text size="xs" c="dimmed">Sequenza unlock</Text><PatternLock value={product.sequenzaUnlock} size={150} disabled /></>}
-                    {product.accessori && <><Text size="xs" c="dimmed">Accessori</Text><Text size="sm">{product.accessori}</Text></>}
-                    {product.contattoConLiquidi && <Text size="sm" c="red">Contatto con liquidi</Text>}
-                    {product.dispositivoNonTestabile && <Text size="sm" c="orange">Dispositivo non testabile</Text>}
-                    {product.acquistatoPressoDiNoi && <Text size="sm" c="teal">Acquistato presso di noi</Text>}
-                    {product.lasciatoInNegozio && <Text size="sm" c="blue">Lasciato in negozio</Text>}
+                    {product.contattoConLiquidi && <Badge radius="sm" color="red">Contatto con liquidi</Badge>}
+                    {product.dispositivoNonTestabile && <Badge radius="sm" color="orange">Non testabile</Badge>}
+                    {product.acquistatoPressoDiNoi && <Badge radius="sm" color="teal">Acquistato da noi</Badge>}
+                    {product.lasciatoInNegozio && <Badge radius="sm" color="blue">Lasciato in negozio</Badge>}
                 </Stack>
             </Popover.Dropdown>
         </Popover>

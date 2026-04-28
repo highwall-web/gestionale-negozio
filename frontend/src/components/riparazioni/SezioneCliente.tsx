@@ -1,4 +1,4 @@
-import { ActionIcon, Autocomplete, Button, Group, Paper, Stack, Text, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Autocomplete, Button, Group, Paper, SimpleGrid, Stack, Text, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { useQueryClient } from '@tanstack/react-query'
 import { IconPencil } from '@tabler/icons-react'
@@ -67,7 +67,7 @@ export default function SezioneCliente({ customer, repairId }: Props) {
                 </Text>
 
                 <Autocomplete
-                    placeholder="Cerca per nome, cognome..."
+                    placeholder="Cerca cliente da sostituire..."
                     data={results.map(formatCliente)}
                     value={search}
                     onChange={(v) => {
@@ -89,7 +89,7 @@ export default function SezioneCliente({ customer, repairId }: Props) {
                             <IconPencil size={16} />
                         </ActionIcon>
                     </Tooltip>
-                    <Stack gap={6}>
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={'xs'}>
                         <InfoRow label="Nome" value={selected.nome} />
                         <InfoRow label="Cognome" value={selected.cognome} />
                         <InfoRow label="Email" value={selected.email} />
@@ -98,7 +98,7 @@ export default function SezioneCliente({ customer, repairId }: Props) {
                         {selected.indirizzo && <InfoRow label="Indirizzo" value={selected.indirizzo} />}
                         {selected.citta && <InfoRow label="Città" value={selected.citta} />}
                         {selected.cap && <InfoRow label="CAP" value={selected.cap} />}
-                    </Stack>
+                    </SimpleGrid>
                 </Paper>
                 <ModalModificaCliente
                     key={selected.id}

@@ -1,6 +1,6 @@
 import { Accordion, Badge, Button, Divider, Group, Loader, Paper, Stack, Text, Title } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconRefresh, IconSend2 } from '@tabler/icons-react'
+import { IconPencil, IconRefresh, IconSend2 } from '@tabler/icons-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
@@ -9,6 +9,8 @@ import { statoColors, statoRiparazioneColors } from '../../utils/riparazioniUtil
 import PatternLock from '../PatternLock'
 import CambiaStatoModal from './ModalCambiaStato'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../routes'
 
 function RigaInfo({ label, children }: { label: string; children: React.ReactNode }) {
     return (
@@ -26,6 +28,7 @@ interface Props {
 
 export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }: Props) {
     const queryClient = useQueryClient()
+    const navigate = useNavigate()
     const [selectedRepair, setSelectedRepair] = useState<RepairResponse | null>(null)
     const [modalOpened, { open: openModal, close: closeModal }] = useDisclosure(false)
     const { mutate: updateStato, isPending } = useUpdateStatoRepair({
@@ -152,15 +155,6 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                     </RigaInfo>
                     <Divider />
                     <Group justify="flex-end" mt={7} gap={"xs"}>
-                        <Button
-                            variant="light"
-                            size="xs"
-                            leftSection={<IconRefresh size={14} />}
-                            onClick={() => handleCambiaStato(r)}
-                            loading={isPending}
-                        >
-                            Cambia stato
-                        </Button>
                         {r.stato === StatoRepair.PRONTO && (
                             <Button
                                 variant="light"
@@ -172,6 +166,24 @@ export default function RiparazioniAttiveTableMobile({ riparazioni, isLoading }:
                                 Consegna
                             </Button>
                         )}
+                        <Button
+                            variant="light"
+                            size="xs"
+                            leftSection={<IconPencil size={14} />}
+                            onClick={() => navigate(ROUTES.MODIFICA_RIPARAZIONE.replace(':id', r.id))}
+                            loading={isPending}
+                        >
+                            Modifica
+                        </Button>
+                        <Button
+                            variant="light"
+                            size="xs"
+                            leftSection={<IconRefresh size={14} />}
+                            onClick={() => handleCambiaStato(r)}
+                            loading={isPending}
+                        >
+                            Cambia stato
+                        </Button>
                     </Group>
                 </Stack>
             </Paper>
