@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { db } from "../config/db";
 import {
     RepairDetailsResponse,
@@ -13,6 +13,7 @@ import { repairDetails } from "../schema/repairDetails";
 import { repairDetailsInterventions } from "../schema/repairDetailsInterventions";
 import { repairMessages } from "../schema/repairMessages";
 import { interventions } from "../schema/interventions";
+import { repairs } from "../schema/repairs";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
 
@@ -59,13 +60,26 @@ export class RepairDetailsService {
         await db.delete(repairDetailsInterventions)
             .where(eq(repairDetailsInterventions.repairDetailsId, details.id));
 
-        for (const i of request.interventi) {
-            await db.insert(repairDetailsInterventions).values({
-                repairDetailsId: details.id,
-                interventionId: i.interventionId,
-                quantita: i.quantita,
-            });
+        let costoTotale = 0;
+        if (request.interventi.length > 0) {
+            const ids = request.interventi.map(i => i.interventionId);
+            const interventionsData = await db.select().from(interventions).where(inArray(interventions.id, ids));
+
+            for (const i of request.interventi) {
+                const intervention = interventionsData.find(inv => inv.id === i.interventionId)!;
+                await db.insert(repairDetailsInterventions).values({
+                    repairDetailsId: details.id,
+                    interventionId: i.interventionId,
+                    quantita: i.quantita,
+                    prezzoUnitario: intervention.prezzo,
+                });
+                costoTotale += parseFloat(intervention.prezzo) * i.quantita;
+            }
         }
+
+        await db.update(repairs)
+            .set({ costoTotale: String(costoTotale) })
+            .where(eq(repairs.id, repairId));
 
         return this.buildResponse(updated);
     }

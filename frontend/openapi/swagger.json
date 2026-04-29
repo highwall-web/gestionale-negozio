@@ -96,6 +96,10 @@
                         "type": "number",
                         "format": "double"
                     },
+                    "modelId": {
+                        "type": "number",
+                        "format": "double"
+                    },
                     "nome": {
                         "type": "string"
                     },
@@ -104,6 +108,10 @@
                         "format": "double"
                     },
                     "quantita": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "periodoGaranzia": {
                         "type": "number",
                         "format": "double"
                     }

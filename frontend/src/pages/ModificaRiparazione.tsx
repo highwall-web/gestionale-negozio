@@ -1,15 +1,18 @@
-import { ActionIcon, Badge, Box, Center, Drawer, Group, Loader, Paper, Stack, Text, Title } from '@mantine/core'
+import { ActionIcon, Badge, Box, Center, Drawer, Group, Loader, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconMessageCircle } from '@tabler/icons-react'
-import { useParams } from 'react-router-dom'
+import { IconArrowLeft, IconMessageCircle } from '@tabler/icons-react'
+import dayjs from 'dayjs'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetRepairById } from '../api'
 import MessaggiRiparazione from '../components/riparazioni/MessaggiRiparazione'
 import SezioneCliente from '../components/riparazioni/SezioneCliente'
+import SezioneDettagli from '../components/riparazioni/SezioneDettagli'
 import SezioneDispositivo from '../components/riparazioni/SezioneDispositivo'
 import SezioneStato from '../components/riparazioni/SezioneStato'
 import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
 
 export default function ModificaRiparazione() {
+    const navigate = useNavigate()
     const { id } = useParams<{ id: string }>()
     const { data: repair, isLoading } = useGetRepairById(id!)
     const isMobile = useMediaQuery('(max-width: 768px)')
@@ -19,10 +22,15 @@ export default function ModificaRiparazione() {
     if (!repair) return <Text c="dimmed" ta="center" py="xl">Riparazione non trovata</Text>
 
     return (
-        <Stack gap="md">
-            <Paper radius={12} p="md">
+        <Stack gap="md" pb={isMobile ? 80 : undefined}>
+            <Paper radius={12} p="md" shadow="md" ta='start' style={{ position: 'sticky', top: 'var(--mantine-spacing-md)', zIndex: 100 }}>
                 <Group justify="space-between" align="center">
-                    <Title order={4}>Modifica riparazione</Title>
+                    <Group gap="sm" align="center">
+                        <ActionIcon variant="subtle" onClick={() => navigate(-1)}>
+                            <IconArrowLeft size={18} />
+                        </ActionIcon>
+                        <Title order={4}>Modifica riparazione</Title>
+                    </Group>
                     <Group gap="md" align="center">
                         <Text c="dimmed" ff="monospace" size="sm">ID: {repair.id}</Text>
                         {repair.stato && (
@@ -41,6 +49,18 @@ export default function ModificaRiparazione() {
                                 </Badge>
                             </Group>
                         )}
+                        {repair.createdAt && (
+                            <Group gap={4} align="center">
+                                <Text size="xs" c="dimmed">Creata il:</Text>
+                                <Text size="sm">{dayjs(repair.createdAt).format('DD/MM/YYYY, HH:mm')}</Text>
+                            </Group>
+                        )}
+                        {repair.costoTotale != null && (
+                            <Group gap={4} align="center">
+                                <Text size="xs" c="dimmed">Totale:</Text>
+                                <Text size="sm" fw={500}>€ {repair.costoTotale.toFixed(2)}</Text>
+                            </Group>
+                        )}
                     </Group>
                 </Group>
             </Paper>
@@ -49,7 +69,10 @@ export default function ModificaRiparazione() {
                 <Stack flex={1} gap="md">
                     {isMobile && <SezioneStato repair={repair} />}
                     <SezioneCliente customer={repair.customer} repairId={repair.id} />
-                    <SezioneDispositivo product={repair.product} />
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                        <SezioneDispositivo product={repair.product} />
+                        <SezioneDettagli repair={repair} />
+                    </SimpleGrid>
                 </Stack>
                 {!isMobile && (
                     <Box w={300} style={{ flexShrink: 0 }}>
@@ -77,12 +100,16 @@ export default function ModificaRiparazione() {
                 opened={drawerOpen}
                 onClose={close}
                 position="bottom"
-                size="85%"
+                size="100%"
                 title="Messaggi"
-                styles={{ body: { padding: 0 }, header: { padding: '12px 16px' } }}
+                styles={{
+                    content: { display: 'flex', flexDirection: 'column' },
+                    body: { padding: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' },
+                    header: { padding: 'var(--mantine-spacing-md)' },
+                }}
             >
-                <Box p="md">
-                    <MessaggiRiparazione repairId={repair.id} details={repair.details} scrollHeight={450} isMobile />
+                <Box style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+                    <MessaggiRiparazione repairId={repair.id} details={repair.details} isMobile />
                 </Box>
             </Drawer>
         </Stack>

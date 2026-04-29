@@ -58,7 +58,7 @@ export default function SezioneDispositivo({ product }: Props) {
     const onSubmit = () => { /* TODO: collegare backend */ }
 
     return (
-        <Paper radius={12} p="md">
+        <Paper radius={12} p="md" h="100%">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack gap="sm">
                     <Group justify="space-between" align="center">
@@ -66,14 +66,14 @@ export default function SezioneDispositivo({ product }: Props) {
                         <Text size="xs" c="dimmed" ff="monospace">ID: {product.id}</Text>
                     </Group>
 
-                    <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs">
+                    <SimpleGrid cols={{ base: 2, sm: 2 }} spacing="xs">
                         <Checkbox label="Contatto con liquidi" {...register('contattoConLiquidi')} />
                         <Checkbox label="Non testabile" {...register('dispositivoNonTestabile')} />
                         <Checkbox label="Acquistato da noi" {...register('acquistatoPressoDiNoi')} />
                         <Checkbox label="Lasciato in negozio" {...register('lasciatoInNegozio')} />
                     </SimpleGrid>
 
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
+                    <SimpleGrid cols={{ base: 1, sm: 1 }} spacing="xs">
                         <TextInput label="Brand" value={product.model.brandNome} readOnly />
                         <TextInput label="Modello" value={product.model.nome} readOnly />
                         <TextInput label="Colore" value={product.color.nome} readOnly />

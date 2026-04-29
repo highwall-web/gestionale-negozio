@@ -5,9 +5,11 @@ export interface InterventionQuantitaRequest {
 
 export interface InterventionQuantitaResponse {
   interventionId: number;
+  modelId?: number;
   nome: string;
   prezzo: number;
   quantita: number;
+  periodoGaranzia?: number;
 }
 
 export interface AddMessageRequest {

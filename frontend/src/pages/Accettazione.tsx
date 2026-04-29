@@ -53,7 +53,7 @@ export default function Accettazione() {
                 radius={12}
                 p="md"
                 ta={'start'}
-                style={{ position: 'sticky', top: 16, zIndex: 100 }}
+                style={{ position: 'sticky', top: 'var(--mantine-spacing-md)', zIndex: 100 }}
                 shadow="md"
             >
                 <Stepper active={active}>

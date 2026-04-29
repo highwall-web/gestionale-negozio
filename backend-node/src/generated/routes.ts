@@ -83,9 +83,11 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "interventionId": {"dataType":"double","required":true},
+            "modelId": {"dataType":"double"},
             "nome": {"dataType":"string","required":true},
             "prezzo": {"dataType":"double","required":true},
             "quantita": {"dataType":"double","required":true},
+            "periodoGaranzia": {"dataType":"double"},
         },
         "additionalProperties": false,
     },

@@ -29,6 +29,13 @@
       "when": 1775639230879,
       "tag": "0003_simple_blob",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777453652356,
+      "tag": "0004_new_prodigy",
+      "breakpoints": true
     }
   ]
 }

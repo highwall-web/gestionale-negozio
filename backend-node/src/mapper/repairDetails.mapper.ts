@@ -21,9 +21,11 @@ export class RepairDetailsMapper {
     ): InterventionQuantitaResponse {
         return {
             interventionId: intervention.id,
+            modelId: intervention.modelId ?? undefined,
             nome: intervention.nome,
-            prezzo: parseFloat(intervention.prezzo),
+            prezzo: parseFloat(rdi.prezzoUnitario),
             quantita: rdi.quantita,
+            periodoGaranzia: intervention.periodoGaranzia ?? undefined,
         };
     }
 

@@ -166,11 +166,26 @@ export class RepairService {
                 acconto: request.details.acconto != null ? String(request.details.acconto) : null,
             }).returning();
 
+            // 6. Fetch prezzi interventi, inserisci con snapshot prezzo, calcola costoTotale
+            let costoTotale = 0;
+            let interventionsData: typeof interventions.$inferSelect[] = [];
+            if (request.details.interventi.length > 0) {
+                const ids = request.details.interventi.map(i => i.interventionId);
+                interventionsData = await tx.select().from(interventions).where(inArray(interventions.id, ids));
+                costoTotale = request.details.interventi.reduce((sum, rdi) => {
+                    const intervention = interventionsData.find(i => i.id === rdi.interventionId);
+                    if (!intervention) return sum;
+                    return sum + parseFloat(intervention.prezzo) * rdi.quantita;
+                }, 0);
+            }
+
             for (const i of request.details.interventi) {
+                const intervention = interventionsData.find(inv => inv.id === i.interventionId)!;
                 await tx.insert(repairDetailsInterventions).values({
                     repairDetailsId: details.id,
                     interventionId: i.interventionId,
                     quantita: i.quantita,
+                    prezzoUnitario: intervention.prezzo,
                 });
             }
 
@@ -185,19 +200,6 @@ export class RepairService {
                 );
             }
 
-            // 6. Calcola costoTotale
-            let costoTotale = 0;
-            let interventionsData: typeof interventions.$inferSelect[] = [];
-            if (request.details.interventi.length > 0) {
-                const ids = request.details.interventi.map(i => i.interventionId);
-                interventionsData = await tx.select().from(interventions).where(inArray(interventions.id, ids));
-                costoTotale = request.details.interventi.reduce((sum, rdi) => {
-                    const intervention = interventionsData.find(i => i.id === rdi.interventionId);
-                    if (!intervention) return sum;
-                    return sum + parseFloat(intervention.prezzo) * rdi.quantita;
-                }, 0);
-            }
-
             const [updatedRepair] = await tx.update(repairs)
                 .set({ costoTotale: String(costoTotale) })
                 .where(eq(repairs.id, repair.id)).returning();
@@ -206,7 +208,7 @@ export class RepairService {
             const interventi = request.details.interventi.map(rdi => {
                 const intervention = interventionsData.find(i => i.id === rdi.interventionId)!;
                 return RepairDetailsMapper.toInterventionQuantita(
-                    { id: 0, repairDetailsId: details.id, interventionId: rdi.interventionId, quantita: rdi.quantita },
+                    { id: 0, repairDetailsId: details.id, interventionId: rdi.interventionId, quantita: rdi.quantita, prezzoUnitario: intervention.prezzo },
                     intervention
                 );
             });

@@ -39,41 +39,51 @@ export default function MessaggiRiparazione({ repairId, details, scrollHeight = 
         }
     }, [details?.messaggi])
 
+    const messageList = (
+        <Stack gap="xs">
+            {messaggi.length === 0 && (
+                <Text c="dimmed" ta="center" py="xl" size="sm">Nessun messaggio</Text>
+            )}
+            {messaggi.map(m => {
+                const isMe = m.autore === user?.username
+                return (
+                    <Box key={m.id} style={{ display: 'flex', padding: 0, justifyContent: isMe ? 'flex-end' : 'flex-start' }}>
+                        <Box
+                            style={{
+                                maxWidth: '80%',
+                                padding: '8px 12px',
+                                borderRadius: 12,
+                                backgroundColor: isMe
+                                    ? 'var(--mantine-color-green-light)'
+                                    : 'var(--mantine-color-blue-light)',
+                            }}
+                        >
+                            <Text size="sm">{m.testo}</Text>
+                            <Text size="xs" c="dimmed" ta={isMe ? 'right' : 'left'} mt={2}>
+                                {dayjs(m.createdAt).format('DD/MM/YYYY, HH:mm')}
+                            </Text>
+                        </Box>
+                    </Box>
+                )
+            })}
+        </Stack>
+    )
+
     return (
-        <Paper radius={12} p="md">
-            <Stack gap="xs">
+        <Paper radius={12} p="md" style={isMobile ? { flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 } : undefined}>
+            <Stack gap="xs" style={isMobile ? { flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 } : undefined}>
                 {!isMobile && (
                     <Title order={5}>Messaggi</Title>
                 )}
-                <ScrollArea h={scrollHeight} viewportRef={scrollRef} scrollbarSize={2}>
-                    <Stack gap="xs">
-                        {messaggi.length === 0 && (
-                            <Text c="dimmed" ta="center" py="xl" size="sm">Nessun messaggio</Text>
-                        )}
-                        {messaggi.map(m => {
-                            const isMe = m.autore === user?.username
-                            return (
-                                <Box key={m.id} style={{ display: 'flex', padding: 0, justifyContent: isMe ? 'flex-end' : 'flex-start' }}>
-                                    <Box
-                                        style={{
-                                            maxWidth: '80%',
-                                            padding: '8px 12px',
-                                            borderRadius: 12,
-                                            backgroundColor: isMe
-                                                ? 'var(--mantine-color-green-light)'
-                                                : 'var(--mantine-color-blue-light)',
-                                        }}
-                                    >
-                                        <Text size="sm">{m.testo}</Text>
-                                        <Text size="xs" c="dimmed" ta={isMe ? 'right' : 'left'} mt={2}>
-                                            {dayjs(m.createdAt).format('DD/MM/YYYY, HH:mm')}
-                                        </Text>
-                                    </Box>
-                                </Box>
-                            )
-                        })}
-                    </Stack>
-                </ScrollArea>
+                {isMobile ? (
+                    <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+                        {messageList}
+                    </div>
+                ) : (
+                    <ScrollArea h={scrollHeight} viewportRef={scrollRef} scrollbarSize={2}>
+                        {messageList}
+                    </ScrollArea>
+                )}
 
                 <Textarea
                     placeholder="Scrivi un messaggio..."
