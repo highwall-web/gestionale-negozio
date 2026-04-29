@@ -31,6 +31,7 @@ import type {
   RepairRangeResponse,
   RepairResponse,
   SearchRepairsParams,
+  UpdateClienteRepairRequest,
   UpdateRepairRequest,
   UpdateStatoRepairRequest
 } from '../../models';
@@ -716,6 +717,64 @@ const {mutation: mutationOptions} = options ?
         TContext
       > => {
       return useMutation(getDeleteRepairMutationOptions(options), queryClient);
+    }
+    export const updateClienteRepair = (
+    id: string,
+    updateClienteRepairRequest: UpdateClienteRepairRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<RepairResponse>(
+      {url: `/repairs/${id}/cliente`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateClienteRepairRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getUpdateClienteRepairMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClienteRepair>>, TError,{id: string;data: UpdateClienteRepairRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateClienteRepair>>, TError,{id: string;data: UpdateClienteRepairRequest}, TContext> => {
+
+const mutationKey = ['updateClienteRepair'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateClienteRepair>>, {id: string;data: UpdateClienteRepairRequest}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateClienteRepair(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateClienteRepairMutationResult = NonNullable<Awaited<ReturnType<typeof updateClienteRepair>>>
+    export type UpdateClienteRepairMutationBody = UpdateClienteRepairRequest
+    export type UpdateClienteRepairMutationError = unknown
+
+    export const useUpdateClienteRepair = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateClienteRepair>>, TError,{id: string;data: UpdateClienteRepairRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateClienteRepair>>,
+        TError,
+        {id: string;data: UpdateClienteRepairRequest},
+        TContext
+      > => {
+      return useMutation(getUpdateClienteRepairMutationOptions(options), queryClient);
     }
     export const updateStatoRepair = (
     id: string,

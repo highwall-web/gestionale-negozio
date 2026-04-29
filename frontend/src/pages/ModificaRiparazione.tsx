@@ -70,7 +70,7 @@ export default function ModificaRiparazione() {
                     {isMobile && <SezioneStato repair={repair} />}
                     <SezioneCliente customer={repair.customer} repairId={repair.id} />
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                        <SezioneDispositivo product={repair.product} />
+                        <SezioneDispositivo product={repair.product} repairId={repair.id} />
                         <SezioneDettagli repair={repair} />
                     </SimpleGrid>
                 </Stack>

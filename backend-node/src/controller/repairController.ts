@@ -20,6 +20,7 @@ import {
     CreateRepairRequest,
     UpdateRepairRequest,
     UpdateStatoRepairRequest,
+    UpdateClienteRepairRequest,
     StatoRepair,
     StatoRiparazione,
     RepairSortBy
@@ -109,6 +110,15 @@ export class RepairController extends Controller {
         @Body() body: UpdateRepairRequest
     ): Promise<RepairResponse> {
         return repairService.update(id, body);
+    }
+
+    @Patch("/{id}/cliente")
+    @OperationId("updateClienteRepair")
+    public async updateClienteRepair(
+        @Path() id: string,
+        @Body() body: UpdateClienteRepairRequest
+    ): Promise<RepairResponse> {
+        return repairService.updateCliente(id, body);
     }
 
     @Patch("/{id}/stato")

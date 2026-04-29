@@ -72,6 +72,7 @@ export * from './statoRepair';
 export * from './statoRiparazione';
 export * from './tipoDispositivo';
 export * from './updateBrandRequest';
+export * from './updateClienteRepairRequest';
 export * from './updateColorRequest';
 export * from './updateCustomerRequest';
 export * from './updateDataConsegnaRequest';

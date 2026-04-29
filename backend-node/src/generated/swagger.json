@@ -794,6 +794,19 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UpdateClienteRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"customerId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
 			"UpdateStatoRepairRequest": {
 				"properties": {
 					"stato": {
@@ -2196,6 +2209,51 @@
 						}
 					}
 				]
+			}
+		},
+		"/repairs/{id}/cliente": {
+			"patch": {
+				"operationId": "updateClienteRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateClienteRepairRequest"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/repairs/{id}/stato": {

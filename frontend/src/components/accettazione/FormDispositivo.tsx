@@ -10,6 +10,7 @@ import { getGetAllBrandsQueryKey, getGetAllColorsQueryKey, getGetModelsByBrandId
 import { useAccettazione } from "../../context/AccettazioneContext";
 import { capitalize } from "../../utils/stringUtils";
 import PatternLock from "../PatternLock";
+import { CAPACITA_OPTIONS } from '../../utils/dispositiviUtils';
 
 const schema = z.object({
     brandNome: z.string().min(1, "Campo obbligatorio"),
@@ -31,12 +32,6 @@ type FormData = z.infer<typeof schema>
 interface Props {
     onSuccess: (product: CreateProductRequest) => void
 }
-
-const CAPACITA_OPTIONS = Array.from({ length: 9 }, (_, i) => {
-    const gb = 8 * Math.pow(2, i)
-    const label = gb >= 1024 ? `${gb / 1024}TB` : `${gb}GB`
-    return { value: label, label }
-})
 
 export default function FormDispositivo({ onSuccess }: Props) {
 

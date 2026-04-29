@@ -12,6 +12,7 @@ import {
     StatoRiparazione,
     UpdateRepairRequest,
     UpdateStatoRepairRequest,
+    UpdateClienteRepairRequest,
 } from "../dto/repair.dto";
 import { RepairMapper } from "../mapper/repair.mapper";
 import { RepairDetailsMapper } from "../mapper/repairDetails.mapper";
@@ -347,6 +348,19 @@ export class RepairService {
             stato: request.stato,
             statoRiparazione: request.statoRiparazione,
         }).where(eq(repairs.id, id)).returning();
+
+        return this.buildRepairResponse(updated);
+    }
+
+    async updateCliente(id: string, request: UpdateClienteRepairRequest): Promise<RepairResponse> {
+        await this.findRepairById(id);
+
+        const customerRows = await db.select().from(customers).where(eq(customers.id, request.customerId));
+        if (!customerRows.at(0)) throw new HttpError(HttpStatus.NOT_FOUND, "Cliente non trovato");
+
+        const [updated] = await db.update(repairs)
+            .set({ customerId: request.customerId })
+            .where(eq(repairs.id, id)).returning();
 
         return this.buildRepairResponse(updated);
     }

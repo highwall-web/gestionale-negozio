@@ -45,6 +45,10 @@ export interface UpdateStatoRepairRequest {
     statoRiparazione?: StatoRiparazione;
 }
 
+export interface UpdateClienteRepairRequest {
+    customerId: number;
+}
+
 export interface RepairRangeResponse {
     id: string;
     nomeCliente: string;

@@ -1,16 +1,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Checkbox, Group, Paper, SegmentedControl, Select, SimpleGrid, Stack, Text, TextInput, Title } from '@mantine/core'
-import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { z } from 'zod'
-import { type ProductResponse } from '../../api'
+import { CAPACITA_OPTIONS } from '../../utils/dispositiviUtils'
+import {
+    getGetRepairByIdQueryKey,
+    useGetAllBrands,
+    useGetAllColors,
+    useGetModelsByBrandId,
+    useUpdateProduct,
+    type ProductResponse,
+} from '../../api'
 import PatternLock from '../PatternLock'
 
-const CAPACITA_OPTIONS = Array.from({ length: 9 }, (_, i) => {
-    const gb = 8 * Math.pow(2, i)
-    const label = gb >= 1024 ? `${gb / 1024}TB` : `${gb}GB`
-    return { value: label, label }
-})
 
 const schema = z.object({
     capacita: z.string().optional(),
@@ -31,11 +36,36 @@ type FormData = z.infer<typeof schema>
 
 interface Props {
     product: ProductResponse
+    repairId: string
 }
 
-export default function SezioneDispositivo({ product }: Props) {
+export default function SezioneDispositivo({ product, repairId }: Props) {
     const hasSequenza = (product.sequenzaUnlock?.length ?? 0) > 0
     const [unlockMode, setUnlockMode] = useState<'codice' | 'sequenza'>(hasSequenza ? 'sequenza' : 'codice')
+
+    const [selectedBrandId, setSelectedBrandId] = useState<number>(product.model.brandId)
+    const [selectedModelId, setSelectedModelId] = useState<number | null>(product.model.id)
+    const [selectedColorId, setSelectedColorId] = useState<number>(product.color.id)
+
+    const { data: brands = [] } = useGetAllBrands()
+    const { data: models = [] } = useGetModelsByBrandId(selectedBrandId)
+    const { data: colors = [] } = useGetAllColors()
+
+    const selectionChanged =
+        selectedBrandId !== product.model.brandId ||
+        selectedModelId !== product.model.id ||
+        selectedColorId !== product.color.id
+
+    const queryClient = useQueryClient()
+    const { mutate: updateProduct, isPending } = useUpdateProduct({
+        mutation: {
+            onSuccess: () => {
+                toast.success('Dispositivo aggiornato')
+                queryClient.invalidateQueries({ queryKey: getGetRepairByIdQueryKey(repairId) })
+            },
+            onError: () => toast.error('Errore durante il salvataggio'),
+        }
+    })
 
     const { register, control, handleSubmit, reset, setValue, formState: { errors, isDirty } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -55,7 +85,60 @@ export default function SezioneDispositivo({ product }: Props) {
         },
     })
 
-    const onSubmit = () => { /* TODO: collegare backend */ }
+    useEffect(() => {
+        reset({
+            capacita: product.capacita ?? '',
+            codiceModello: product.codiceModello ?? '',
+            seriale: product.seriale ?? '',
+            imei: product.imei ?? '',
+            pin: product.pin ?? '',
+            accessori: product.accessori ?? '',
+            codiceUnlock: product.codiceUnlock ?? '',
+            sequenzaUnlock: product.sequenzaUnlock ?? [],
+            contattoConLiquidi: product.contattoConLiquidi ?? false,
+            dispositivoNonTestabile: product.dispositivoNonTestabile ?? false,
+            acquistatoPressoDiNoi: product.acquistatoPressoDiNoi ?? false,
+            lasciatoInNegozio: product.lasciatoInNegozio ?? false,
+        })
+        setSelectedBrandId(product.model.brandId)
+        setSelectedModelId(product.model.id)
+        setSelectedColorId(product.color.id)
+    }, [product])
+
+    const canSave = (isDirty || selectionChanged) && selectedModelId !== null
+
+    const onSubmit = (data: FormData) => {
+        const model = models.find(m => m.id === selectedModelId)
+        const color = colors.find(c => c.id === selectedColorId)
+        if (!model || !color) return
+
+        updateProduct({
+            id: product.id,
+            data: {
+                model: { nome: model.nome, tipoDispositivo: model.tipoDispositivo, brandNome: model.brandNome },
+                color: { nome: color.nome },
+                capacita: data.capacita || undefined,
+                codiceModello: data.codiceModello || undefined,
+                seriale: data.seriale || undefined,
+                imei: data.imei || undefined,
+                pin: data.pin || undefined,
+                accessori: data.accessori || undefined,
+                codiceUnlock: unlockMode === 'codice' ? (data.codiceUnlock || undefined) : undefined,
+                sequenzaUnlock: unlockMode === 'sequenza' ? (data.sequenzaUnlock || undefined) : undefined,
+                contattoConLiquidi: data.contattoConLiquidi,
+                dispositivoNonTestabile: data.dispositivoNonTestabile,
+                acquistatoPressoDiNoi: data.acquistatoPressoDiNoi,
+                lasciatoInNegozio: data.lasciatoInNegozio,
+            }
+        })
+    }
+
+    const handleReset = () => {
+        reset()
+        setSelectedBrandId(product.model.brandId)
+        setSelectedModelId(product.model.id)
+        setSelectedColorId(product.color.id)
+    }
 
     return (
         <Paper radius={12} p="md" h="100%">
@@ -74,9 +157,31 @@ export default function SezioneDispositivo({ product }: Props) {
                     </SimpleGrid>
 
                     <SimpleGrid cols={{ base: 1, sm: 1 }} spacing="xs">
-                        <TextInput label="Brand" value={product.model.brandNome} readOnly />
-                        <TextInput label="Modello" value={product.model.nome} readOnly />
-                        <TextInput label="Colore" value={product.color.nome} readOnly />
+                        <Select
+                            label="Brand"
+                            searchable
+                            data={brands.map(b => ({ value: String(b.id), label: b.nome }))}
+                            value={String(selectedBrandId)}
+                            onChange={(v) => {
+                                if (!v) return
+                                setSelectedBrandId(Number(v))
+                                setSelectedModelId(null)
+                            }}
+                        />
+                        <Select
+                            label="Modello"
+                            searchable
+                            data={models.map(m => ({ value: String(m.id), label: m.nome }))}
+                            value={selectedModelId !== null ? String(selectedModelId) : null}
+                            onChange={(v) => { if (v) setSelectedModelId(Number(v)) }}
+                        />
+                        <Select
+                            label="Colore"
+                            searchable
+                            data={colors.map(c => ({ value: String(c.id), label: c.nome }))}
+                            value={String(selectedColorId)}
+                            onChange={(v) => { if (v) setSelectedColorId(Number(v)) }}
+                        />
                         <Controller
                             name="capacita"
                             control={control}
@@ -129,8 +234,8 @@ export default function SezioneDispositivo({ product }: Props) {
                     </Stack>
 
                     <Group justify="flex-end" gap="xs">
-                        <Button variant="light" color="red" type="button" disabled={!isDirty} onClick={() => reset()}>Reset</Button>
-                        <Button type="submit" disabled={!isDirty}>Salva</Button>
+                        <Button variant="light" color="red" type="button" disabled={!canSave} onClick={handleReset}>Reset</Button>
+                        <Button type="submit" loading={isPending} disabled={!canSave}>Salva</Button>
                     </Group>
                 </Stack>
             </form>

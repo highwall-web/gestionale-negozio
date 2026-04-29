@@ -3,7 +3,8 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { useQueryClient } from '@tanstack/react-query'
 import { IconPencil } from '@tabler/icons-react'
 import { useEffect, useRef, useState } from 'react'
-import { getGetRepairByIdQueryKey, searchCustomers, type CustomerResponse } from '../../api'
+import toast from 'react-hot-toast'
+import { getGetRepairByIdQueryKey, searchCustomers, useUpdateClienteRepair, type CustomerResponse } from '../../api'
 import ModalModificaCliente from '../clienti/ModalModificaCliente'
 
 interface Props {
@@ -31,6 +32,16 @@ export default function SezioneCliente({ customer, repairId }: Props) {
     const [editOpen, setEditOpen] = useState(false)
     const justPicked = useRef(false)
     const queryClient = useQueryClient()
+
+    const { mutate: updateCliente, isPending } = useUpdateClienteRepair({
+        mutation: {
+            onSuccess: () => {
+                toast.success('Cliente aggiornato')
+                queryClient.invalidateQueries({ queryKey: getGetRepairByIdQueryKey(repairId) })
+            },
+            onError: () => toast.error('Errore durante il salvataggio'),
+        }
+    })
 
     const [dSearch] = useDebouncedValue(search, 300)
     const unchanged = selected.id === customer.id
@@ -110,7 +121,11 @@ export default function SezioneCliente({ customer, repairId }: Props) {
 
                 <Group justify="flex-end" gap="xs">
                     <Button variant="light" color="red" disabled={unchanged} onClick={() => { setSelected(customer); setSearch('') }}>Reset</Button>
-                    <Button disabled={unchanged}>Salva</Button>
+                    <Button
+                        disabled={unchanged}
+                        loading={isPending}
+                        onClick={() => updateCliente({ id: repairId, data: { customerId: selected.id } })}
+                    >Salva</Button>
                 </Group>
             </Stack>
         </Paper>

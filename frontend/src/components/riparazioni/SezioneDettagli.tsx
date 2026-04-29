@@ -3,7 +3,7 @@ import { Button, Checkbox, Group, NumberInput, Paper, ScrollArea, SimpleGrid, St
 import { DateTimePicker } from '@mantine/dates'
 import { useQueryClient } from '@tanstack/react-query'
 import { IconSearch } from '@tabler/icons-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { z } from 'zod'
@@ -112,6 +112,15 @@ export default function SezioneDettagli({ repair }: Props) {
             interventi: details?.interventi.map(i => ({ interventionId: i.interventionId, quantita: i.quantita })) ?? [],
         },
     })
+
+    useEffect(() => {
+        reset({
+            isPreventivo: details?.isPreventivo ?? false,
+            dataConsegna: details?.dataConsegna ?? null,
+            acconto: details?.acconto ?? 0,
+            interventi: details?.interventi.map(i => ({ interventionId: i.interventionId, quantita: i.quantita })) ?? [],
+        })
+    }, [details])
 
     const [isPreventivo, interventi] = useWatch({ control, name: ['isPreventivo', 'interventi'] })
 
