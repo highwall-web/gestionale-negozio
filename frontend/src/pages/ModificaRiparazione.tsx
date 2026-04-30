@@ -23,7 +23,7 @@ export default function ModificaRiparazione() {
 
     return (
         <Stack gap="md" pb={isMobile ? 80 : undefined}>
-            <Paper radius={12} p="md" shadow="md" ta='start' style={{ position: 'sticky', top: 'var(--mantine-spacing-md)', zIndex: 100 }}>
+            <Paper radius={12} p="md" shadow="md" ta='start' style={{ position: 'sticky', top: isMobile ? '4rem' : 'var(--mantine-spacing-md)', zIndex: 100 }}>
                 <Group justify="space-between" align="center">
                     <Group gap="sm" align="center">
                         <ActionIcon variant="subtle" onClick={() => navigate(-1)}>
