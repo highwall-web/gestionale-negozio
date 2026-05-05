@@ -1,0 +1,4715 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Role": {
+				"type": "string",
+				"enum": [
+					"ADMIN",
+					"COMMESSO"
+				]
+			},
+			"UserResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"username": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					},
+					"enabled": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"username",
+					"nome",
+					"email",
+					"role",
+					"enabled"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateUserRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RegisterRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"role": {
+						"$ref": "#/components/schemas/Role"
+					}
+				},
+				"required": [
+					"username",
+					"nome",
+					"email",
+					"password",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionQuantitaResponse": {
+				"properties": {
+					"interventionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantita": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"interventionId",
+					"nome",
+					"prezzo",
+					"quantita"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RepairMessageResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"testo": {
+						"type": "string"
+					},
+					"autore": {
+						"type": "string"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"testo",
+					"autore",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RepairDetailsResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"repairId": {
+						"type": "string"
+					},
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaResponse"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"dataRiconsegnaEffettiva": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					},
+					"messaggi": {
+						"items": {
+							"$ref": "#/components/schemas/RepairMessageResponse"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"repairId",
+					"isPreventivo",
+					"interventi",
+					"messaggi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionQuantitaRequest": {
+				"properties": {
+					"interventionId": {
+						"type": "number",
+						"format": "double"
+					},
+					"quantita": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"interventionId",
+					"quantita"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateRepairDetailsRequest": {
+				"properties": {
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaRequest"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"isPreventivo",
+					"interventi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateDataConsegnaRequest": {
+				"properties": {
+					"dataConsegna": {
+						"type": "string",
+						"nullable": true
+					}
+				},
+				"required": [
+					"dataConsegna"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"AddMessageRequest": {
+				"properties": {
+					"testo": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"testo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateMessageRequest": {
+				"properties": {
+					"testo": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"testo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomerResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"TipoDispositivo": {
+				"type": "string",
+				"enum": [
+					"TELEFONO",
+					"TABLET",
+					"COMPUTER"
+				]
+			},
+			"ModelResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandId": {
+						"type": "number",
+						"format": "double"
+					},
+					"brandNome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"tipoDispositivo",
+					"brandId",
+					"brandNome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ColorResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Record_string.string-Array_": {
+				"properties": {},
+				"additionalProperties": {
+					"items": {
+						"type": "string"
+					},
+					"type": "array"
+				},
+				"type": "object",
+				"description": "Construct a type with a set of properties K of type T"
+			},
+			"ProductResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"model": {
+						"$ref": "#/components/schemas/ModelResponse"
+					},
+					"color": {
+						"$ref": "#/components/schemas/ColorResponse"
+					},
+					"capacita": {
+						"type": "string"
+					},
+					"codiceUnlock": {
+						"type": "string"
+					},
+					"sequenzaUnlock": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"pin": {
+						"type": "string"
+					},
+					"accessori": {
+						"type": "string"
+					},
+					"contattoConLiquidi": {
+						"type": "boolean"
+					},
+					"dispositivoNonTestabile": {
+						"type": "boolean"
+					},
+					"acquistatoPressoDiNoi": {
+						"type": "boolean"
+					},
+					"seriale": {
+						"type": "string"
+					},
+					"imei": {
+						"type": "string"
+					},
+					"codiceModello": {
+						"type": "string"
+					},
+					"testDiagnostici": {
+						"$ref": "#/components/schemas/Record_string.string-Array_"
+					},
+					"lasciatoInNegozio": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"id",
+					"model",
+					"color"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"StatoRepair": {
+				"type": "string",
+				"enum": [
+					"NUOVO",
+					"IN_CORSO",
+					"PRONTO",
+					"CONSEGNATO"
+				]
+			},
+			"StatoRiparazione": {
+				"type": "string",
+				"enum": [
+					"ACCETTATO",
+					"ANALISI_IN_CORSO",
+					"RIPARAZIONE_IN_CORSO",
+					"ATTESA_PEZZI_DI_RICAMBIO",
+					"IN_ATTESA_DI_PREVENTIVO",
+					"PREVENTIVO_NON_ACCETTATO",
+					"RIPARAZIONE_CONCLUSA",
+					"DISPOSITIVO_NON_RIPARABILE"
+				]
+			},
+			"RepairResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"customer": {
+						"$ref": "#/components/schemas/CustomerResponse"
+					},
+					"product": {
+						"$ref": "#/components/schemas/ProductResponse"
+					},
+					"details": {
+						"$ref": "#/components/schemas/RepairDetailsResponse"
+					},
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					},
+					"costoTotale": {
+						"type": "number",
+						"format": "double"
+					},
+					"createdAt": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"customer",
+					"product",
+					"createdAt"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateCustomerRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateModelRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandNome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"tipoDispositivo",
+					"brandNome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateColorRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateProductRequest": {
+				"properties": {
+					"model": {
+						"$ref": "#/components/schemas/CreateModelRequest"
+					},
+					"color": {
+						"$ref": "#/components/schemas/CreateColorRequest"
+					},
+					"capacita": {
+						"type": "string"
+					},
+					"codiceUnlock": {
+						"type": "string"
+					},
+					"sequenzaUnlock": {
+						"items": {
+							"type": "number",
+							"format": "double"
+						},
+						"type": "array"
+					},
+					"pin": {
+						"type": "string"
+					},
+					"accessori": {
+						"type": "string"
+					},
+					"contattoConLiquidi": {
+						"type": "boolean"
+					},
+					"dispositivoNonTestabile": {
+						"type": "boolean"
+					},
+					"acquistatoPressoDiNoi": {
+						"type": "boolean"
+					},
+					"seriale": {
+						"type": "string"
+					},
+					"imei": {
+						"type": "string"
+					},
+					"codiceModello": {
+						"type": "string"
+					},
+					"testDiagnostici": {
+						"$ref": "#/components/schemas/Record_string.string-Array_"
+					},
+					"lasciatoInNegozio": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"model",
+					"color"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRepairDetailsRequest": {
+				"properties": {
+					"isPreventivo": {
+						"type": "boolean"
+					},
+					"interventi": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionQuantitaRequest"
+						},
+						"type": "array"
+					},
+					"dataConsegna": {
+						"type": "string"
+					},
+					"acconto": {
+						"type": "number",
+						"format": "double"
+					},
+					"messaggi": {
+						"items": {
+							"$ref": "#/components/schemas/AddMessageRequest"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"isPreventivo",
+					"interventi"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					},
+					"customer": {
+						"$ref": "#/components/schemas/CreateCustomerRequest"
+					},
+					"product": {
+						"$ref": "#/components/schemas/CreateProductRequest"
+					},
+					"details": {
+						"$ref": "#/components/schemas/CreateRepairDetailsRequest"
+					}
+				},
+				"required": [
+					"customer",
+					"product",
+					"details"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_RepairResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/RepairResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"RepairSortBy": {
+				"type": "string",
+				"enum": [
+					"createdAt",
+					"costoTotale",
+					"stato"
+				]
+			},
+			"SortOrder": {
+				"type": "string",
+				"enum": [
+					"asc",
+					"desc"
+				]
+			},
+			"RepairRangeResponse": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"nomeCliente": {
+						"type": "string"
+					},
+					"cognomeCliente": {
+						"type": "string"
+					},
+					"brand": {
+						"type": "string"
+					},
+					"modello": {
+						"type": "string"
+					},
+					"colore": {
+						"type": "string"
+					},
+					"dataConsegna": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nomeCliente",
+					"cognomeCliente",
+					"brand",
+					"modello",
+					"colore",
+					"dataConsegna"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					},
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					}
+				},
+				"required": [
+					"customerId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateClienteRepairRequest": {
+				"properties": {
+					"customerId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"customerId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateStatoRepairRequest": {
+				"properties": {
+					"stato": {
+						"$ref": "#/components/schemas/StatoRepair"
+					},
+					"statoRiparazione": {
+						"$ref": "#/components/schemas/StatoRiparazione"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_ProductResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/ProductResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ProductSortBy": {
+				"type": "string",
+				"enum": [
+					"modello",
+					"brand"
+				]
+			},
+			"UpdateProductRequest": {
+				"$ref": "#/components/schemas/CreateProductRequest"
+			},
+			"PaginatedResponse_ModelResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/ModelResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ModelSortBy": {
+				"type": "string",
+				"enum": [
+					"nome",
+					"brand"
+				]
+			},
+			"UpdateModelRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"tipoDispositivo": {
+						"$ref": "#/components/schemas/TipoDispositivo"
+					},
+					"brandId": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"nome",
+					"tipoDispositivo",
+					"brandId"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"modelNome": {
+						"type": "string"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateInterventionRequest": {
+				"properties": {
+					"modelId": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_InterventionResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/InterventionResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"InterventionSortBy": {
+				"type": "string",
+				"enum": [
+					"nome",
+					"prezzo"
+				]
+			},
+			"UpdateInterventionRequest": {
+				"properties": {
+					"modelId": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					},
+					"nome": {
+						"type": "string"
+					},
+					"prezzo": {
+						"type": "number",
+						"format": "double"
+					},
+					"periodoGaranzia": {
+						"type": "number",
+						"format": "double",
+						"nullable": true
+					}
+				},
+				"required": [
+					"nome",
+					"prezzo"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"HealthResponse": {
+				"properties": {
+					"status": {
+						"type": "string",
+						"enum": [
+							"ok"
+						],
+						"nullable": false
+					},
+					"timestamp": {
+						"type": "string"
+					},
+					"uptime": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"status",
+					"timestamp",
+					"uptime"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"EventResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"descrizione": {
+						"type": "string"
+					},
+					"dataEvento": {
+						"type": "string"
+					},
+					"oraInizio": {
+						"type": "string"
+					},
+					"oraFine": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"descrizione",
+					"dataEvento",
+					"oraInizio",
+					"oraFine"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateEventRequest": {
+				"properties": {
+					"descrizione": {
+						"type": "string"
+					},
+					"dataEvento": {
+						"type": "string"
+					},
+					"oraInizio": {
+						"type": "string"
+					},
+					"oraFine": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"descrizione",
+					"dataEvento",
+					"oraInizio",
+					"oraFine"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateEventRequest": {
+				"properties": {
+					"descrizione": {
+						"type": "string"
+					},
+					"dataEvento": {
+						"type": "string"
+					},
+					"oraInizio": {
+						"type": "string"
+					},
+					"oraFine": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"descrizione",
+					"dataEvento",
+					"oraInizio",
+					"oraFine"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_CustomerResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/CustomerResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CustomerSortBy": {
+				"type": "string",
+				"enum": [
+					"nome",
+					"cognome",
+					"email"
+				]
+			},
+			"UpdateCustomerRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					},
+					"cognome": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"indirizzo": {
+						"type": "string"
+					},
+					"citta": {
+						"type": "string"
+					},
+					"cap": {
+						"type": "string"
+					},
+					"telefono": {
+						"type": "string"
+					},
+					"telefonoSecondario": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome",
+					"cognome",
+					"email",
+					"telefono"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_ColorResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/ColorResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateColorRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"BrandResponse": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"CreateBrandRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"PaginatedResponse_BrandResponse_": {
+				"properties": {
+					"data": {
+						"items": {
+							"$ref": "#/components/schemas/BrandResponse"
+						},
+						"type": "array"
+					},
+					"total": {
+						"type": "number",
+						"format": "double"
+					},
+					"page": {
+						"type": "number",
+						"format": "double"
+					},
+					"pageSize": {
+						"type": "number",
+						"format": "double"
+					},
+					"totalPages": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"data",
+					"total",
+					"page",
+					"pageSize",
+					"totalPages"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"UpdateBrandRequest": {
+				"properties": {
+					"nome": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"nome"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginResponse": {
+				"properties": {
+					"accessToken": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"accessToken"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginRequest": {
+				"properties": {
+					"username": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"rememberMe": {
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"username",
+					"password",
+					"rememberMe"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	},
+	"info": {
+		"title": "backend-node",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/users/me": {
+			"get": {
+				"operationId": "getCurrentUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"put": {
+				"operationId": "updateCurrentUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Users"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/setup": {
+			"post": {
+				"operationId": "setup",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Setup"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{repairId}/details": {
+			"get": {
+				"operationId": "getRepairDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairDetailsResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateRepairDetails",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairDetailsResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRepairDetailsRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteRepairDetails",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/{repairId}/details/data-consegna": {
+			"patch": {
+				"operationId": "updateDataConsegna",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairDetailsResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateDataConsegnaRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{repairId}/details/messages": {
+			"post": {
+				"operationId": "addRepairMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairMessageResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/AddMessageRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{repairId}/details/messages/{messageId}": {
+			"put": {
+				"operationId": "updateRepairMessage",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairMessageResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "messageId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateMessageRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteRepairMessage",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"RepairDetails"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "repairId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "path",
+						"name": "messageId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs": {
+			"post": {
+				"operationId": "createRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateRepairRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllRepairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_RepairResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/RepairSortBy"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "stato",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRepair"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statoRiparazione",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRiparazione"
+						}
+					},
+					{
+						"in": "query",
+						"name": "id",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nomeCliente",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cognomeCliente",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "telefono",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "imei",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "seriale",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/search": {
+			"get": {
+				"operationId": "searchRepairs",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_RepairResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "stato",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRepair"
+						}
+					},
+					{
+						"in": "query",
+						"name": "statoRiparazione",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/StatoRiparazione"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "size",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/attive": {
+			"get": {
+				"operationId": "getRepairsAttive",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/RepairResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/repairs/senza-data-riconsegna-stimata": {
+			"get": {
+				"operationId": "getRepairsSenzaDataRiconsegnaStiamata",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/RepairResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/repairs/range-data-consegna": {
+			"get": {
+				"operationId": "getRepairsByRangeDataConsegna",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/RepairRangeResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "from",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "to",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/{id}": {
+			"get": {
+				"operationId": "getRepairById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateRepairRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteRepair",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/repairs/{id}/cliente": {
+			"patch": {
+				"operationId": "updateClienteRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateClienteRepairRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/repairs/{id}/stato": {
+			"patch": {
+				"operationId": "updateStatoRepair",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/RepairResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Repairs"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateStatoRepairRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/products": {
+			"get": {
+				"operationId": "getAllProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_ProductResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/ProductSortBy"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "modello",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "brand",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/search": {
+			"get": {
+				"operationId": "searchProducts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ProductResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "modelNome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/by-seriale/{seriale}": {
+			"get": {
+				"operationId": "getProductBySeriale",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "seriale",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/by-imei/{imei}": {
+			"get": {
+				"operationId": "getProductByImei",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "imei",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/products/{id}": {
+			"get": {
+				"operationId": "getProductById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateProduct",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ProductResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateProductRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteProduct",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Products"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/models": {
+			"post": {
+				"operationId": "createModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateModelRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllModels",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/models/paginated": {
+			"get": {
+				"operationId": "getAllModelsPaginated",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_ModelResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/ModelSortBy"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "brandNome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "tipoDispositivo",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/search": {
+			"get": {
+				"operationId": "searchModels",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/search/by-brand": {
+			"get": {
+				"operationId": "searchModelsByBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "brandId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/search/by-brand-name": {
+			"get": {
+				"operationId": "searchModelsByBrandName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "brandNome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/by-brand-id/{id}": {
+			"get": {
+				"operationId": "getModelsByBrandId",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ModelResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/models/by-name/{nome}": {
+			"get": {
+				"operationId": "getModelByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/models/{id}": {
+			"get": {
+				"operationId": "getModelById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ModelResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateModelRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteModel",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Models"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/interventions": {
+			"post": {
+				"operationId": "createIntervention",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateInterventionRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllInterventions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_InterventionResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/InterventionSortBy"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "modelId",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/generali": {
+			"get": {
+				"operationId": "getInterventiGenerali",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/interventions/search": {
+			"get": {
+				"operationId": "searchInterventions",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/search/by-model": {
+			"get": {
+				"operationId": "searchInterventionsByModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "modelId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/by-model/{modelId}": {
+			"get": {
+				"operationId": "getInterventionsByModel",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/InterventionResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "modelId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/by-name/{nome}": {
+			"get": {
+				"operationId": "getInterventionByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/interventions/{id}": {
+			"get": {
+				"operationId": "getInterventionById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateIntervention",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/InterventionResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateInterventionRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteIntervention",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Interventions"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/health": {
+			"get": {
+				"operationId": "healthCheck",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/HealthResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Health"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/events": {
+			"get": {
+				"operationId": "getAllEvents",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/EventResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "createEvent",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EventResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateEventRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/events/range-data": {
+			"get": {
+				"operationId": "getEventsByRangeData",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/EventResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "from",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "to",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/events/{id}": {
+			"get": {
+				"operationId": "getEventById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EventResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateEvent",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/EventResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateEventRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteEvent",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Events"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/customers": {
+			"post": {
+				"operationId": "createCustomer",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateCustomerRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_CustomerResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortBy",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/CustomerSortBy"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cognome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "telefono",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/customers/search": {
+			"get": {
+				"operationId": "searchCustomers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/CustomerResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "cognome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "telefono",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "email",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/customers/{id}": {
+			"get": {
+				"operationId": "getCustomerById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateCustomer",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CustomerResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateCustomerRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteCustomer",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Customers"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/colors": {
+			"post": {
+				"operationId": "createColor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateColorRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllColors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ColorResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/colors/paginated": {
+			"get": {
+				"operationId": "getAllColorsPaginated",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_ColorResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/colors/search": {
+			"get": {
+				"operationId": "searchColors",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/ColorResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/colors/by-name/{nome}": {
+			"get": {
+				"operationId": "getColorByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/colors/{id}": {
+			"get": {
+				"operationId": "getColorById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateColor",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ColorResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateColorRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteColor",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Colors"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/brands": {
+			"post": {
+				"operationId": "createBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateBrandRequest"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "getAllBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/BrandResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/brands/paginated": {
+			"get": {
+				"operationId": "getAllBrandsPaginated",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/PaginatedResponse_BrandResponse_"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "pageSize",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "sortOrder",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/SortOrder"
+						}
+					},
+					{
+						"in": "query",
+						"name": "nome",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/brands/search": {
+			"get": {
+				"operationId": "searchBrands",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/BrandResponse"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/brands/by-name/{nome}": {
+			"get": {
+				"operationId": "getBrandByName",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "nome",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/brands/{id}": {
+			"get": {
+				"operationId": "getBrandById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "updateBrand",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BrandResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateBrandRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "deleteBrand",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Brands"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "login",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/register": {
+			"post": {
+				"operationId": "register",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [
+					{
+						"bearerAuth": [
+							"ADMIN"
+						]
+					}
+				],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterRequest"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/auth/refresh": {
+			"post": {
+				"operationId": "refresh",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LoginResponse"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/auth/logout": {
+			"post": {
+				"operationId": "logout",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Auth"
+				],
+				"security": [
+					{
+						"bearerAuth": []
+					}
+				],
+				"parameters": []
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	]
+}
