@@ -1,14 +1,11 @@
-import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { getGetAllColorsPaginatedQueryKey, SortOrder, useDeleteColor, useGetAllColorsPaginated, type ColorResponse } from '../../api'
-import { useQueryClient } from '@tanstack/react-query'
+import { SortOrder, useGetAllColorsPaginated, type ColorResponse } from '../../api'
 import ModalModificaColore from './ModalModificaColore'
 import ModalCreaColore from './ModalCreaColore'
-import type { AxiosError } from 'axios'
-import { getAxiosErrorMessage } from '../../utils/errorUtils'
+import ModalEliminaColore from './ModalEliminaColore'
 
 const PAGE_SIZE = 20
 
@@ -26,18 +23,6 @@ export default function ColorSection() {
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
 
-    const queryClient = useQueryClient()
-    const { mutate: deleteColore, isPending: isDeleting } = useDeleteColor({
-        mutation: {
-            onSuccess: () => {
-                toast.success('Colore eliminato')
-                queryClient.invalidateQueries({ queryKey: getGetAllColorsPaginatedQueryKey() })
-                setColoreToDelete(null)
-            },
-            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
-        }
-    })
-
     const { data, isLoading } = useGetAllColorsPaginated({
         page, pageSize: PAGE_SIZE, sortOrder,
         ...(debouncedNome ? { nome: debouncedNome } : {}),
@@ -48,20 +33,7 @@ export default function ColorSection() {
     return (
         <>
             <ModalCreaColore opened={createOpen} onClose={() => setCreateOpen(false)} />
-            <Modal
-                opened={coloreToDelete !== null}
-                onClose={() => setColoreToDelete(null)}
-                title="Conferma eliminazione"
-                size="sm"
-            >
-                <Text mb="lg">
-                    Sei sicuro di voler eliminare <strong>{coloreToDelete?.nome}</strong>? L'operazione non è reversibile.
-                </Text>
-                <Group justify="flex-end">
-                    <Button variant="default" onClick={() => setColoreToDelete(null)}>Annulla</Button>
-                    <Button color="red" loading={isDeleting} onClick={() => coloreToDelete && deleteColore({ id: coloreToDelete.id })}>Elimina</Button>
-                </Group>
-            </Modal>
+            <ModalEliminaColore colore={coloreToDelete} onClose={() => setColoreToDelete(null)} />
             {selectedColore && (
                 <ModalModificaColore
                     key={selectedColore.id}
@@ -78,7 +50,7 @@ export default function ColorSection() {
                     </Title>
                     <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
                 </Group>
-                <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mb="sm">
+                <Stack gap="xs" mb="sm">
                     <TextInput
                         label="Nome"
                         placeholder="Cerca colore"
@@ -87,15 +59,13 @@ export default function ColorSection() {
                         leftSection={<IconSearch size={14} />}
                         rightSection={nome ? <IconX size={14} style={{ cursor: 'pointer' }} onClick={() => { setNome(''); setPage(1) }} /> : null}
                     />
-                    <div />
-                    <div />
                     <Select
                         label="Ordinamento"
                         data={SORT_ORDER_OPTIONS}
                         value={sortOrder}
                         onChange={v => { if (v) setSortOrder(v as SortOrder); setPage(1) }}
                     />
-                </SimpleGrid>
+                </Stack>
                 {isLoading ? (
                     <Stack align="center" py="xl"><Loader /></Stack>
                 ) : colors.length === 0 ? (

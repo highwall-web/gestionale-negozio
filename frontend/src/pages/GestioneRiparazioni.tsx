@@ -3,10 +3,11 @@ import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs } from '../api'
+import { RepairSortBy, SortOrder, StatoRepair, StatoRiparazione, useGetAllRepairs, type RepairResponse } from '../api'
 import { ROUTES } from '../routes'
 import { statoColors, statoOptions, statoRiparazioneColors, statoRiparazioneOptions } from '../utils/riparazioniUtils'
 import dayjs from 'dayjs'
+import ModalEliminaRiparazione from '../components/dashboard/ModalEliminaRiparazione'
 
 const PAGE_SIZE = 20
 
@@ -37,6 +38,7 @@ const EMPTY_TEXT_FILTERS: TextFilters = {
 export default function GestioneRiparazioni() {
     const navigate = useNavigate()
     const [page, setPage] = useState(1)
+    const [riparazioneToDelete, setRiparazioneToDelete] = useState<RepairResponse | null>(null)
     const [textFilters, setTextFilters] = useState<TextFilters>(EMPTY_TEXT_FILTERS)
     const [debouncedText] = useDebouncedValue(textFilters, 400)
     const [stato, setStato] = useState<StatoRepair | null>(null)
@@ -81,6 +83,8 @@ export default function GestioneRiparazioni() {
     const hasActiveFilters = stato || statoRiparazione || Object.values(textFilters).some(v => v !== '')
 
     return (
+        <>
+        <ModalEliminaRiparazione riparazione={riparazioneToDelete} onClose={() => setRiparazioneToDelete(null)} />
         <Stack gap="md">
             <Paper radius={12} p="md">
                 <Group justify="space-between" mb="sm">
@@ -230,7 +234,7 @@ export default function GestioneRiparazioni() {
                                                     </ActionIcon>
                                                 </Tooltip>
                                                 <Tooltip label="Elimina">
-                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }}>
+                                                    <ActionIcon variant="subtle" color="red" style={{ color: 'var(--mantine-color-red-6)' }} onClick={() => setRiparazioneToDelete(r)}>
                                                         <IconTrash size={16} />
                                                     </ActionIcon>
                                                 </Tooltip>
@@ -250,5 +254,6 @@ export default function GestioneRiparazioni() {
                 )}
             </Paper>
         </Stack>
+        </>
     )
 }

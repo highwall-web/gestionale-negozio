@@ -1,21 +1,13 @@
-import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { getGetAllModelsPaginatedQueryKey, ModelSortBy, SortOrder, useDeleteModel, useGetAllModelsPaginated, type ModelResponse } from '../../api'
-import { useQueryClient } from '@tanstack/react-query'
+import { ModelSortBy, SortOrder, useGetAllModelsPaginated, type ModelResponse } from '../../api'
 import ModalModificaModello from './ModalModificaModello'
 import ModalCreaModello from './ModalCreaModello'
-import type { AxiosError } from 'axios'
-import { getAxiosErrorMessage } from '../../utils/errorUtils'
+import ModalEliminaModello from './ModalEliminaModello'
 
 const PAGE_SIZE = 20
-
-const SORT_BY_OPTIONS = [
-    { value: ModelSortBy.nome, label: 'Nome' },
-    { value: ModelSortBy.brand, label: 'Brand' },
-]
 
 const SORT_ORDER_OPTIONS = [
     { value: SortOrder.asc, label: 'Crescente' },
@@ -28,38 +20,18 @@ export default function ModelSection() {
     const [createOpen, setCreateOpen] = useState(false)
     const [selectedModello, setSelectedModello] = useState<ModelResponse | null>(null)
     const [modelloToDelete, setModelloToDelete] = useState<ModelResponse | null>(null)
-    const [brandNome, setBrandNome] = useState('')
-
-    const queryClient = useQueryClient()
-    const { mutate: deleteModello, isPending: isDeleting } = useDeleteModel({
-        mutation: {
-            onSuccess: () => {
-                toast.success('Modello eliminato')
-                queryClient.invalidateQueries({ queryKey: getGetAllModelsPaginatedQueryKey() })
-                setModelloToDelete(null)
-            },
-            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
-        }
-    })
     const [debouncedNome] = useDebouncedValue(nome, 400)
-    const [debouncedBrand] = useDebouncedValue(brandNome, 400)
-    const [sortBy, setSortBy] = useState<ModelSortBy>(ModelSortBy.nome)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
 
-    const hasFilters = nome !== '' || brandNome !== ''
-
     const { data, isLoading } = useGetAllModelsPaginated({
-        page, pageSize: PAGE_SIZE, sortBy, sortOrder,
+        page, pageSize: PAGE_SIZE, sortBy: ModelSortBy.nome, sortOrder,
         ...(debouncedNome ? { nome: debouncedNome } : {}),
-        ...(debouncedBrand ? { brandNome: debouncedBrand } : {}),
     })
     const models = data?.data ?? []
     const totalPages = Math.ceil((data?.total ?? 0) / PAGE_SIZE)
 
     function handleReset() {
         setNome('')
-        setBrandNome('')
-        setSortBy(ModelSortBy.nome)
         setSortOrder(SortOrder.asc)
         setPage(1)
     }
@@ -67,20 +39,7 @@ export default function ModelSection() {
     return (
         <>
             <ModalCreaModello opened={createOpen} onClose={() => setCreateOpen(false)} />
-            <Modal
-                opened={modelloToDelete !== null}
-                onClose={() => setModelloToDelete(null)}
-                title="Conferma eliminazione"
-                size="sm"
-            >
-                <Text mb="lg">
-                    Sei sicuro di voler eliminare <strong>{modelloToDelete?.nome}</strong>? L'operazione non è reversibile.
-                </Text>
-                <Group justify="flex-end">
-                    <Button variant="default" onClick={() => setModelloToDelete(null)}>Annulla</Button>
-                    <Button color="red" loading={isDeleting} onClick={() => modelloToDelete && deleteModello({ id: modelloToDelete.id })}>Elimina</Button>
-                </Group>
-            </Modal>
+            <ModalEliminaModello modello={modelloToDelete} onClose={() => setModelloToDelete(null)} />
             {selectedModello && (
                 <ModalModificaModello
                     key={selectedModello.id}
@@ -96,7 +55,7 @@ export default function ModelSection() {
                         {!isLoading && <Text span c="dimmed" fw={400} ml={6} size="sm">({data?.total ?? 0})</Text>}
                     </Title>
                     <Group gap="xs">
-                        {hasFilters && (
+                        {nome && (
                             <Button variant="subtle" color="red" size="xs" leftSection={<IconX size={14} />} onClick={handleReset}>
                                 Reimposta
                             </Button>
@@ -104,7 +63,7 @@ export default function ModelSection() {
                         <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
                     </Group>
                 </Group>
-                <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mb="sm">
+                <Stack gap="xs" mb="sm">
                     <TextInput
                         label="Nome"
                         placeholder="Cerca modello"
@@ -112,25 +71,13 @@ export default function ModelSection() {
                         onChange={e => { setNome(e.currentTarget.value); setPage(1) }}
                         leftSection={<IconSearch size={14} />}
                     />
-                    <TextInput
-                        label="Brand"
-                        placeholder="Cerca brand"
-                        value={brandNome}
-                        onChange={e => { setBrandNome(e.currentTarget.value); setPage(1) }}
-                    />
-                    <Select
-                        label="Ordina per"
-                        data={SORT_BY_OPTIONS}
-                        value={sortBy}
-                        onChange={v => { if (v) setSortBy(v as ModelSortBy); setPage(1) }}
-                    />
                     <Select
                         label="Ordinamento"
                         data={SORT_ORDER_OPTIONS}
                         value={sortOrder}
                         onChange={v => { if (v) setSortOrder(v as SortOrder); setPage(1) }}
                     />
-                </SimpleGrid>
+                </Stack>
                 {isLoading ? (
                     <Stack align="center" py="xl"><Loader /></Stack>
                 ) : models.length === 0 ? (

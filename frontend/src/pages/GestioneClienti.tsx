@@ -1,13 +1,11 @@
-import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { CustomerSortBy, getGetAllCustomersQueryKey, SortOrder, useDeleteCustomer, useGetAllCustomers, type CustomerResponse } from '../api'
-import { useQueryClient } from '@tanstack/react-query'
+import { CustomerSortBy, SortOrder, useGetAllCustomers, type CustomerResponse } from '../api'
 import ModalModificaCliente from '../components/clienti/ModalModificaCliente'
 import ModalCreaCliente from '../components/clienti/ModalCreaCliente'
-import { getAxiosErrorMessage } from '../utils/errorUtils'
+import ModalEliminaCliente from '../components/clienti/ModalEliminaCliente'
 
 const PAGE_SIZE = 20
 
@@ -43,18 +41,6 @@ export default function GestioneClienti() {
     const [sortBy, setSortBy] = useState<CustomerSortBy>(CustomerSortBy.cognome)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
 
-    const queryClient = useQueryClient()
-    const { mutate: deleteCliente, isPending: isDeleting } = useDeleteCustomer({
-        mutation: {
-            onSuccess: () => {
-                toast.success('Cliente eliminato')
-                queryClient.invalidateQueries({ queryKey: getGetAllCustomersQueryKey() })
-                setClienteToDelete(null)
-            },
-            onError: (e) => toast.error(getAxiosErrorMessage(e)),
-        }
-    })
-
     const params = {
         page,
         pageSize: PAGE_SIZE,
@@ -88,20 +74,7 @@ export default function GestioneClienti() {
     return (
         <>
             <ModalCreaCliente opened={createOpen} onClose={() => setCreateOpen(false)} />
-            <Modal
-                opened={clienteToDelete !== null}
-                onClose={() => setClienteToDelete(null)}
-                title="Conferma eliminazione"
-                size="sm"
-            >
-                <Text mb="lg">
-                    Sei sicuro di voler eliminare <strong>{clienteToDelete?.nome} {clienteToDelete?.cognome}</strong>? L'operazione non è reversibile.
-                </Text>
-                <Group justify="flex-end">
-                    <Button variant="default" onClick={() => setClienteToDelete(null)}>Annulla</Button>
-                    <Button color="red" loading={isDeleting} onClick={() => clienteToDelete && deleteCliente({ id: clienteToDelete.id })}>Elimina</Button>
-                </Group>
-            </Modal>
+            <ModalEliminaCliente cliente={clienteToDelete} onClose={() => setClienteToDelete(null)} />
             {selectedCliente && (
                 <ModalModificaCliente
                     key={selectedCliente.id}

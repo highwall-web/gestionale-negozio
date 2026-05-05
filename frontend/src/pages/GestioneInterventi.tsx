@@ -1,12 +1,11 @@
-import { ActionIcon, Badge, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Badge, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { InterventionSortBy, SortOrder, useDeleteIntervention, useGetAllInterventions, type InterventionResponse } from '../api'
+import { InterventionSortBy, SortOrder, useGetAllInterventions, type InterventionResponse } from '../api'
 import ModalModificaIntervento from '../components/interventi/ModalModificaIntervento'
 import ModalCreaIntervento from '../components/interventi/ModalCreaIntervento'
-import { useQueryClient } from '@tanstack/react-query'
+import ModalEliminaIntervento from '../components/interventi/ModalEliminaIntervento'
 
 const PAGE_SIZE = 20
 
@@ -26,17 +25,6 @@ export default function GestioneInterventi() {
     const [selectedIntervento, setSelectedIntervento] = useState<InterventionResponse | null>(null)
     const [interventoToDelete, setInterventoToDelete] = useState<InterventionResponse | null>(null)
 
-    const queryClient = useQueryClient()
-    const { mutate: deleteIntervento, isPending: isDeleting } = useDeleteIntervention({
-        mutation: {
-            onSuccess: () => {
-                toast.success('Intervento eliminato')
-                queryClient.invalidateQueries({ queryKey: ['/interventions'] })
-                setInterventoToDelete(null)
-            },
-            onError: () => toast.error('Errore durante l\'eliminazione'),
-        }
-    })
     const [nome, setNome] = useState('')
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [sortBy, setSortBy] = useState<InterventionSortBy>(InterventionSortBy.nome)
@@ -65,26 +53,7 @@ export default function GestioneInterventi() {
     return (
         <>
             <ModalCreaIntervento opened={createOpen} onClose={() => setCreateOpen(false)} />
-            <Modal
-                opened={interventoToDelete !== null}
-                onClose={() => setInterventoToDelete(null)}
-                title="Conferma eliminazione"
-                size="sm"
-            >
-                <Text mb="lg">
-                    Sei sicuro di voler eliminare <strong>{interventoToDelete?.nome}</strong>? L'operazione non è reversibile.
-                </Text>
-                <Group justify="flex-end">
-                    <Button variant="default" onClick={() => setInterventoToDelete(null)}>Annulla</Button>
-                    <Button
-                        color="red"
-                        loading={isDeleting}
-                        onClick={() => interventoToDelete && deleteIntervento({ id: interventoToDelete.id })}
-                    >
-                        Elimina
-                    </Button>
-                </Group>
-            </Modal>
+            <ModalEliminaIntervento intervento={interventoToDelete} onClose={() => setInterventoToDelete(null)} />
             {selectedIntervento && (
                 <ModalModificaIntervento
                     key={selectedIntervento.id}

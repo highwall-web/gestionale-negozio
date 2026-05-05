@@ -1,14 +1,11 @@
-import { ActionIcon, Button, Group, Loader, Modal, Pagination, Paper, ScrollArea, Select, SimpleGrid, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
+import { ActionIcon, Button, Group, Loader, Pagination, Paper, ScrollArea, Select, Stack, Table, Text, TextInput, Title, Tooltip } from '@mantine/core'
 import { useDebouncedValue } from '@mantine/hooks'
 import { IconPlus, IconPencil, IconSearch, IconTrash, IconX } from '@tabler/icons-react'
 import { useState } from 'react'
-import toast from 'react-hot-toast'
-import { getGetAllBrandsPaginatedQueryKey, SortOrder, useDeleteBrand, useGetAllBrandsPaginated, type BrandResponse } from '../../api'
-import { useQueryClient } from '@tanstack/react-query'
+import { SortOrder, useGetAllBrandsPaginated, type BrandResponse } from '../../api'
 import ModalModificaBrand from './ModalModificaBrand'
 import ModalCreaBrand from './ModalCreaBrand'
-import type { AxiosError } from 'axios'
-import { getAxiosErrorMessage } from '../../utils/errorUtils'
+import ModalEliminaBrand from './ModalEliminaBrand'
 
 const PAGE_SIZE = 20
 
@@ -26,18 +23,6 @@ export default function BrandSection() {
     const [debouncedNome] = useDebouncedValue(nome, 400)
     const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.asc)
 
-    const queryClient = useQueryClient()
-    const { mutate: deleteBrand, isPending: isDeleting } = useDeleteBrand({
-        mutation: {
-            onSuccess: () => {
-                toast.success('Brand eliminato')
-                queryClient.invalidateQueries({ queryKey: getGetAllBrandsPaginatedQueryKey() })
-                setBrandToDelete(null)
-            },
-            onError: (error: AxiosError) => toast.error(getAxiosErrorMessage(error)),
-        }
-    })
-
     const { data, isLoading } = useGetAllBrandsPaginated({
         page, pageSize: PAGE_SIZE, sortOrder,
         ...(debouncedNome ? { nome: debouncedNome } : {}),
@@ -48,20 +33,7 @@ export default function BrandSection() {
     return (
         <>
             <ModalCreaBrand opened={createOpen} onClose={() => setCreateOpen(false)} />
-            <Modal
-                opened={brandToDelete !== null}
-                onClose={() => setBrandToDelete(null)}
-                title="Conferma eliminazione"
-                size="sm"
-            >
-                <Text mb="lg">
-                    Sei sicuro di voler eliminare <strong>{brandToDelete?.nome}</strong>? L'operazione non è reversibile.
-                </Text>
-                <Group justify="flex-end">
-                    <Button variant="default" onClick={() => setBrandToDelete(null)}>Annulla</Button>
-                    <Button color="red" loading={isDeleting} onClick={() => brandToDelete && deleteBrand({ id: brandToDelete.id })}>Elimina</Button>
-                </Group>
-            </Modal>
+            <ModalEliminaBrand brand={brandToDelete} onClose={() => setBrandToDelete(null)} />
             {selectedBrand && (
                 <ModalModificaBrand
                     key={selectedBrand.id}
@@ -78,7 +50,7 @@ export default function BrandSection() {
                     </Title>
                     <Button size="xs" leftSection={<IconPlus size={14} />} onClick={() => setCreateOpen(true)}>Aggiungi</Button>
                 </Group>
-                <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="xs" mb="sm">
+                <Stack gap="xs" mb="sm">
                     <TextInput
                         label="Nome"
                         placeholder="Cerca brand"
@@ -87,15 +59,13 @@ export default function BrandSection() {
                         leftSection={<IconSearch size={14} />}
                         rightSection={nome ? <IconX size={14} style={{ cursor: 'pointer' }} onClick={() => { setNome(''); setPage(1) }} /> : null}
                     />
-                    <div />
-                    <div />
                     <Select
                         label="Ordinamento"
                         data={SORT_ORDER_OPTIONS}
                         value={sortOrder}
                         onChange={v => { if (v) setSortOrder(v as SortOrder); setPage(1) }}
                     />
-                </SimpleGrid>
+                </Stack>
                 {isLoading ? (
                     <Stack align="center" py="xl"><Loader /></Stack>
                 ) : brands.length === 0 ? (

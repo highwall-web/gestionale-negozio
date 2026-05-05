@@ -42,15 +42,21 @@ export default function AppLayout() {
             }}
         >
             <AppShell.Header>
-                <Group h="100%" px="md">
+                <Group h="100%" px="md" justify="space-between">
                     <Burger opened={opened} onClick={toggleNav} size="sm" />
+                    <NavLink
+                        label="Logout"
+                        onClick={authLogout}
+                        leftSection={<IconLogout size={18} stroke={1.5} />}
+                        style={{ borderRadius: 'var(--mantine-radius-sm)', width: 'auto' }}
+                    />
                 </Group>
             </AppShell.Header>
 
             <AppShell.Navbar p="md">
                 <Stack justify="space-between" h="100%">
                     <Stack gap={4}>
-                        <Group justify='end' mb={"sm"}>
+                        <Group justify='end' mb={"xs"}>
                             <Switch
                                 checked={isDark}
                                 onChange={toggle}
@@ -66,6 +72,7 @@ export default function AppLayout() {
                             variant='light'
                             active={checkActivePath(location.pathname, ROUTES.HOME)}
                             leftSection={<IconHome size={18} stroke={1.5} />}
+                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                         />
                         <NavLink
                             label="Accettazione"
@@ -73,6 +80,7 @@ export default function AppLayout() {
                             variant='light'
                             active={checkActivePath(location.pathname, ROUTES.ACCETTAZIONE)}
                             leftSection={<IconDeviceMobilePlus size={18} stroke={1.5} />}
+                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                         />
                         <NavLink
                             label="Calendario"
@@ -80,6 +88,7 @@ export default function AppLayout() {
                             variant='light'
                             active={checkActivePath(location.pathname, ROUTES.CALENDARIO)}
                             leftSection={<IconCalendar size={18} stroke={1.5} />}
+                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                         />
                         <Accordion
                             variant="filled"
@@ -97,21 +106,25 @@ export default function AppLayout() {
                                             label="Riparazioni"
                                             onClick={() => { navigate(ROUTES.GESTIONE_RIPARAZIONI); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.GESTIONE_RIPARAZIONI)}
+                                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                         />
                                         <NavLink
                                             label="Clienti"
                                             onClick={() => { navigate(ROUTES.GESTIONE_CLIENTI); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.GESTIONE_CLIENTI)}
+                                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                         />
                                         <NavLink
                                             label="Dispositivi"
                                             onClick={() => { navigate(ROUTES.GESTIONE_DISPOSITIVI); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.GESTIONE_DISPOSITIVI)}
+                                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                         />
                                         <NavLink
                                             label="Interventi"
                                             onClick={() => { navigate(ROUTES.GESTIONE_INTERVENTI); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.GESTIONE_INTERVENTI)}
+                                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                         />
                                     </Stack>
                                 </Accordion.Panel>
@@ -127,23 +140,28 @@ export default function AppLayout() {
                                                 label="Crea utente"
                                                 onClick={() => { navigate(ROUTES.CREA_UTENTE); handleNav() }}
                                                 active={checkActivePath(location.pathname, ROUTES.CREA_UTENTE)}
+                                                style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                             />
                                         )}
                                         <NavLink
                                             label="Modifica dati utente"
                                             onClick={() => { navigate(ROUTES.MODIFICA_UTENTE); handleNav() }}
                                             active={checkActivePath(location.pathname, ROUTES.MODIFICA_UTENTE)}
+                                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
                                         />
                                     </Stack>
                                 </Accordion.Panel>
                             </Accordion.Item>
                         </Accordion>
                     </Stack>
-                    <NavLink
-                        label="Logout"
-                        onClick={authLogout}
-                        leftSection={<IconLogout size={18} stroke={1.5} />}
-                    />
+                    {isDesktop && (
+                        <NavLink
+                            label="Logout"
+                            onClick={authLogout}
+                            leftSection={<IconLogout size={18} stroke={1.5} />}
+                            style={{ borderRadius: 'var(--mantine-radius-sm)' }}
+                        />
+                    )}
                 </Stack>
             </AppShell.Navbar>
 
