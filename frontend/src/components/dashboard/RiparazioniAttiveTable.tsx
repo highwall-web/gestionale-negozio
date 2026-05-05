@@ -75,7 +75,7 @@ interface Props {
 }
 
 const DETAIL_BG = 'var(--mantine-color-dark-6)'
-const COL_COUNT = 7
+const COL_COUNT = 9
 
 export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props) {
     const queryClient = useQueryClient()
@@ -131,6 +131,8 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                     </Group>
                 </Table.Td>
                 <Table.Td>{r.details?.dataConsegna ? dayjs(r.details.dataConsegna).format('DD/MM/YYYY, HH:mm') : '—'}</Table.Td>
+                <Table.Td style={{ whiteSpace: 'nowrap' }}>{`${c.nome} ${c.cognome}`}</Table.Td>
+                <Table.Td style={{ whiteSpace: 'nowrap' }}>{`${p.model.brandNome} ${p.model.nome}, ${p.color.nome}`}</Table.Td>
                 <Table.Td style={{ whiteSpace: 'nowrap' }}>
                     {r.stato ? <Badge radius="sm" color={statoColors[r.stato] ?? 'gray'}>{r.stato.replace('_', ' ')}</Badge> : '—'}
                 </Table.Td>
@@ -231,6 +233,8 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                                 <Table.Tr>
                                     <Table.Th>Creata il</Table.Th>
                                     <Table.Th>Data di consegna stimata</Table.Th>
+                                    <Table.Th>Cliente</Table.Th>
+                                    <Table.Th>Dispositivo</Table.Th>
                                     <Table.Th>Stato</Table.Th>
                                     <Table.Th>Stato riparazione</Table.Th>
                                     <Table.Th>Acconto</Table.Th>
