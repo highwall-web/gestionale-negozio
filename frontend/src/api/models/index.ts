@@ -84,5 +84,6 @@ export * from './updateProductRequest';
 export * from './updateRepairDetailsRequest';
 export * from './updateRepairRequest';
 export * from './updateStatoRepairRequest';
+export * from './updateTestDiagnosticiRequest';
 export * from './updateUserRequest';
 export * from './userResponse';

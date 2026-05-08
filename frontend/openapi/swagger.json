@@ -864,6 +864,18 @@
             "UpdateProductRequest": {
                 "$ref": "#/components/schemas/CreateProductRequest"
             },
+            "UpdateTestDiagnosticiRequest": {
+                "properties": {
+                    "testDiagnostici": {
+                        "$ref": "#/components/schemas/Record_string.string-Array_"
+                    }
+                },
+                "required": [
+                    "testDiagnostici"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
             "PaginatedResponse_ModelResponse_": {
                 "properties": {
                     "data": {
@@ -2591,6 +2603,52 @@
                         }
                     }
                 ]
+            }
+        },
+        "/products/{id}/test-diagnostici": {
+            "patch": {
+                "operationId": "updateProductTestDiagnostici",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Products"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTestDiagnosticiRequest"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/models": {

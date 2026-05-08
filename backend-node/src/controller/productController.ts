@@ -4,6 +4,7 @@ import {
     Delete,
     Get,
     OperationId,
+    Patch,
     Path,
     Put,
     Query,
@@ -11,7 +12,7 @@ import {
     Security,
     Tags,
 } from "tsoa";
-import { ProductResponse, UpdateProductRequest, ProductSortBy } from "../dto/product.dto";
+import { ProductResponse, UpdateProductRequest, UpdateTestDiagnosticiRequest, ProductSortBy } from "../dto/product.dto";
 import { PaginatedResponse, SortOrder } from "../common/pagination";
 import { ProductService } from "../service/product.service";
 
@@ -65,6 +66,15 @@ export class ProductController extends Controller {
         @Body() body: UpdateProductRequest
     ): Promise<ProductResponse> {
         return productService.update(id, body);
+    }
+
+    @Patch("/{id}/test-diagnostici")
+    @OperationId("updateProductTestDiagnostici")
+    public async updateProductTestDiagnostici(
+        @Path() id: number,
+        @Body() body: UpdateTestDiagnosticiRequest
+    ): Promise<ProductResponse> {
+        return productService.updateTestDiagnostici(id, body);
     }
 
     @Delete("/{id}")

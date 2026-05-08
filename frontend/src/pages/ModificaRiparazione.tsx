@@ -9,6 +9,7 @@ import SezioneCliente from '../components/riparazioni/SezioneCliente'
 import SezioneDettagli from '../components/riparazioni/SezioneDettagli'
 import SezioneDispositivo from '../components/riparazioni/SezioneDispositivo'
 import SezioneStato from '../components/riparazioni/SezioneStato'
+import SezioneTestDiagnostici from '../components/riparazioni/SezioneTestDiagnostici'
 import { statoColors, statoRiparazioneColors } from '../utils/riparazioniUtils'
 
 export default function ModificaRiparazione() {
@@ -73,6 +74,7 @@ export default function ModificaRiparazione() {
                         <SezioneDispositivo product={repair.product} repairId={repair.id} />
                         <SezioneDettagli repair={repair} />
                     </SimpleGrid>
+                    <SezioneTestDiagnostici repairId={repair.id} productId={repair.product.id} testDiagnostici={repair.product.testDiagnostici} />
                 </Stack>
                 {!isMobile && (
                     <Box w={300} style={{ flexShrink: 0 }}>

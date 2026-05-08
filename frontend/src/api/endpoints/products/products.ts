@@ -28,7 +28,8 @@ import type {
   GetAllProductsParams,
   PaginatedResponseProductResponse,
   ProductResponse,
-  SearchProductsParams
+  SearchProductsParams,
+  UpdateTestDiagnosticiRequest
 } from '../../models';
 
 import { axiosInstance } from '../../axiosInstance';
@@ -570,5 +571,63 @@ const {mutation: mutationOptions} = options ?
         TContext
       > => {
       return useMutation(getDeleteProductMutationOptions(options), queryClient);
+    }
+    export const updateProductTestDiagnostici = (
+    id: number,
+    updateTestDiagnosticiRequest: UpdateTestDiagnosticiRequest,
+ signal?: AbortSignal
+) => {
+      
+      
+      return axiosInstance<ProductResponse>(
+      {url: `/products/${id}/test-diagnostici`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: updateTestDiagnosticiRequest, signal
+    },
+      );
+    }
+  
+
+
+export const getUpdateProductTestDiagnosticiMutationOptions = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProductTestDiagnostici>>, TError,{id: number;data: UpdateTestDiagnosticiRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof updateProductTestDiagnostici>>, TError,{id: number;data: UpdateTestDiagnosticiRequest}, TContext> => {
+
+const mutationKey = ['updateProductTestDiagnostici'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateProductTestDiagnostici>>, {id: number;data: UpdateTestDiagnosticiRequest}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateProductTestDiagnostici(id,data,)
+        }
+
+
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateProductTestDiagnosticiMutationResult = NonNullable<Awaited<ReturnType<typeof updateProductTestDiagnostici>>>
+    export type UpdateProductTestDiagnosticiMutationBody = UpdateTestDiagnosticiRequest
+    export type UpdateProductTestDiagnosticiMutationError = unknown
+
+    export const useUpdateProductTestDiagnostici = <TError = unknown,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateProductTestDiagnostici>>, TError,{id: number;data: UpdateTestDiagnosticiRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateProductTestDiagnostici>>,
+        TError,
+        {id: number;data: UpdateTestDiagnosticiRequest},
+        TContext
+      > => {
+      return useMutation(getUpdateProductTestDiagnosticiMutationOptions(options), queryClient);
     }
     

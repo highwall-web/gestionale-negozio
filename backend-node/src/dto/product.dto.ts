@@ -41,3 +41,7 @@ export interface CreateProductRequest {
 }
 
 export type UpdateProductRequest = CreateProductRequest;
+
+export interface UpdateTestDiagnosticiRequest {
+    testDiagnostici: Record<string, string[]>;
+}

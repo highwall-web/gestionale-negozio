@@ -1,15 +1,14 @@
 import { and, asc, count, desc, eq, ilike, SQL } from "drizzle-orm";
-import { db } from "../config/db";
-import { ProductResponse, UpdateProductRequest, ProductSortBy } from "../dto/product.dto";
-import { ProductMapper } from "../mapper/product.mapper";
-import { products } from "../schema/products";
-import { repairs } from "../schema/repairs";
-import { models } from "../schema/models";
-import { colors } from "../schema/colors";
-import { brands } from "../schema/brands";
 import { HttpError } from "../common/httpError";
 import { HttpStatus } from "../common/httpStatus";
 import { PaginatedResponse, SortOrder } from "../common/pagination";
+import { db } from "../config/db";
+import { ProductResponse, ProductSortBy, UpdateProductRequest, UpdateTestDiagnosticiRequest } from "../dto/product.dto";
+import { ProductMapper } from "../mapper/product.mapper";
+import { brands } from "../schema/brands";
+import { colors } from "../schema/colors";
+import { models } from "../schema/models";
+import { products } from "../schema/products";
 
 export class ProductService {
 
@@ -118,6 +117,19 @@ export class ProductService {
         }).where(eq(products.id, id)).returning();
 
         return ProductMapper.toResponse(updated, modelRow.models, modelRow.brands, color);
+    }
+
+    async updateTestDiagnostici(id: number, request: UpdateTestDiagnosticiRequest): Promise<ProductResponse> {
+        const result = await this.fetchJoined(eq(products.id, id));
+        const row = result.at(0);
+        if (!row) throw new HttpError(HttpStatus.NOT_FOUND, "Prodotto non trovato");
+
+        const [updated] = await db.update(products)
+            .set({ testDiagnostici: request.testDiagnostici })
+            .where(eq(products.id, id))
+            .returning();
+
+        return ProductMapper.toResponse(updated, row.models, row.brands, row.colors);
     }
 
     async delete(id: number): Promise<void> {

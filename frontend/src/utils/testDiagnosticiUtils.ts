@@ -1,0 +1,61 @@
+export const CATEGORIE_TEST_DIAGNOSTICI: Record<string, string[]> = {
+    "Estetica": [
+        "Graffi sul corpo",
+        "Crepe sul vetro posteriore",
+        "Cornice danneggiata",
+        "Porta di ricarica danneggiata",
+    ],
+    "Display": [
+        "Schermo rotto/screpolato",
+        "Touchscreen non risponde",
+        "3D touch non funziona",
+        "Pixel difettosi/righe",
+    ],
+    "Tasti": [
+        "Tasto power non funzionante (o non clicca bene)",
+        "Volume su non funzionante (o non clicca bene)",
+        "Volume giù non funzionante (o non clicca bene)",
+        "Tasto home non funzionante (o non clicca bene)",
+        "Tasto mute non funzionante (o non clicca bene)",
+    ],
+    "Audio": [
+        "Microfono non funzionante",
+        "Altoparlante non funzionante",
+        "Auricolare non funzionante",
+        "Jack cuffie non funzionante",
+        "Microfono secondario non funzionante",
+    ],
+    "Alimentazione": [
+        "Non si carica",
+        "Scarica velocemente",
+        "Batteria gonfia",
+        "Porta di ricarica difettosa",
+        "Ricarica wireless non funzionante",
+    ],
+    "Fotocamere": [
+        "Camera frontale non funzionante",
+        "Camera posteriore non funzionante",
+        "Flash non funzionante",
+        "Immagini sfocate",
+        "True depth non funziona (Apple)",
+    ],
+    "Sensori": [
+        "Sensore di prossimità non funzionante",
+        "Sensore di luminosità non funzionante",
+        "Giroscopio non funzionante",
+        "True tone non funzionante (Apple)",
+    ],
+    "Connettività": [
+        "WiFi non funzionante",
+        "Bluetooth non funzionante",
+        "4G/5G non funzionante",
+        "GPS non funzionante",
+        "NFC non funzionante",
+        "SIM non rilevata",
+        "Micro SD non rilevata",
+    ],
+    "Sicurezza": [
+        "Face ID non funzionante",
+        "Touch ID non funzionante",
+    ],
+}
