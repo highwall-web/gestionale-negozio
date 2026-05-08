@@ -179,7 +179,7 @@ export default function RiparazioniAttiveTable({ riparazioni, isLoading }: Props
                     </Table.Td>
                 </Table.Tr>,
                 <Table.Tr key={`${r.id}-product`} style={{ backgroundColor: DETAIL_BG }}>
-                    <Table.Td colSpan={COL_COUNT} style={{ paddingTop: 8, paddingBottom: 12, paddingLeft: 32 }}>
+                    <Table.Td colSpan={COL_COUNT} style={{ paddingTop: 8, paddingBottom: 8, paddingLeft: 32 }}>
                         <Group gap={'xl'} align="flex-start">
                             <Text size="xs" fw={700} c="dimmed" style={{ minWidth: 70 }}>Dispositivo</Text>
                             <LabelValue label="Modello" value={`${p.model.brandNome} ${p.model.nome}`} />
