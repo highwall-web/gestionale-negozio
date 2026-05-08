@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Box, Center, Drawer, Group, Loader, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core'
+import { ActionIcon, Badge, Box, Center, Drawer, Grid, Group, Loader, Paper, SimpleGrid, Stack, Text, Title } from '@mantine/core'
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
 import { IconArrowLeft, IconMessageCircle } from '@tabler/icons-react'
 import dayjs from 'dayjs'
@@ -66,25 +66,26 @@ export default function ModificaRiparazione() {
                 </Group>
             </Paper>
 
-            <Group align="flex-start" gap="md" wrap="nowrap">
-                <Stack flex={1} gap="md">
-                    {isMobile && <SezioneStato repair={repair} />}
-                    <SezioneCliente customer={repair.customer} repairId={repair.id} />
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                        <SezioneDispositivo product={repair.product} repairId={repair.id} />
-                        <SezioneDettagli repair={repair} />
-                    </SimpleGrid>
-                    <SezioneTestDiagnostici repairId={repair.id} productId={repair.product.id} testDiagnostici={repair.product.testDiagnostici} />
-                </Stack>
-                {!isMobile && (
-                    <Box w={300} style={{ flexShrink: 0 }}>
-                        <Stack gap="md">
-                            <SezioneStato repair={repair} />
+            <Stack gap="md">
+                <Grid>
+                    <Grid.Col span={{ base: 12, sm: 3 }}>
+                        <SezioneStato repair={repair} />
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 6 }}>
+                        <SezioneCliente customer={repair.customer} repairId={repair.id} />
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 3 }} visibleFrom="sm" style={{ position: 'relative' }}>
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column' }}>
                             <MessaggiRiparazione repairId={repair.id} details={repair.details} />
-                        </Stack>
-                    </Box>
-                )}
-            </Group>
+                        </div>
+                    </Grid.Col>
+                </Grid>
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    <SezioneDispositivo product={repair.product} repairId={repair.id} />
+                    <SezioneDettagli repair={repair} />
+                </SimpleGrid>
+                <SezioneTestDiagnostici repairId={repair.id} productId={repair.product.id} testDiagnostici={repair.product.testDiagnostici} />
+            </Stack>
 
             {isMobile && (
                 <ActionIcon

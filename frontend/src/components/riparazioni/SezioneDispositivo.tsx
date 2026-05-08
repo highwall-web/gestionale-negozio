@@ -156,7 +156,7 @@ export default function SezioneDispositivo({ product, repairId }: Props) {
                         <Checkbox label="Lasciato in negozio" {...register('lasciatoInNegozio')} />
                     </SimpleGrid>
 
-                    <SimpleGrid cols={{ base: 1, sm: 1 }} spacing="xs">
+                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
                         <Select
                             label="Brand"
                             searchable

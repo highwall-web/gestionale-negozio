@@ -1,4 +1,4 @@
-import { Box, Button, Group, Paper, ScrollArea, Stack, Text, Textarea, Title } from '@mantine/core'
+import { Box, Button, Group, Paper, Stack, Text, Textarea, Title } from '@mantine/core'
 import { useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { useEffect, useRef, useState } from 'react'
@@ -10,11 +10,10 @@ import { getAxiosErrorMessage } from '../../utils/errorUtils'
 interface Props {
     repairId: string
     details: RepairDetailsResponse | undefined
-    scrollHeight?: number
     isMobile?: boolean
 }
 
-export default function MessaggiRiparazione({ repairId, details, scrollHeight = 300, isMobile = false }: Props) {
+export default function MessaggiRiparazione({ repairId, details, isMobile = false }: Props) {
     const { user } = useAuth()
     const [testo, setTesto] = useState('')
     const scrollRef = useRef<HTMLDivElement>(null)
@@ -31,7 +30,7 @@ export default function MessaggiRiparazione({ repairId, details, scrollHeight = 
         }
     })
 
-    const messaggi = details?.messaggi ?? []
+    const messaggi = [...(details?.messaggi ?? [])].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -70,26 +69,20 @@ export default function MessaggiRiparazione({ repairId, details, scrollHeight = 
     )
 
     return (
-        <Paper radius={12} p="md" style={isMobile ? { flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 } : undefined}>
-            <Stack gap="xs" style={isMobile ? { flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 } : undefined}>
+        <Paper radius={12} p="md" style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, overflow: 'hidden' }}>
+            <Stack gap="xs" style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
                 {!isMobile && (
                     <Title order={5}>Messaggi</Title>
                 )}
-                {isMobile ? (
-                    <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
-                        {messageList}
-                    </div>
-                ) : (
-                    <ScrollArea h={scrollHeight} viewportRef={scrollRef} scrollbarSize={2}>
-                        {messageList}
-                    </ScrollArea>
-                )}
+                <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+                    {messageList}
+                </div>
 
                 <Textarea
                     placeholder="Scrivi un messaggio..."
                     value={testo}
                     onChange={e => setTesto(e.currentTarget.value)}
-                    minRows={3}
+                    minRows={2}
                     autosize
                     onKeyDown={e => {
                         if (e.key === 'Enter' && (e.ctrlKey || e.metaKey) && testo.trim()) {

@@ -27,8 +27,8 @@ export default function SezioneStato({ repair }: Props) {
     })
 
     return (
-        <Paper radius={12} p="md">
-            <Stack gap="sm">
+        <Paper radius={12} p="md" h="100%">
+            <Stack gap="sm" h="100%">
                 <Title order={5}>Stato</Title>
                 <Stack gap="xs">
                     <Select
@@ -44,7 +44,7 @@ export default function SezioneStato({ repair }: Props) {
                         onChange={setStatoRiparazione}
                     />
                 </Stack>
-                <Group justify="flex-end" gap="xs">
+                <Group justify="flex-end" gap="xs" mt="auto">
                     <Button variant="light" color="red" disabled={unchanged} onClick={() => { setStato(repair.stato ?? null); setStatoRiparazione(repair.statoRiparazione ?? null) }}>Reset</Button>
                     <Button
                         disabled={unchanged}

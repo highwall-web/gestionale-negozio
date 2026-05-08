@@ -162,7 +162,7 @@ export default function SezioneDettagli({ repair }: Props) {
                             name="interventi"
                             control={control}
                             render={({ field }) => (
-                                <SimpleGrid cols={{ base: 1, sm: 1 }} spacing="xs">
+                                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
                                     <Stack gap="xs">
                                         <Text size="sm" fw={600}>Interventi per modello</Text>
                                         <TextInput
